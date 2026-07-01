@@ -1,16 +1,61 @@
-# React + Vite
+# Calendar App — Frontend 📅
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación de calendario desarrollada con React y Vite. Frontend del proyecto
+Calendar App que se conecta con el [calendar-backend](https://github.com/SamiVijarra/calendar-backend).
 
-Currently, two official plugins are available:
+## Tecnologías
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **React** + **JavaScript**
+- **Vite**
+- **Redux Toolkit** para manejo de estado
+- **React Router** para navegación
+- **JWT** para autenticación
 
-## React Compiler
+## Características
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Registro e inicio de sesión con JWT
+- Crear, editar y eliminar eventos del calendario
+- Vista de calendario mensual
+- Estado global con Redux Toolkit
+- Integración con API REST del backend
 
-## Expanding the ESLint configuration
+## Instalación y uso
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Requisitos
+- Node.js 18+
+- [calendar-backend](https://github.com/SamiVijarra/calendar-backend) corriendo
+
+### Pasos
+
+1. Clonar el repositorio
+```bash
+git clone https://github.com/SamiVijarra/calendar-app.git
+cd calendar-app
+```
+
+2. Instalar dependencias
+```bash
+yarn install
+```
+
+3. Configurar variables de entorno
+```bash
+cp .env.template .env
+```
+
+Completar el `.env` con:
+VITE_API_URL=http://localhost:4000/api
+
+4. Iniciar en desarrollo
+```bash
+yarn dev
+```
+
+## Proyecto relacionado
+
+Este frontend consume la API del backend:
+[Calendar Backend](https://github.com/SamiVijarra/calendar-backend)
+
+## Autor
+
+**Samanta Vijarra** — [github.com/SamiVijarra](https://github.com/SamiVijarra)
