@@ -9,6 +9,7 @@ export const HomePage = () => {
       <h2>¡Bienvenido, {user.name}!</h2>
       <p></p>
       <Link to="/profile" className="btn btn-primary me-2">Mi perfil</Link>
+      <Link to="/exercises" className="btn btn-primary me-2">Ejercicios</Link>
       <button className="btn btn-danger" onClick={startLogout}>Cerrar sesión</button>
     </div>
   )

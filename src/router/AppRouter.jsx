@@ -4,6 +4,7 @@ import { HomePage } from "../home/pages/HomePage";
 import { useAuthStore } from "../hooks";
 import { useEffect } from "react";
 import { ProfilePage } from "../users/pages/ProfilePage";
+import { ExercisesPage } from "../exercises/pages/ExercisesPage";
 
 export const AppRouter = () => {
 
@@ -34,6 +35,7 @@ export const AppRouter = () => {
                         <Route path="/" element={<HomePage />} />
                         <Route path="/profile" element={<ProfilePage />} />
                         <Route path="/*" element={<Navigate to ="/"/>}/>
+                        <Route path="/exercises" element={<ExercisesPage />} />
                         </>
                     )
             }
