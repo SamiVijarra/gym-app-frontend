@@ -3,6 +3,7 @@ import { LoginPage } from '../auth/pages/LoginPage'
 import { HomePage } from "../home/pages/HomePage";
 import { useAuthStore } from "../hooks";
 import { useEffect } from "react";
+import { ProfilePage } from "../users/pages/ProfilePage";
 
 export const AppRouter = () => {
 
@@ -31,6 +32,7 @@ export const AppRouter = () => {
                     : (
                         <>
                         <Route path="/" element={<HomePage />} />
+                        <Route path="/profile" element={<ProfilePage />} />
                         <Route path="/*" element={<Navigate to ="/"/>}/>
                         </>
                     )
