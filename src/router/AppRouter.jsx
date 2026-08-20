@@ -5,6 +5,7 @@ import { useAuthStore } from "../hooks";
 import { useEffect } from "react";
 import { ProfilePage } from "../users/pages/ProfilePage";
 import { ExercisesPage } from "../exercises/pages/ExercisesPage";
+import { RoutinePage } from "../routines/pages/RoutinePage";
 
 export const AppRouter = () => {
 
@@ -34,8 +35,9 @@ export const AppRouter = () => {
                         <>
                         <Route path="/" element={<HomePage />} />
                         <Route path="/profile" element={<ProfilePage />} />
-                        <Route path="/*" element={<Navigate to ="/"/>}/>
                         <Route path="/exercises" element={<ExercisesPage />} />
+                        <Route path="/routines" element={<RoutinePage />} />
+                        <Route path="/*" element={<Navigate to ="/"/>}/>
                         </>
                     )
             }

@@ -10,6 +10,7 @@ export const HomePage = () => {
       <p></p>
       <Link to="/profile" className="btn btn-primary me-2">Mi perfil</Link>
       <Link to="/exercises" className="btn btn-primary me-2">Ejercicios</Link>
+      <Link to="/routines" className="btn btn-primary me-2">Rutinas</Link>
       <button className="btn btn-danger" onClick={startLogout}>Cerrar sesión</button>
     </div>
   )
