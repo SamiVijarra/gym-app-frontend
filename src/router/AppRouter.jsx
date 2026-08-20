@@ -1,14 +1,12 @@
 import { Navigate, Route, Routes } from "react-router-dom"
-import { LoginPage } from "../auth"
-import { CalendarPage } from '../calendar/pages/CalendarPage';
+import { LoginPage } from '../auth/pages/LoginPage'
+import { HomePage } from "../home/pages/HomePage";
 import { useAuthStore } from "../hooks";
 import { useEffect } from "react";
 
 export const AppRouter = () => {
 
     const { status, checkAuthToken } = useAuthStore();
-
-    //const authStatus = 'not-authenticated'; // 'checking', 'not-authenticated', 'authenticated'
 
     useEffect(() => {
         checkAuthToken();
@@ -32,13 +30,11 @@ export const AppRouter = () => {
                 )
                     : (
                         <>
-                        <Route path="/" element={<CalendarPage />} />
+                        <Route path="/" element={<HomePage />} />
                         <Route path="/*" element={<Navigate to ="/"/>}/>
                         </>
                     )
             }
-            
-
         </Routes>
     )
 }

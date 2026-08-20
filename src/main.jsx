@@ -1,10 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './styles.css'
-import { CalendarApp } from './CalendarApp'
+import { GymApp } from './GymApp' 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <CalendarApp />
+    <GymApp />
   </StrictMode>,
 )
