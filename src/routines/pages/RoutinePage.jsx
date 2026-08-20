@@ -1,9 +1,7 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useForm, useRoutinesStore } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
-import { AddExerciseForm } from '../components/AddExerciseForm';
-import { AddSetForm } from '../components/AddSetForm';
-import { SetRow } from '../components/SetRow';
 
 const newDayFields = { dayNumber: '', description: '' };
 
@@ -56,79 +54,22 @@ export const RoutinePage = () => {
         {!isLoading && days.length === 0 && (
           <p className="text-muted">Todavía no tenés días cargados.</p>
         )}
-
+      <div className="row">
         {days.map((day) => (
-          <div className="card mb-3" key={day.id}>
-            <div className="card-header">
-              Día {day.dayNumber} — {day.description}
+          <div className="col-md-4 mb-3" key={day.id}>
+            <Link to={`/routine/${day.id}`} className="text-decoration-none">
+                <div className="card">
+                  <div className="card-body">
+                    <h5 className="card-title">Día {day.dayNumber}</h5>
+                    <p className="card-text text-muted">{day.description}</p>
+                    <p className="card-text small">{day.exercises.length} ejercicio(s)</p>
+                  </div>
+                </div>
+              </Link>
             </div>
-            <div className="card-body">
-              <AddExerciseForm dayId={day.id} />
-              {day.exercises.length === 0 && <p className="text-muted">Sin ejercicios todavía.</p>}
-
-              {day.exercises.map((routineExercise) => (
-  <div key={routineExercise.id} className="mb-4 pb-3 border-bottom">
-    <div className="d-flex gap-3">
-      {routineExercise.exercise.images?.[0] && (
-        <img
-          src={routineExercise.exercise.images[0].url}
-          alt={routineExercise.exercise.name}
-          style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-        />
-      )}
-      <div>
-        <strong>{routineExercise.exercise.name}</strong>
-        {routineExercise.notes && (
-          <span className="text-muted"> ({routineExercise.notes})</span>
-        )}
-        <div className="text-muted small">
-          {routineExercise.exercise.primaryMuscles?.join(', ')}
-          {routineExercise.exercise.equipment && ` — ${routineExercise.exercise.equipment}`}
-        </div>
-
-        {routineExercise.exercise.instructions?.length > 0 && (
-          <details className="mt-1">
-            <summary style={{ cursor: 'pointer' }}>Ver instrucciones</summary>
-            <ol className="small mt-1">
-              {routineExercise.exercise.instructions.map((step, index) => (
-                <li key={index}>{step}</li>
-              ))}
-            </ol>
-          </details>
-        )}
-      </div>
-    </div>
-    <table className="table table-sm mt-2">
-      <thead>
-        <tr>
-          <th>Serie</th>
-          <th>Peso</th>
-          <th>Reps</th>
-          <th>Descanso</th>
-          <th>Notas</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {routineExercise.sets.map((set) => (
-          <tr key={set.id}>
-          <td>{set.order}</td>
-          <td>{set.weight} kg</td>
-          <td>{set.reps}</td>
-          <td>{set.restSeconds ? `${set.restSeconds}s` : '-'}</td>
-          <td>{set.notes || '-'}</td>
-          <SetRow key={set.id} set={set} />
-          </tr>
-        ))}
-      </tbody>
-    </table>
-    <AddSetForm routineExerciseId={routineExercise.id} />
-    </div>
-  ))}
-  </div>
-          </div>
         ))}
       </div>
+    </div>
     </>
   );
 }

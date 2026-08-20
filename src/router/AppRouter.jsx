@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { ProfilePage } from "../users/pages/ProfilePage";
 import { ExercisesPage } from "../exercises/pages/ExercisesPage";
 import { RoutinePage } from "../routines/pages/RoutinePage";
+import { RoutineDayDetailPage } from "../routines/pages/RoutineDayDetailPage";
 
 export const AppRouter = () => {
 
@@ -38,6 +39,7 @@ export const AppRouter = () => {
                         <Route path="/exercises" element={<ExercisesPage />} />
                         <Route path="/routines" element={<RoutinePage />} />
                         <Route path="/*" element={<Navigate to ="/"/>}/>
+                        <Route path="/routine/:dayId" element={<RoutineDayDetailPage />} />
                         </>
                     )
             }
