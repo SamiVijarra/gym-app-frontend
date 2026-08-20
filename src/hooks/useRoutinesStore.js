@@ -44,6 +44,15 @@ export const useRoutinesStore = () => {
     }
   }
 
+  const startUpdatingSet = async (setId, setData) => {
+  try {
+    await calendarApi.patch(`/routines/sets/${setId}`, setData);
+    await startLoadingRoutine();
+  } catch (error) {
+    dispatch(onRoutineError(error.response?.data?.message || 'No se pudo actualizar la serie'));
+  }
+}
+
   return {
     isLoading,
     days,
@@ -53,5 +62,6 @@ export const useRoutinesStore = () => {
     startCreatingDay,
     startAddingExercise,
     startAddingSet,
+    startUpdatingSet,
   }
 }

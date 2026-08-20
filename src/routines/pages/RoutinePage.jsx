@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useForm, useRoutinesStore } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
 import { AddExerciseForm } from '../components/AddExerciseForm';
+import { AddSetForm } from '../components/AddSetForm';
 
 const newDayFields = { dayNumber: '', description: '' };
 
@@ -97,28 +98,31 @@ export const RoutinePage = () => {
       </div>
     </div>
     <table className="table table-sm mt-2">
-                    <thead>
-                      <tr>
-                        <th>Serie</th>
-                        <th>Peso</th>
-                        <th>Reps</th>
-                        <th>Descanso</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {routineExercise.sets.map((set) => (
-                        <tr key={set.id}>
-                          <td>{set.order}</td>
-                          <td>{set.weight} kg</td>
-                          <td>{set.reps}</td>
-                          <td>{set.restSeconds ? `${set.restSeconds}s` : '-'}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              ))}
-            </div>
+      <thead>
+        <tr>
+          <th>Serie</th>
+          <th>Peso</th>
+          <th>Reps</th>
+          <th>Descanso</th>
+          <th>Notas</th>
+        </tr>
+      </thead>
+      <tbody>
+        {routineExercise.sets.map((set) => (
+          <tr key={set.id}>
+          <td>{set.order}</td>
+          <td>{set.weight} kg</td>
+          <td>{set.reps}</td>
+          <td>{set.restSeconds ? `${set.restSeconds}s` : '-'}</td>
+          <td>{set.notes || '-'}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <AddSetForm routineExerciseId={routineExercise.id} />
+    </div>
+  ))}
+  </div>
           </div>
         ))}
       </div>
