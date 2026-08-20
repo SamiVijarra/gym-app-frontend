@@ -3,6 +3,7 @@ import { useForm, useRoutinesStore } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
 import { AddExerciseForm } from '../components/AddExerciseForm';
 import { AddSetForm } from '../components/AddSetForm';
+import { SetRow } from '../components/SetRow';
 
 const newDayFields = { dayNumber: '', description: '' };
 
@@ -105,6 +106,7 @@ export const RoutinePage = () => {
           <th>Reps</th>
           <th>Descanso</th>
           <th>Notas</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -115,6 +117,7 @@ export const RoutinePage = () => {
           <td>{set.reps}</td>
           <td>{set.restSeconds ? `${set.restSeconds}s` : '-'}</td>
           <td>{set.notes || '-'}</td>
+          <SetRow key={set.id} set={set} />
           </tr>
         ))}
       </tbody>
