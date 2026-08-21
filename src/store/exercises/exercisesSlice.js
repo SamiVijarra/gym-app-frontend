@@ -6,6 +6,7 @@ export const exercisesSlice = createSlice({
     isLoading: false,
     exercises: [],
     errorMessage: undefined,
+    selectedExercise: null,
   },
   reducers: {
     onLoadingExercises: (state) => {
@@ -21,6 +22,9 @@ export const exercisesSlice = createSlice({
       state.isLoading = false;
       state.errorMessage = payload;
     },
+    onSetSelectedExercise: (state, { payload }) => {
+      state.selectedExercise = payload;
+},
   },
 });
 

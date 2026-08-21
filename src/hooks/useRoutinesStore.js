@@ -19,8 +19,9 @@ export const useRoutinesStore = () => {
 
   const startCreatingDay = async (dayData) => {
     try {
-      await calendarApi.post('/routines/days', dayData);
+      const { data } = await calendarApi.post('/routines/days', dayData);
       await startLoadingRoutine();
+      return data;
     } catch (error) {
       dispatch(onRoutineError(error.response?.data?.message || 'No se pudo crear el día'));
     }

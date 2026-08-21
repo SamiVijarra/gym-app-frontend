@@ -7,6 +7,7 @@ import { ProfilePage } from "../users/pages/ProfilePage";
 import { ExercisesPage } from "../exercises/pages/ExercisesPage";
 import { RoutinePage } from "../routines/pages/RoutinePage";
 import { RoutineDayDetailPage } from "../routines/pages/RoutineDayDetailPage";
+import { ExerciseDetailPage } from "../exercises/pages/ExerciseDetailPage";
 
 export const AppRouter = () => {
 
@@ -37,9 +38,10 @@ export const AppRouter = () => {
                         <Route path="/" element={<HomePage />} />
                         <Route path="/profile" element={<ProfilePage />} />
                         <Route path="/exercises" element={<ExercisesPage />} />
-                        <Route path="/routines" element={<RoutinePage />} />
-                        <Route path="/*" element={<Navigate to ="/"/>}/>
+                        <Route path="/exercises/:id" element={<ExerciseDetailPage />} />
+                        <Route path="/routine" element={<RoutinePage />} />
                         <Route path="/routine/:dayId" element={<RoutineDayDetailPage />} />
+                        <Route path="/*" element={<Navigate to="/"/>}/>
                         </>
                     )
             }

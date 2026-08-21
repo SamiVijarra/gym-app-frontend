@@ -5,7 +5,7 @@ import { onLoadingExercises, onSetExercises, onExercisesError } from '../store';
 export const useExercisesStore = () => {
 
   const dispatch = useDispatch();
-  const { isLoading, exercises, errorMessage } = useSelector(state => state.exercises);
+  const { isLoading, exercises, errorMessage, onSetSelectedExercise } = useSelector(state => state.exercises);
 
   const startSearchingExercises = async ({ name, muscle, equipment } = {}) => {
     dispatch(onLoadingExercises());
@@ -19,11 +19,21 @@ export const useExercisesStore = () => {
     }
   }
 
+  const startLoadingExercise = async (id) => {
+  try {
+    const { data } = await calendarApi.get(`/exercises/${id}`);
+    dispatch(onSetSelectedExercise(data));
+  } catch (error) {
+    dispatch(onExercisesError(error.response?.data?.message || 'No se pudo cargar el ejercicio'));
+  }
+}
+
   return {
     isLoading,
     exercises,
     errorMessage,
 
     startSearchingExercises,
+    startLoadingExercise,
   }
 }

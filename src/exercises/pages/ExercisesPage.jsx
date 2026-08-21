@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useExercisesStore } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
+import { Link } from 'react-router-dom';
 
 export const ExercisesPage = () => {
 
@@ -43,19 +44,21 @@ export const ExercisesPage = () => {
         <div className="row">
           {exercises.map((exercise) => (
             <div className="col-md-4 mb-3" key={exercise.id}>
+              <Link to={`/exercises/${exercise.id}`} className="text-decoration-none text-reset">
               <div className="card">
                 {exercise.images?.[0] && (
                   <img src={exercise.images[0].url} className="card-img-top" alt={exercise.name} />
-                )}
-                <div className="card-body">
-                  <h5 className="card-title">{exercise.name}</h5>
-                  <p className="card-text">{exercise.primaryMuscles?.join(', ')}</p>
+                  )}
+                  <div className="card-body">
+                    <h5 className="card-title">{exercise.name}</h5>
+                    <p className="card-text">{exercise.primaryMuscles?.join(', ')}</p>
+                  </div>
                 </div>
-              </div>
+              </Link>
             </div>
           ))}
         </div>
-      </div>
+        </div>
     </>
   );
 }
