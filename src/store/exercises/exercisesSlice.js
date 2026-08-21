@@ -28,4 +28,4 @@ export const exercisesSlice = createSlice({
   },
 });
 
-export const { onLoadingExercises, onSetExercises, onExercisesError } = exercisesSlice.actions;
+export const { onLoadingExercises, onSetExercises, onExercisesError, onSetSelectedExercise } = exercisesSlice.actions;

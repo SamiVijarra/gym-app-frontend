@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import calendarApi from '../api/calendarApi';
-import { onLoadingExercises, onSetExercises, onExercisesError } from '../store';
+import { onLoadingExercises, onSetExercises, onExercisesError, onSetSelectedExercise } from '../store';
 
 export const useExercisesStore = () => {
 
   const dispatch = useDispatch();
-  const { isLoading, exercises, errorMessage, onSetSelectedExercise } = useSelector(state => state.exercises);
+  const { isLoading, exercises, selectedExercise, errorMessage } = useSelector(state => state.exercises);
 
   const startSearchingExercises = async ({ name, muscle, equipment } = {}) => {
     dispatch(onLoadingExercises());
@@ -31,6 +31,7 @@ export const useExercisesStore = () => {
   return {
     isLoading,
     exercises,
+    selectedExercise,
     errorMessage,
 
     startSearchingExercises,
