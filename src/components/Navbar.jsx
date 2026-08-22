@@ -3,34 +3,40 @@ import { useAuthStore } from '../hooks';
 import { ThemeToggle } from './ThemeToggle';
 
 export const Navbar = () => {
-  const { startLogout, user } = useAuthStore();
+    const { startLogout, user } = useAuthStore();
 
-  return (
-    <div className="navbar navbar-dark bg-dark mb-4 px-4 d-flex justify-content-between">
-      <div className="d-flex align-items-center gap-3">
-        <Link to="/" className="navbar-brand mb-0">
-          <i className="fas fa-calendar-alt"></i>
-          &nbsp;
-          {user.name}
-        </Link>
-        <Link to="/profile" className="text-light text-decoration-none">
-          Perfil
-        </Link>
-        <Link to="/exercises" className="text-light text-decoration-none">
-          Ejercicios
-        </Link>
-        <Link to="/routine" className="text-light text-decoration-none">
-          Rutina
-        </Link>
-      </div>
-      <div className="d-flex align-items-center gap-2">
-        <ThemeToggle />
-        <button className="btn btn-outline-danger" onClick={startLogout}>
-          <i className="fas fa-sign-out-alt"></i>
-          &nbsp;
-          <span>Salir</span>
-        </button>
-      </div>
-    </div>
-  );
+    return (
+        <nav className="gym-navbar">
+            <div className="gym-navbar-inner">
+                <div className="gym-navbar-left">
+                    <Link to="/" className="gym-navbar-brand">
+                        <span className="gym-navbar-brand-icon">
+                            <i className="fas fa-calendar-alt"></i>
+                        </span>
+                        <span>{user.name}</span>
+                    </Link>
+                    <div className="gym-navbar-links">
+                        <Link to="/profile" className="gym-navbar-link">
+                            Perfil
+                        </Link>
+
+                        <Link to="/exercises" className="gym-navbar-link">
+                            Ejercicios
+                        </Link>
+
+                        <Link to="/routine" className="gym-navbar-link">
+                            Rutina
+                        </Link>
+                    </div>
+                </div>
+                <div className="gym-navbar-actions">
+                    <ThemeToggle />
+                    <button className="gym-navbar-logout" onClick={startLogout}>
+                        <i className="fas fa-sign-out-alt"></i>
+                        <span>Salir</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    );
 };

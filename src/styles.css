@@ -1,84 +1,5 @@
-.ReactModalPortal > div {
-    opacity: 0;
-}
-
-.ReactModalPortal .ReactModal__Overlay {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    transition: opacity 0.2s ease-in-out;
-    z-index: 999;
-}
-
-.modal-fondo {
-    background-color: rgba(0, 0, 0, 0.3);
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 0;
-    position: fixed;
-}
-
-.ReactModalPortal .ReactModal__Overlay--after-open {
-    opacity: 1;
-}
-
-.ReactModalPortal .ReactModal__Overlay--before-close {
-    opacity: 0;
-}
-
-.modal {
-    background: white;
-    border-radius: 5px;
-    color: rgb(51, 51, 51);
-    display: inline;
-    max-height: 620px;
-    max-width: 500px;
-    outline: none;
-    padding: 10px;
-}
-
-.fab {
-    border-radius: 100%;
-    bottom: 25px;
-    font-size: 30px;
-    padding: 25px;
-    position: fixed;
-    right: 25px;
-}
-
-.fab-danger {
-    border-radius: 100%;
-    bottom: 25px;
-    font-size: 22px;
-    position: fixed;
-    left: 25px;
-    width: 70px;
-    height: 70px;
-}
-
 /* =========================================================
-    ROUTINE DAY DETAIL
-   ========================================================= */
-
-.routine-detail-page {
-    min-height: calc(100vh - 70px);
-
-    background:
-        radial-gradient(circle at 85% 0%, rgba(124, 58, 237, 0.1), transparent 30%), #0d0b12;
-
-    color: #f5f3f7;
-
-    padding: 42px 20px 80px;
-}
-
-.routine-detail-container {
-    width: min(1050px, 100%);
-    margin: 0 auto;
-}
-
-/* =========================================================
-    GYM APP — THEME SYSTEM
+   GYM APP — THEME SYSTEM
    ========================================================= */
 
 :root {
@@ -110,7 +31,7 @@
 }
 
 /* =========================================================
-    LIGHT THEME
+   LIGHT THEME
    ========================================================= */
 
 [data-theme='light'] {
@@ -136,39 +57,6 @@
 }
 
 /* =========================================================
-    BACK
-   ========================================================= */
-
-.routine-back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-
-    margin-bottom: 34px;
-
-    color: #aaa4b5;
-
-    font-size: 13px;
-    font-weight: 500;
-
-    text-decoration: none;
-
-    transition:
-        color 0.2s ease,
-        transform 0.2s ease;
-}
-
-.routine-back-link:hover {
-    color: #ffffff;
-
-    transform: translateX(-2px);
-}
-
-.routine-back-link span {
-    font-size: 17px;
-}
-
-/* =========================================================
    GLOBAL DOCUMENT
    ========================================================= */
 
@@ -184,7 +72,6 @@ body {
     padding: 0;
 
     background: var(--app-bg);
-
     color: var(--app-text);
 }
 
@@ -212,6 +99,156 @@ body {
 }
 
 /* =========================================================
+   REACT MODAL
+   ========================================================= */
+
+.ReactModalPortal > div {
+    opacity: 0;
+}
+
+.ReactModalPortal .ReactModal__Overlay {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    transition: opacity 0.2s ease-in-out;
+
+    z-index: 999;
+}
+
+.modal-fondo {
+    background-color: rgba(0, 0, 0, 0.3);
+
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+
+    position: fixed;
+}
+
+.ReactModalPortal .ReactModal__Overlay--after-open {
+    opacity: 1;
+}
+
+.ReactModalPortal .ReactModal__Overlay--before-close {
+    opacity: 0;
+}
+
+.modal {
+    max-height: 620px;
+    max-width: 500px;
+
+    padding: 10px;
+
+    display: inline;
+
+    background: var(--app-surface);
+
+    border: 1px solid var(--app-border);
+
+    border-radius: 12px;
+
+    color: var(--app-text);
+
+    outline: none;
+
+    box-shadow: var(--app-shadow);
+}
+
+/* =========================================================
+   FAB
+   ========================================================= */
+
+.fab {
+    border-radius: 100%;
+
+    bottom: 25px;
+
+    font-size: 30px;
+
+    padding: 25px;
+
+    position: fixed;
+
+    right: 25px;
+}
+
+.fab-danger {
+    border-radius: 100%;
+
+    bottom: 25px;
+    left: 25px;
+
+    font-size: 22px;
+
+    position: fixed;
+
+    width: 70px;
+    height: 70px;
+}
+
+/* =========================================================
+   ROUTINE DAY DETAIL
+   ========================================================= */
+
+.routine-detail-page {
+    min-height: calc(100vh - 70px);
+
+    padding: 42px 20px 80px;
+
+    background:
+        radial-gradient(
+            circle at 85% 0%,
+            color-mix(in srgb, var(--app-primary) 10%, transparent),
+            transparent 30%
+        ),
+        var(--app-bg);
+
+    color: var(--app-text);
+}
+
+.routine-detail-container {
+    width: min(1050px, 100%);
+
+    margin: 0 auto;
+}
+
+/* =========================================================
+   BACK
+   ========================================================= */
+
+.routine-back-link {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 34px;
+
+    color: var(--app-text-secondary);
+
+    font-size: 13px;
+    font-weight: 500;
+
+    text-decoration: none;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.routine-back-link:hover {
+    color: var(--app-text);
+
+    transform: translateX(-2px);
+}
+
+.routine-back-link span {
+    font-size: 17px;
+}
+
+/* =========================================================
    HEADER
    ========================================================= */
 
@@ -222,7 +259,7 @@ body {
 .routine-detail-eyebrow {
     margin-bottom: 8px;
 
-    color: #8b5cf6;
+    color: var(--app-primary);
 
     font-size: 12px;
     font-weight: 700;
@@ -233,7 +270,7 @@ body {
 .routine-detail-title {
     margin: 0;
 
-    color: #ffffff;
+    color: var(--app-text);
 
     font-size: clamp(30px, 4vw, 44px);
     line-height: 1.1;
@@ -246,39 +283,41 @@ body {
 .routine-detail-meta {
     display: flex;
     align-items: center;
+
     gap: 9px;
 
     margin-top: 13px;
 
-    color: #8f8999;
+    color: var(--app-text-secondary);
 
     font-size: 13px;
 }
 
 .routine-detail-meta-dot {
-    color: #5d5866;
+    color: var(--app-text-muted);
 }
 
 /* =========================================================
-   EXERCISE CARD
+   EXERCISE CARDS
    ========================================================= */
 
 .routine-exercises {
     display: flex;
     flex-direction: column;
+
     gap: 18px;
 }
 
 .routine-exercise-card {
     overflow: hidden;
 
-    background: #15131b;
+    background: var(--app-surface);
 
-    border: 1px solid rgba(255, 255, 255, 0.07);
+    border: 1px solid var(--app-border);
 
     border-radius: 18px;
 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+    box-shadow: var(--app-shadow);
 }
 
 /* =========================================================
@@ -304,7 +343,7 @@ body {
 
     flex-shrink: 0;
 
-    color: #a78bfa;
+    color: var(--app-primary-light);
 
     background: rgba(139, 92, 246, 0.1);
 
@@ -326,18 +365,19 @@ body {
 
     border-radius: 13px;
 
-    background: #211e29;
+    background: var(--app-surface-2);
 }
 
 .routine-exercise-info {
     min-width: 0;
+
     flex: 1;
 }
 
 .routine-exercise-name {
     margin: 0;
 
-    color: #ffffff;
+    color: var(--app-text);
 
     font-size: 18px;
     line-height: 1.25;
@@ -350,7 +390,7 @@ body {
 .routine-exercise-notes {
     margin: 4px 0 0;
 
-    color: #8d8797;
+    color: var(--app-text-secondary);
 
     font-size: 12px;
 }
@@ -358,6 +398,7 @@ body {
 .routine-exercise-tags {
     display: flex;
     flex-wrap: wrap;
+
     gap: 6px;
 
     margin-top: 9px;
@@ -382,9 +423,9 @@ body {
 }
 
 .routine-tag-muted {
-    color: #8d8797;
+    color: var(--app-text-muted);
 
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--app-surface-2);
 }
 
 /* =========================================================
@@ -394,15 +435,15 @@ body {
 .routine-instructions {
     margin: 0 24px 20px;
 
-    color: #9993a3;
-
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-
     padding-top: 14px;
+
+    color: var(--app-text-secondary);
+
+    border-top: 1px solid var(--app-border);
 }
 
 .routine-instructions summary {
-    color: #aaa4b5;
+    color: var(--app-text-secondary);
 
     font-size: 12px;
     font-weight: 600;
@@ -413,14 +454,15 @@ body {
 }
 
 .routine-instructions summary:hover {
-    color: #ffffff;
+    color: var(--app-text);
 }
 
 .routine-instructions ol {
     margin: 14px 0 0;
+
     padding-left: 22px;
 
-    color: #85808f;
+    color: var(--app-text-muted);
 
     font-size: 12px;
     line-height: 1.7;
@@ -449,12 +491,13 @@ body {
 .routine-section-label {
     display: block;
 
-    color: #d7d2df;
+    color: var(--app-text);
 
     font-size: 12px;
     font-weight: 700;
 
     letter-spacing: 0.08em;
+
     text-transform: uppercase;
 }
 
@@ -463,7 +506,7 @@ body {
 
     margin-top: 3px;
 
-    color: #716b7b;
+    color: var(--app-text-secondary);
 
     font-size: 11px;
 }
@@ -471,11 +514,11 @@ body {
 .routine-set-count {
     padding: 6px 9px;
 
-    color: #aaa4b5;
+    color: var(--app-text-secondary);
 
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--app-surface-2);
 
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--app-border);
 
     border-radius: 8px;
 
@@ -490,35 +533,29 @@ body {
 .routine-table-wrapper {
     overflow-x: auto;
 
-    border: 1px solid rgba(255, 255, 255, 0.06);
-
     border-radius: 12px;
 
-    background: #111016;
+    background: var(--app-surface-2);
+
+    border: 1px solid var(--app-border);
 }
 
 .routine-sets-table {
-    width: 100%;
-
-    margin: 0 !important;
-
-    border-collapse: collapse;
-
-    color: #dedbe3 !important;
+    color: var(--app-text) !important;
 
     --bs-table-bg: transparent;
-    --bs-table-color: #dedbe3;
-    --bs-table-border-color: rgba(255, 255, 255, 0.06);
+    --bs-table-color: var(--app-text);
+    --bs-table-border-color: var(--app-border);
 }
 
 .routine-sets-table thead {
-    background: rgba(255, 255, 255, 0.025);
+    background: var(--app-surface-hover);
 }
 
 .routine-sets-table th {
     padding: 12px 14px !important;
 
-    color: #787282 !important;
+    color: var(--app-text-muted) !important;
 
     border: 0 !important;
 
@@ -526,6 +563,7 @@ body {
     font-weight: 700 !important;
 
     letter-spacing: 0.08em;
+
     text-transform: uppercase;
 
     white-space: nowrap;
@@ -534,14 +572,16 @@ body {
 .routine-sets-table td {
     padding: 13px 14px !important;
 
-    color: #d8d4dd !important;
+    color: var(--app-text-secondary) !important;
 
     background: transparent !important;
 
-    border-top: 1px solid rgba(255, 255, 255, 0.055) !important;
+    border-top: 1px solid var(--app-border) !important;
+
     border-bottom: 0 !important;
 
     font-size: 13px;
+
     vertical-align: middle;
 }
 
@@ -550,7 +590,7 @@ body {
 }
 
 .routine-sets-table tbody tr:hover {
-    background: rgba(139, 92, 246, 0.035);
+    background: color-mix(in srgb, var(--app-primary) 4%, transparent);
 }
 
 /* First column */
@@ -558,7 +598,7 @@ body {
 .routine-sets-table td:first-child {
     width: 70px;
 
-    color: #a78bfa !important;
+    color: var(--app-primary-light) !important;
 
     font-weight: 700;
 }
@@ -566,10 +606,12 @@ body {
 /* Notes */
 
 .routine-sets-table td:nth-child(5) {
-    color: #918b9b !important;
+    color: var(--app-text-muted) !important;
 }
 
-/* Edit buttons generated by SetRow */
+/* =========================================================
+   TABLE EDIT BUTTONS
+   ========================================================= */
 
 .routine-sets-table .btn {
     display: inline-flex;
@@ -581,11 +623,11 @@ body {
 
     padding: 0 !important;
 
-    color: #aaa4b5 !important;
+    color: var(--app-text-secondary) !important;
 
-    background: rgba(255, 255, 255, 0.04) !important;
+    background: var(--app-surface-hover) !important;
 
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid var(--app-border-strong) !important;
 
     border-radius: 8px !important;
 
@@ -597,7 +639,7 @@ body {
 }
 
 .routine-sets-table .btn:hover {
-    color: #ffffff !important;
+    color: var(--app-text) !important;
 
     background: rgba(139, 92, 246, 0.15) !important;
 
@@ -613,9 +655,9 @@ body {
 
     padding: 16px;
 
-    background: rgba(255, 255, 255, 0.025);
+    background: var(--app-surface-2);
 
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--app-border);
 
     border-radius: 12px;
 }
@@ -623,16 +665,17 @@ body {
 .routine-add-set-title {
     margin-bottom: 10px;
 
-    color: #8d8797;
+    color: var(--app-text-muted);
 
     font-size: 11px;
     font-weight: 700;
 
     text-transform: uppercase;
+
     letter-spacing: 0.07em;
 }
 
-/* Form generated by AddSetForm */
+/* Form */
 
 .routine-add-set form {
     display: flex;
@@ -653,37 +696,42 @@ body {
 
     margin-bottom: 5px !important;
 
-    color: #777180 !important;
+    color: var(--app-text-muted) !important;
 
     font-size: 10px !important;
     font-weight: 600;
 
     text-transform: uppercase;
+
     letter-spacing: 0.05em;
 }
 
 .routine-add-set .form-control {
     min-height: 38px;
 
-    color: #f5f3f7 !important;
+    color: var(--app-text) !important;
 
-    background: #0d0b12 !important;
+    background: var(--app-bg) !important;
 
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid var(--app-border-strong) !important;
 
     border-radius: 8px !important;
 
     font-size: 13px;
 }
 
+.routine-add-set .form-control::placeholder {
+    color: var(--app-text-muted);
+}
+
 .routine-add-set .form-control:focus {
-    color: #ffffff !important;
+    color: var(--app-text) !important;
 
-    background: #0d0b12 !important;
+    background: var(--app-bg) !important;
 
-    border-color: rgba(139, 92, 246, 0.6) !important;
+    border-color: color-mix(in srgb, var(--app-primary) 60%, transparent) !important;
 
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1) !important;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--app-primary) 10%, transparent) !important;
 }
 
 .routine-add-set .btn {
@@ -700,6 +748,7 @@ body {
     border-radius: 8px !important;
 
     font-size: 12px;
+
     font-weight: 600;
 }
 
@@ -728,7 +777,7 @@ body {
 .routine-add-exercise-header h2 {
     margin: 4px 0 0;
 
-    color: #ffffff;
+    color: var(--app-text);
 
     font-size: 17px;
     font-weight: 700;
@@ -737,12 +786,12 @@ body {
 .routine-add-exercise-header p {
     margin: 5px 0 18px;
 
-    color: #817b8b;
+    color: var(--app-text-secondary);
 
     font-size: 12px;
 }
 
-/* AddExerciseForm outer container */
+/* AddExerciseForm */
 
 .routine-add-exercise > div:last-child {
     margin-top: 0 !important;
@@ -757,27 +806,27 @@ body {
 .routine-add-exercise .form-control {
     min-height: 42px;
 
-    color: #f5f3f7 !important;
+    color: var(--app-text) !important;
 
-    background: #0f0d14 !important;
+    background: var(--app-bg) !important;
 
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid var(--app-border-strong) !important;
 
     border-radius: 10px !important;
 }
 
 .routine-add-exercise .form-control::placeholder {
-    color: #696472;
+    color: var(--app-text-muted);
 }
 
 .routine-add-exercise .form-control:focus {
-    color: #ffffff !important;
+    color: var(--app-text) !important;
 
-    background: #0f0d14 !important;
+    background: var(--app-bg) !important;
 
-    border-color: rgba(139, 92, 246, 0.55) !important;
+    border-color: color-mix(in srgb, var(--app-primary) 55%, transparent) !important;
 
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1) !important;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--app-primary) 10%, transparent) !important;
 }
 
 /* Search results */
@@ -793,17 +842,17 @@ body {
 .routine-add-exercise .list-group-item {
     padding: 12px 14px;
 
-    color: #ddd8e4;
+    color: var(--app-text-secondary);
 
-    background: #17151e;
+    background: var(--app-surface);
 
-    border-color: rgba(255, 255, 255, 0.06);
+    border-color: var(--app-border);
 }
 
 .routine-add-exercise .list-group-item:hover {
-    color: #ffffff;
+    color: var(--app-text);
 
-    background: #211d2b;
+    background: var(--app-surface-hover);
 }
 
 /* =========================================================
@@ -815,9 +864,9 @@ body {
 
     text-align: center;
 
-    background: #15131b;
+    background: var(--app-surface);
 
-    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border: 1px dashed var(--app-border-strong);
 
     border-radius: 18px;
 }
@@ -832,7 +881,7 @@ body {
 
     margin: 0 auto 14px;
 
-    color: #a78bfa;
+    color: var(--app-primary-light);
 
     background: rgba(139, 92, 246, 0.1);
 
@@ -844,7 +893,7 @@ body {
 .routine-empty-state h2 {
     margin: 0;
 
-    color: #ffffff;
+    color: var(--app-text);
 
     font-size: 18px;
 }
@@ -854,7 +903,7 @@ body {
 
     margin: 8px auto 0;
 
-    color: #777180;
+    color: var(--app-text-muted);
 
     font-size: 13px;
 }
@@ -866,9 +915,171 @@ body {
 .routine-detail-loading {
     padding-top: 50px;
 
-    color: #8f8999;
+    color: var(--app-text-secondary);
 
     text-align: center;
+}
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+.gym-navbar {
+    position: sticky;
+    top: 0;
+
+    z-index: 1000;
+
+    width: 100%;
+
+    background: color-mix(in srgb, var(--app-bg) 88%, transparent);
+
+    border-bottom: 1px solid var(--app-border);
+
+    backdrop-filter: blur(16px);
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.gym-navbar-inner {
+    width: min(1200px, calc(100% - 40px));
+
+    min-height: 68px;
+
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 24px;
+}
+
+.gym-navbar-left {
+    display: flex;
+    align-items: center;
+
+    gap: 28px;
+
+    min-width: 0;
+}
+
+.gym-navbar-brand {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    color: var(--app-text);
+
+    font-size: 17px;
+    font-weight: 700;
+
+    text-decoration: none;
+
+    letter-spacing: -0.02em;
+
+    white-space: nowrap;
+}
+
+.gym-navbar-brand:hover {
+    color: var(--app-text);
+}
+
+.gym-navbar-brand-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 30px;
+    height: 30px;
+
+    color: var(--app-primary-light);
+
+    background: rgba(139, 92, 246, 0.1);
+
+    border-radius: 8px;
+
+    font-size: 13px;
+}
+
+.gym-navbar-links {
+    display: flex;
+    align-items: center;
+
+    gap: 4px;
+}
+
+.gym-navbar-link {
+    padding: 8px 10px;
+
+    color: var(--app-text-secondary);
+
+    border-radius: 8px;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    text-decoration: none;
+
+    transition:
+        color 0.15s ease,
+        background-color 0.15s ease;
+}
+
+.gym-navbar-link:hover {
+    color: var(--app-text);
+
+    background: var(--app-surface);
+}
+
+.gym-navbar-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+.gym-navbar-logout {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    min-height: 36px;
+
+    padding: 0 12px;
+
+    color: var(--app-danger);
+
+    background: transparent;
+
+    border: 1px solid color-mix(in srgb, var(--app-danger) 45%, transparent);
+
+    border-radius: 8px;
+
+    font-family: inherit;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        color 0.15s ease,
+        background-color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.gym-navbar-logout:hover {
+    color: #ffffff;
+
+    background: var(--app-danger);
+
+    border-color: var(--app-danger);
 }
 
 /* =========================================================
@@ -894,6 +1105,7 @@ body {
 
     .routine-add-set form {
         flex-direction: column;
+
         align-items: stretch !important;
     }
 
@@ -915,5 +1127,31 @@ body {
 
     .routine-add-exercise {
         padding: 18px;
+    }
+}
+
+@media (max-width: 700px) {
+    .gym-navbar-inner {
+        width: min(100% - 24px, 1200px);
+
+        min-height: 62px;
+    }
+
+    .gym-navbar-links {
+        display: none;
+    }
+
+    .gym-navbar-brand {
+        font-size: 15px;
+    }
+
+    .gym-navbar-logout span {
+        display: none;
+    }
+
+    .gym-navbar-logout {
+        width: 36px;
+
+        padding: 0;
     }
 }
