@@ -1,64 +1,138 @@
 import { useEffect, useState } from 'react';
-import { useExercisesStore } from '../../hooks';
-import { Navbar } from '../../components/Navbar';
 import { Link } from 'react-router-dom';
 
+import { useExercisesStore } from '../../hooks';
+import { Navbar } from '../../components/Navbar';
+
 export const ExercisesPage = () => {
+    const { exercises, isLoading, startSearchingExercises } = useExercisesStore();
+    const [searchTerm, setSearchTerm] = useState('');
 
-  const { exercises, isLoading, startSearchingExercises } = useExercisesStore();
-  const [searchTerm, setSearchTerm] = useState('');
+    useEffect(() => {
+        if (searchTerm.trim().length === 0) return;
 
-  useEffect(() => {
-    if (searchTerm.trim().length === 0) return;
+        const timeoutId = setTimeout(() => {
+            startSearchingExercises({ name: searchTerm });
+        }, 400);
 
-    const timeoutId = setTimeout(() => {
-      startSearchingExercises({ name: searchTerm });
-    }, 400);
+        return () => clearTimeout(timeoutId);
+    }, [searchTerm]);
 
-    return () => clearTimeout(timeoutId);
-  }, [searchTerm]);
+    return (
+        <>
+            <Navbar />
+            <main className="exercises-page">
+                <div className="exercises-page-container">
+                    <header className="exercises-page-header">
+                        <span className="exercises-page-eyebrow">EXERCISES</span>
 
-  return (
-    <>
-      <Navbar />
-      <div className="container mt-4">
-        <h2>Catálogo de ejercicios</h2>
-        <input
-          type="text"
-          className="form-control mb-3"
-          placeholder="Buscar ejercicio (ej. press, curl, squat)"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+                        <h1>Catálogo de ejercicios</h1>
 
-        {isLoading && <p>Buscando...</p>}
+                        <p>
+                            Buscá ejercicios y consultá su información para completar tu
+                            entrenamiento.
+                        </p>
+                    </header>
+                    <section className="exercises-search">
+                        <div className="exercises-search-icon">
+                            <i className="fas fa-search"></i>
+                        </div>
+                        <input
+                            type="text"
+                            placeholder="Buscar ejercicio..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                        {searchTerm && (
+                            <button
+                                type="button"
+                                className="exercises-search-clear"
+                                onClick={() => setSearchTerm('')}
+                                aria-label="Limpiar búsqueda"
+                            >
+                                <i className="fas fa-times"></i>
+                            </button>
+                        )}
+                    </section>
 
-        {!isLoading && searchTerm.trim().length === 0 && (
-          <p className="text-muted">Escribí algo para buscar en el catálogo.</p>
-        )}
+                    {isLoading && (
+                        <div className="exercises-page-loading">
+                            <div className="exercises-loading-spinner"></div>
 
-        {!isLoading && searchTerm.trim().length > 0 && exercises.length === 0 && (
-          <p className="text-muted">No se encontraron ejercicios.</p>
-        )}
+                            <span>Buscando ejercicios...</span>
+                        </div>
+                    )}
 
-        <div className="row">
-          {exercises.map((exercise) => (
-            <div className="col-md-4 mb-3" key={exercise.id}>
-              <Link to={`/exercises/${exercise.id}`} className="text-decoration-none text-reset">
-              <div className="card">
-                {exercise.images?.[0] && (
-                  <img src={exercise.images[0].url} className="card-img-top" alt={exercise.name} />
-                  )}
-                  <div className="card-body">
-                    <h5 className="card-title">{exercise.name}</h5>
-                    <p className="card-text">{exercise.primaryMuscles?.join(', ')}</p>
-                  </div>
+                    {!isLoading && searchTerm.trim().length === 0 && (
+                        <div className="exercises-page-empty">
+                            <div className="exercises-empty-icon">
+                                <i className="fas fa-dumbbell"></i>
+                            </div>
+
+                            <h2>Buscá un ejercicio</h2>
+
+                            <p>
+                                Escribí el nombre de un ejercicio para comenzar a explorar el
+                                catálogo.
+                            </p>
+                        </div>
+                    )}
+
+                    {!isLoading && searchTerm.trim().length > 0 && exercises.length === 0 && (
+                        <div className="exercises-page-empty">
+                            <div className="exercises-empty-icon">
+                                <i className="fas fa-search"></i>
+                            </div>
+                            <h2>No encontramos ejercicios</h2>
+
+                            <p>Probá con otro nombre o término de búsqueda.</p>
+                        </div>
+                    )}
+                    {!isLoading && exercises.length > 0 && (
+                        <section className="exercises-results">
+                            <div className="exercises-results-header">
+                                <span>RESULTADOS</span>
+                                <p>
+                                    {exercises.length}{' '}
+                                    {exercises.length === 1 ? 'ejercicio' : 'ejercicios'}
+                                </p>
+                            </div>
+                            <div className="exercises-grid">
+                                {exercises.map((exercise) => (
+                                    <Link
+                                        key={exercise.id}
+                                        to={`/exercises/${exercise.id}`}
+                                        className="exercise-card"
+                                    >
+                                        <div className="exercise-card-image">
+                                            {exercise.images?.[0] ? (
+                                                <img
+                                                    src={exercise.images[0].url}
+                                                    alt={exercise.name}
+                                                />
+                                            ) : (
+                                                <div className="exercise-card-placeholder">
+                                                    <i className="fas fa-dumbbell"></i>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="exercise-card-body">
+                                            <div className="exercise-card-info">
+                                                <h2>{exercise.name}</h2>
+                                                {exercise.primaryMuscles?.length > 0 && (
+                                                    <p>{exercise.primaryMuscles.join(' · ')}</p>
+                                                )}
+                                            </div>
+
+                                            <div className="exercise-card-arrow">→</div>
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+                        </section>
+                    )}
                 </div>
-              </Link>
-            </div>
-          ))}
-        </div>
-        </div>
-    </>
-  );
-}
+            </main>
+        </>
+    );
+};
