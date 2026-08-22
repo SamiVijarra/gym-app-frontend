@@ -6,70 +6,158 @@ import { Navbar } from '../../components/Navbar';
 const newDayFields = { dayNumber: '', description: '' };
 
 export const RoutinePage = () => {
+    const { days, isLoading, startLoadingRoutine, startCreatingDay } = useRoutinesStore();
 
-  const { days, isLoading, startLoadingRoutine, startCreatingDay } = useRoutinesStore();
+    const { dayNumber, description, onInputChange, onResetForm } = useForm(newDayFields);
 
-  const { dayNumber, description, onInputChange, onResetForm } = useForm(newDayFields);
+    useEffect(() => {
+        startLoadingRoutine();
+    }, []);
 
-  useEffect(() => {
-    startLoadingRoutine();
-  }, []);
+    const onCreateDay = async (event) => {
+        event.preventDefault();
+        if (!dayNumber || !description) return;
+        await startCreatingDay({ dayNumber: Number(dayNumber), description });
+        onResetForm();
+    };
 
-  const onCreateDay = async (event) => {
-    event.preventDefault();
-    if (!dayNumber || !description) return;
-    await startCreatingDay({ dayNumber: Number(dayNumber), description });
-    onResetForm();
-  }
+    return (
+        <>
+            <Navbar />
+            <main className="routine-page">
+                <div className="routine-page-container">
+                    <header className="routine-page-header">
+                        <span className="routine-page-eyebrow">TRAINING</span>
 
-  return (
-    <>
-      <Navbar />
-      <div className="container mt-4">
-        <h2>Mi rutina</h2>
+                        <h1>Mi rutina</h1>
 
-        <form onSubmit={onCreateDay} className="mb-4 d-flex gap-2">
-          <input
-            type="number"
-            className="form-control"
-            style={{ maxWidth: '100px' }}
-            placeholder="N° día"
-            name="dayNumber"
-            value={dayNumber}
-            onChange={onInputChange}
-          />
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Descripción (ej. Pecho, hombros y tríceps)"
-            name="description"
-            value={description}
-            onChange={onInputChange}
-          />
-          <button className="btn btn-success" type="submit">Crear día</button>
-        </form>
+                        <p>
+                            Organizá tus días de entrenamiento y mantené todo tu progreso en un solo
+                            lugar.
+                        </p>
+                    </header>
+                    <section className="routine-create-card">
+                        <div className="routine-create-header">
+                            <div className="routine-create-icon">
+                                <i className="fas fa-plus"></i>
+                            </div>
 
-        {isLoading && <p>Cargando rutina...</p>}
+                            <div>
+                                <h2>Nuevo día</h2>
 
-        {!isLoading && days.length === 0 && (
-          <p className="text-muted">Todavía no tenés días cargados.</p>
-        )}
-      <div className="row">
-        {days.map((day) => (
-          <div className="col-md-4 mb-3" key={day.id}>
-            <Link to={`/routine/${day.id}`} className="text-decoration-none">
-                <div className="card">
-                  <div className="card-body">
-                    <h5 className="card-title">Día {day.dayNumber}</h5>
-                    <p className="card-text text-muted">{day.description}</p>
-                    <p className="card-text small">{day.exercises.length} ejercicio(s)</p>
-                  </div>
+                                <p>Agregá un nuevo día a tu rutina.</p>
+                            </div>
+                        </div>
+
+                        <form onSubmit={onCreateDay} className="routine-create-form">
+                            <div className="routine-form-field routine-form-day">
+                                <label htmlFor="dayNumber">Día</label>
+
+                                <input
+                                    id="dayNumber"
+                                    type="number"
+                                    min="1"
+                                    className="routine-form-input"
+                                    placeholder="01"
+                                    name="dayNumber"
+                                    value={dayNumber}
+                                    onChange={onInputChange}
+                                />
+                            </div>
+
+                            <div className="routine-form-field">
+                                <label htmlFor="description">Descripción</label>
+
+                                <input
+                                    id="description"
+                                    type="text"
+                                    className="routine-form-input"
+                                    placeholder="Pecho, hombros y tríceps"
+                                    name="description"
+                                    value={description}
+                                    onChange={onInputChange}
+                                />
+                            </div>
+
+                            <button className="routine-create-button" type="submit">
+                                <i className="fas fa-plus"></i>
+                                Crear día
+                            </button>
+                        </form>
+                    </section>
+
+                    <section className="routine-days-section">
+                        <div className="routine-days-header">
+                            <div>
+                                <span>TU RUTINA</span>
+
+                                <p>
+                                    {days.length} {days.length === 1 ? 'día' : 'días'}
+                                </p>
+                            </div>
+                        </div>
+
+                        {isLoading && (
+                            <div className="routine-page-loading">
+                                <div className="routine-loading-spinner"></div>
+
+                                <span>Cargando rutina...</span>
+                            </div>
+                        )}
+
+                        {!isLoading && days.length === 0 && (
+                            <div className="routine-page-empty">
+                                <div className="routine-page-empty-icon">
+                                    <i className="fas fa-calendar-plus"></i>
+                                </div>
+
+                                <h2>Todavía no tenés días</h2>
+
+                                <p>
+                                    Creá tu primer día de entrenamiento usando el formulario de
+                                    arriba.
+                                </p>
+                            </div>
+                        )}
+
+                        {!isLoading && days.length > 0 && (
+                            <div className="routine-days-list">
+                                {days.map((day) => (
+                                    <Link
+                                        key={day.id}
+                                        to={`/routine/${day.id}`}
+                                        className="routine-day-card"
+                                    >
+                                        <div className="routine-day-number">
+                                            <span>DÍA</span>
+
+                                            <strong>
+                                                {String(day.dayNumber).padStart(2, '0')}
+                                            </strong>
+                                        </div>
+
+                                        <div className="routine-day-info">
+                                            <h2>{day.description}</h2>
+
+                                            <div className="routine-day-meta">
+                                                <span>
+                                                    <i className="fas fa-dumbbell"></i>
+                                                    {day.exercises.length}{' '}
+                                                    {day.exercises.length === 1
+                                                        ? 'ejercicio'
+                                                        : 'ejercicios'}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div className="routine-day-arrow">→</div>
+                                    </Link>
+                                ))}
+                            </div>
+                        )}
+                    </section>
                 </div>
-              </Link>
-            </div>
-        ))}
-      </div>
-    </div>
-    </>
-  );
-}
+            </main>
+        </>
+    );
+};

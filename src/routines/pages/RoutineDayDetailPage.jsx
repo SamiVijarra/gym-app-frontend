@@ -40,7 +40,6 @@ export const RoutineDayDetailPage = () => {
     return (
         <>
             <Navbar />
-
             <main className="routine-detail-page">
                 <div className="routine-detail-container">
                     <Link to="/routine" className="routine-back-link">
@@ -99,11 +98,11 @@ export const RoutineDayDetailPage = () => {
                                         )}
                                         <div className="routine-exercise-tag">
                                             {routineExercise.exercise.primaryMuscles?.map(
-                                                (muscle) => {
+                                                (muscle) => (
                                                     <span key={muscle} className="routine-tag">
                                                         {muscle}
-                                                    </span>;
-                                                }
+                                                    </span>
+                                                )
                                             )}
 
                                             {routineExercise.exercise.equipment && (
