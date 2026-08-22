@@ -1,4 +1,4 @@
-.ReactModalPortal>div {
+.ReactModalPortal > div {
     opacity: 0;
 }
 
@@ -6,7 +6,7 @@
     align-items: center;
     display: flex;
     justify-content: center;
-    transition: opacity .2s ease-in-out;
+    transition: opacity 0.2s ease-in-out;
     z-index: 999;
 }
 
@@ -55,4 +55,865 @@
     left: 25px;
     width: 70px;
     height: 70px;
+}
+
+/* =========================================================
+    ROUTINE DAY DETAIL
+   ========================================================= */
+
+.routine-detail-page {
+    min-height: calc(100vh - 70px);
+
+    background:
+        radial-gradient(circle at 85% 0%, rgba(124, 58, 237, 0.1), transparent 30%), #0d0b12;
+
+    color: #f5f3f7;
+
+    padding: 42px 20px 80px;
+}
+
+.routine-detail-container {
+    width: min(1050px, 100%);
+    margin: 0 auto;
+}
+
+/* =========================================================
+    GYM APP — THEME SYSTEM
+   ========================================================= */
+
+:root {
+    /* Background */
+    --app-bg: #0d0b12;
+    --app-surface: #15131b;
+    --app-surface-2: #111016;
+    --app-surface-hover: #1b1822;
+
+    /* Text */
+    --app-text: #f5f3f7;
+    --app-text-secondary: #aaa4b5;
+    --app-text-muted: #777180;
+
+    /* Brand */
+    --app-primary: #8b5cf6;
+    --app-primary-light: #a78bfa;
+
+    /* Borders */
+    --app-border: rgba(255, 255, 255, 0.07);
+    --app-border-strong: rgba(255, 255, 255, 0.12);
+
+    /* Status */
+    --app-success: #34d399;
+    --app-danger: #f87171;
+
+    /* Shadows */
+    --app-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+}
+
+/* =========================================================
+    LIGHT THEME
+   ========================================================= */
+
+[data-theme='light'] {
+    --app-bg: #f5f3f8;
+    --app-surface: #ffffff;
+    --app-surface-2: #eeebf2;
+    --app-surface-hover: #f1eef5;
+
+    --app-text: #18151f;
+    --app-text-secondary: #625c6c;
+    --app-text-muted: #817a8d;
+
+    --app-primary: #7c3aed;
+    --app-primary-light: #8b5cf6;
+
+    --app-border: rgba(30, 20, 50, 0.09);
+    --app-border-strong: rgba(30, 20, 50, 0.14);
+
+    --app-success: #059669;
+    --app-danger: #dc2626;
+
+    --app-shadow: 0 10px 30px rgba(30, 20, 50, 0.08);
+}
+
+/* =========================================================
+    BACK
+   ========================================================= */
+
+.routine-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 34px;
+
+    color: #aaa4b5;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    text-decoration: none;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.routine-back-link:hover {
+    color: #ffffff;
+
+    transform: translateX(-2px);
+}
+
+.routine-back-link span {
+    font-size: 17px;
+}
+
+/* =========================================================
+   GLOBAL DOCUMENT
+   ========================================================= */
+
+html,
+body,
+#root {
+    min-height: 100%;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+
+    background: var(--app-bg);
+
+    color: var(--app-text);
+}
+
+body {
+    min-height: 100vh;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        'Segoe UI',
+        sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+#root {
+    min-height: 100vh;
+
+    background: var(--app-bg);
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.routine-detail-header {
+    margin-bottom: 38px;
+}
+
+.routine-detail-eyebrow {
+    margin-bottom: 8px;
+
+    color: #8b5cf6;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 0.14em;
+}
+
+.routine-detail-title {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: clamp(30px, 4vw, 44px);
+    line-height: 1.1;
+
+    font-weight: 700;
+
+    letter-spacing: -0.035em;
+}
+
+.routine-detail-meta {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    margin-top: 13px;
+
+    color: #8f8999;
+
+    font-size: 13px;
+}
+
+.routine-detail-meta-dot {
+    color: #5d5866;
+}
+
+/* =========================================================
+   EXERCISE CARD
+   ========================================================= */
+
+.routine-exercises {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.routine-exercise-card {
+    overflow: hidden;
+
+    background: #15131b;
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
+
+    border-radius: 18px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+}
+
+/* =========================================================
+   EXERCISE HEADER
+   ========================================================= */
+
+.routine-exercise-header {
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    padding: 22px 24px;
+}
+
+.routine-exercise-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
+
+    color: #a78bfa;
+
+    background: rgba(139, 92, 246, 0.1);
+
+    border: 1px solid rgba(139, 92, 246, 0.18);
+
+    border-radius: 10px;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.routine-exercise-image {
+    width: 58px;
+    height: 58px;
+
+    flex-shrink: 0;
+
+    object-fit: cover;
+
+    border-radius: 13px;
+
+    background: #211e29;
+}
+
+.routine-exercise-info {
+    min-width: 0;
+    flex: 1;
+}
+
+.routine-exercise-name {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 18px;
+    line-height: 1.25;
+
+    font-weight: 700;
+
+    letter-spacing: -0.015em;
+}
+
+.routine-exercise-notes {
+    margin: 4px 0 0;
+
+    color: #8d8797;
+
+    font-size: 12px;
+}
+
+.routine-exercise-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    margin-top: 9px;
+}
+
+.routine-tag {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 4px 8px;
+
+    color: #b9a9f5;
+
+    background: rgba(139, 92, 246, 0.08);
+
+    border-radius: 6px;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    text-transform: capitalize;
+}
+
+.routine-tag-muted {
+    color: #8d8797;
+
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* =========================================================
+   INSTRUCTIONS
+   ========================================================= */
+
+.routine-instructions {
+    margin: 0 24px 20px;
+
+    color: #9993a3;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+    padding-top: 14px;
+}
+
+.routine-instructions summary {
+    color: #aaa4b5;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    user-select: none;
+}
+
+.routine-instructions summary:hover {
+    color: #ffffff;
+}
+
+.routine-instructions ol {
+    margin: 14px 0 0;
+    padding-left: 22px;
+
+    color: #85808f;
+
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.routine-instructions li {
+    padding-left: 4px;
+}
+
+/* =========================================================
+   SETS
+   ========================================================= */
+
+.routine-sets-section {
+    padding: 0 24px 24px;
+}
+
+.routine-sets-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 12px;
+}
+
+.routine-section-label {
+    display: block;
+
+    color: #d7d2df;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.routine-section-description {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #716b7b;
+
+    font-size: 11px;
+}
+
+.routine-set-count {
+    padding: 6px 9px;
+
+    color: #aaa4b5;
+
+    background: rgba(255, 255, 255, 0.04);
+
+    border: 1px solid rgba(255, 255, 255, 0.06);
+
+    border-radius: 8px;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.routine-table-wrapper {
+    overflow-x: auto;
+
+    border: 1px solid rgba(255, 255, 255, 0.06);
+
+    border-radius: 12px;
+
+    background: #111016;
+}
+
+.routine-sets-table {
+    width: 100%;
+
+    margin: 0 !important;
+
+    border-collapse: collapse;
+
+    color: #dedbe3 !important;
+
+    --bs-table-bg: transparent;
+    --bs-table-color: #dedbe3;
+    --bs-table-border-color: rgba(255, 255, 255, 0.06);
+}
+
+.routine-sets-table thead {
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.routine-sets-table th {
+    padding: 12px 14px !important;
+
+    color: #787282 !important;
+
+    border: 0 !important;
+
+    font-size: 10px !important;
+    font-weight: 700 !important;
+
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+.routine-sets-table td {
+    padding: 13px 14px !important;
+
+    color: #d8d4dd !important;
+
+    background: transparent !important;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.055) !important;
+    border-bottom: 0 !important;
+
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.routine-sets-table tbody tr {
+    transition: background 0.15s ease;
+}
+
+.routine-sets-table tbody tr:hover {
+    background: rgba(139, 92, 246, 0.035);
+}
+
+/* First column */
+
+.routine-sets-table td:first-child {
+    width: 70px;
+
+    color: #a78bfa !important;
+
+    font-weight: 700;
+}
+
+/* Notes */
+
+.routine-sets-table td:nth-child(5) {
+    color: #918b9b !important;
+}
+
+/* Edit buttons generated by SetRow */
+
+.routine-sets-table .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    padding: 0 !important;
+
+    color: #aaa4b5 !important;
+
+    background: rgba(255, 255, 255, 0.04) !important;
+
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+
+    border-radius: 8px !important;
+
+    font-size: 12px;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease;
+}
+
+.routine-sets-table .btn:hover {
+    color: #ffffff !important;
+
+    background: rgba(139, 92, 246, 0.15) !important;
+
+    border-color: rgba(139, 92, 246, 0.3) !important;
+}
+
+/* =========================================================
+   ADD SET
+   ========================================================= */
+
+.routine-add-set {
+    margin-top: 14px;
+
+    padding: 16px;
+
+    background: rgba(255, 255, 255, 0.025);
+
+    border: 1px solid rgba(255, 255, 255, 0.05);
+
+    border-radius: 12px;
+}
+
+.routine-add-set-title {
+    margin-bottom: 10px;
+
+    color: #8d8797;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+}
+
+/* Form generated by AddSetForm */
+
+.routine-add-set form {
+    display: flex;
+
+    gap: 10px;
+
+    margin: 0 !important;
+}
+
+.routine-add-set form > div {
+    flex: 1;
+
+    min-width: 100px;
+}
+
+.routine-add-set .form-label {
+    display: block;
+
+    margin-bottom: 5px !important;
+
+    color: #777180 !important;
+
+    font-size: 10px !important;
+    font-weight: 600;
+
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.routine-add-set .form-control {
+    min-height: 38px;
+
+    color: #f5f3f7 !important;
+
+    background: #0d0b12 !important;
+
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+
+    border-radius: 8px !important;
+
+    font-size: 13px;
+}
+
+.routine-add-set .form-control:focus {
+    color: #ffffff !important;
+
+    background: #0d0b12 !important;
+
+    border-color: rgba(139, 92, 246, 0.6) !important;
+
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1) !important;
+}
+
+.routine-add-set .btn {
+    min-height: 38px;
+
+    padding: 0 14px !important;
+
+    color: #c4b5fd !important;
+
+    background: rgba(139, 92, 246, 0.1) !important;
+
+    border: 1px solid rgba(139, 92, 246, 0.22) !important;
+
+    border-radius: 8px !important;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.routine-add-set .btn:hover {
+    color: #ffffff !important;
+
+    background: rgba(139, 92, 246, 0.18) !important;
+}
+
+/* =========================================================
+   ADD EXERCISE
+   ========================================================= */
+
+.routine-add-exercise {
+    margin-top: 22px;
+
+    padding: 24px;
+
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(139, 92, 246, 0.025));
+
+    border: 1px dashed rgba(139, 92, 246, 0.25);
+
+    border-radius: 18px;
+}
+
+.routine-add-exercise-header h2 {
+    margin: 4px 0 0;
+
+    color: #ffffff;
+
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.routine-add-exercise-header p {
+    margin: 5px 0 18px;
+
+    color: #817b8b;
+
+    font-size: 12px;
+}
+
+/* AddExerciseForm outer container */
+
+.routine-add-exercise > div:last-child {
+    margin-top: 0 !important;
+
+    padding: 0 !important;
+
+    border: 0 !important;
+}
+
+/* Search input */
+
+.routine-add-exercise .form-control {
+    min-height: 42px;
+
+    color: #f5f3f7 !important;
+
+    background: #0f0d14 !important;
+
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+
+    border-radius: 10px !important;
+}
+
+.routine-add-exercise .form-control::placeholder {
+    color: #696472;
+}
+
+.routine-add-exercise .form-control:focus {
+    color: #ffffff !important;
+
+    background: #0f0d14 !important;
+
+    border-color: rgba(139, 92, 246, 0.55) !important;
+
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1) !important;
+}
+
+/* Search results */
+
+.routine-add-exercise .list-group {
+    overflow: hidden;
+
+    margin-top: 6px;
+
+    border-radius: 10px;
+}
+
+.routine-add-exercise .list-group-item {
+    padding: 12px 14px;
+
+    color: #ddd8e4;
+
+    background: #17151e;
+
+    border-color: rgba(255, 255, 255, 0.06);
+}
+
+.routine-add-exercise .list-group-item:hover {
+    color: #ffffff;
+
+    background: #211d2b;
+}
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.routine-empty-state {
+    padding: 60px 24px;
+
+    text-align: center;
+
+    background: #15131b;
+
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+
+    border-radius: 18px;
+}
+
+.routine-empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 48px;
+    height: 48px;
+
+    margin: 0 auto 14px;
+
+    color: #a78bfa;
+
+    background: rgba(139, 92, 246, 0.1);
+
+    border-radius: 14px;
+
+    font-size: 24px;
+}
+
+.routine-empty-state h2 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 18px;
+}
+
+.routine-empty-state p {
+    max-width: 380px;
+
+    margin: 8px auto 0;
+
+    color: #777180;
+
+    font-size: 13px;
+}
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.routine-detail-loading {
+    padding-top: 50px;
+
+    color: #8f8999;
+
+    text-align: center;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+    .routine-detail-page {
+        padding: 28px 14px 60px;
+    }
+
+    .routine-detail-title {
+        font-size: 30px;
+    }
+
+    .routine-exercise-header {
+        padding: 18px;
+    }
+
+    .routine-sets-section {
+        padding: 0 18px 18px;
+    }
+
+    .routine-add-set form {
+        flex-direction: column;
+        align-items: stretch !important;
+    }
+
+    .routine-add-set form > div {
+        width: 100%;
+    }
+
+    .routine-add-set form > button {
+        width: 100%;
+    }
+
+    .routine-table-wrapper {
+        margin: 0 -2px;
+    }
+
+    .routine-sets-table {
+        min-width: 650px;
+    }
+
+    .routine-add-exercise {
+        padding: 18px;
+    }
 }
