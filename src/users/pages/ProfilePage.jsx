@@ -3,60 +3,148 @@ import { useForm, useUsersStore } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
 
 const profileFormFields = {
-  name: '',
-  weight: '',
-  height: '',
-  birthDate: '',
+    name: '',
+    weight: '',
+    height: '',
+    birthDate: '',
 };
 
 export const ProfilePage = () => {
+    const { profile, isLoading, startLoadingProfile, startUpdatingProfile } = useUsersStore();
 
-  const { profile, isLoading, startLoadingProfile, startUpdatingProfile } = useUsersStore();
+    const { name, weight, height, birthDate, onInputChange } = useForm(
+        profile ?? profileFormFields
+    );
 
-  const { name, weight, height, birthDate, onInputChange } = useForm(
-    profile ?? profileFormFields
-  );
+    useEffect(() => {
+        startLoadingProfile();
+    }, []);
 
-  useEffect(() => {
-    startLoadingProfile();
-  }, []);
+    const onSubmit = (event) => {
+        event.preventDefault();
+        startUpdatingProfile({ name, weight: Number(weight), height: Number(height), birthDate });
+    };
 
-  const onSubmit = (event) => {
-    event.preventDefault();
-    startUpdatingProfile({ name, weight: Number(weight), height: Number(height), birthDate });
-  }
+    if (!profile) {
+        return (
+            <>
+                <Navbar />
 
-  if (!profile) {
-    return <h3>Cargando perfil...</h3>;
-  }
+                <main className="profile-page">
+                    <div className="profile-page-container">
+                        <div className="profile-page-loading">
+                            <div className="profile-loading-spinner" />
+                            <span>Cargando perfil...</span>
+                        </div>
+                    </div>
+                </main>
+            </>
+        );
+    }
 
-  return (
-    <>
-      <Navbar />
-      <div className="container mt-4">
-        <h2>Mi perfil</h2>
-        <form onSubmit={onSubmit}>
-          <div className="form-group mb-2">
-            <label>Nombre</label>
-            <input className="form-control" name="name" value={name} onChange={onInputChange} />
-          </div>
-          <div className="form-group mb-2">
-            <label>Peso (kg)</label>
-            <input className="form-control" type="number" name="weight" value={weight} onChange={onInputChange} />
-          </div>
-          <div className="form-group mb-2">
-            <label>Estatura (m)</label>
-            <input className="form-control" type="number" step="0.01" name="height" value={height} onChange={onInputChange} />
-          </div>
-          <div className="form-group mb-2">
-            <label>Fecha de nacimiento</label>
-            <input className="form-control" type="date" name="birthDate" value={birthDate?.split('T')[0] ?? ''} onChange={onInputChange} />
-          </div>
-          <button className="btn btn-primary" type="submit" disabled={isLoading}>
-            Guardar cambios
-          </button>
-        </form>
-      </div>
-    </>
-  );
-}
+    return (
+        <>
+            <Navbar />
+            <main className="profile-page">
+                <div className="profile-page-container">
+                    <header className="profile-page-header">
+                        <span className="profile-page-eyebrow">PERFIL</span>
+
+                        <h1>Mi perfil</h1>
+
+                        <p>Administrá tu información personal y mantené tus datos actualizados.</p>
+                    </header>
+
+                    <section className="profile-card">
+                        <div className="profile-card-header">
+                            <div className="profile-card-icon">
+                                <i className="fas fa-user" />
+                            </div>
+
+                            <div>
+                                <h2>Información personal</h2>
+                                <p>Actualizá los datos de tu perfil.</p>
+                            </div>
+                        </div>
+
+                        <form className="profile-form" onSubmit={onSubmit}>
+                            <div className="profile-form-field profile-form-field-full">
+                                <label htmlFor="name">Nombre</label>
+
+                                <input
+                                    id="name"
+                                    className="profile-form-input"
+                                    name="name"
+                                    value={name}
+                                    onChange={onInputChange}
+                                />
+                            </div>
+
+                            <div className="profile-form-row">
+                                <div className="profile-form-field">
+                                    <label htmlFor="weight">Peso (kg)</label>
+
+                                    <input
+                                        id="weight"
+                                        className="profile-form-input"
+                                        type="number"
+                                        name="weight"
+                                        value={weight}
+                                        onChange={onInputChange}
+                                    />
+                                </div>
+
+                                <div className="profile-form-field">
+                                    <label htmlFor="height">Estatura (m)</label>
+
+                                    <input
+                                        id="height"
+                                        className="profile-form-input"
+                                        type="number"
+                                        step="0.01"
+                                        name="height"
+                                        value={height}
+                                        onChange={onInputChange}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="profile-form-field profile-form-field-full">
+                                <label htmlFor="birthDate">Fecha de nacimiento</label>
+
+                                <input
+                                    id="birthDate"
+                                    className="profile-form-input"
+                                    type="date"
+                                    name="birthDate"
+                                    value={birthDate?.split('T')[0] ?? ''}
+                                    onChange={onInputChange}
+                                />
+                            </div>
+
+                            <div className="profile-form-actions">
+                                <button
+                                    className="profile-save-button"
+                                    type="submit"
+                                    disabled={isLoading}
+                                >
+                                    {isLoading ? (
+                                        <>
+                                            <span className="profile-button-spinner" />
+                                            Guardando...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <i className="fas fa-check" />
+                                            Guardar cambios
+                                        </>
+                                    )}
+                                </button>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+            </main>
+        </>
+    );
+};
