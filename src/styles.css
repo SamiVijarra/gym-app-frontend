@@ -3025,3 +3025,485 @@ body {
         width: 100%;
     }
 }
+
+/* =========================================================
+   EXERCISE DETAIL PAGE
+   ========================================================= */
+
+.exercise-detail-page {
+    min-height: calc(100vh - 70px);
+    padding: 42px 20px 80px;
+    background:
+        radial-gradient(
+            circle at 85% 0%,
+            color-mix(in srgb, var(--app-primary) 10%, transparent),
+            transparent 30%
+        ),
+        var(--app-bg);
+    color: var(--app-text);
+}
+
+.exercise-detail-container {
+    width: min(1050px, 100%);
+    margin: 0 auto;
+}
+
+/* =========================================================
+   BACK
+   ========================================================= */
+
+.exercise-detail-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 34px;
+    color: var(--app-text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.exercise-detail-back-link:hover {
+    color: var(--app-text);
+    transform: translateX(-2px);
+}
+
+.exercise-detail-back-link span {
+    font-size: 17px;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.exercise-detail-header {
+    margin-bottom: 32px;
+}
+
+.exercise-detail-eyebrow {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--app-primary);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+}
+
+.exercise-detail-title {
+    margin: 0;
+    color: var(--app-text);
+    font-size: clamp(30px, 4vw, 44px);
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+}
+
+.exercise-detail-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 13px;
+    color: var(--app-text-secondary);
+    font-size: 13px;
+}
+
+.exercise-detail-meta-dot {
+    color: var(--app-text-muted);
+}
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+.exercise-detail-main {
+    overflow: hidden;
+    background: var(--app-surface);
+    border: 1px solid var(--app-border);
+    border-radius: 18px;
+    box-shadow: var(--app-shadow);
+}
+
+/* =========================================================
+   IMAGE
+   ========================================================= */
+
+.exercise-detail-image {
+    overflow: hidden;
+    width: 100%;
+    max-height: 460px;
+    background: var(--app-surface-2);
+}
+
+.exercise-detail-image img {
+    display: block;
+    width: 100%;
+    max-height: 460px;
+    object-fit: contain;
+}
+
+.exercise-detail-image-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    color: var(--app-primary-light);
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.13), transparent 65%);
+    font-size: 48px;
+}
+
+/* =========================================================
+   INSTRUCTIONS
+   ========================================================= */
+
+.exercise-detail-instructions {
+    margin: 0;
+    padding: 20px 24px;
+    border-top: 1px solid var(--app-border);
+}
+
+.exercise-detail-instructions summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--app-text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+}
+
+.exercise-detail-instructions summary::-webkit-details-marker {
+    display: none;
+}
+
+.exercise-detail-instructions summary > span:first-child {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.exercise-detail-instructions summary i {
+    color: var(--app-primary-light);
+}
+
+.exercise-detail-summary-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    color: var(--app-text-muted);
+    background: var(--app-surface-2);
+    border: 1px solid var(--app-border);
+    border-radius: 7px;
+    font-size: 16px;
+}
+
+.exercise-detail-instructions[open] .exercise-detail-summary-arrow {
+    color: var(--app-primary-light);
+}
+
+.exercise-detail-instructions ol {
+    margin: 16px 0 0;
+    padding-left: 22px;
+    color: var(--app-text-muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.exercise-detail-instructions li {
+    padding-left: 5px;
+    margin-bottom: 7px;
+}
+
+/* =========================================================
+   ADD TO ROUTINE CARD
+   ========================================================= */
+
+.exercise-add-card {
+    margin-top: 22px;
+    padding: 24px;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(139, 92, 246, 0.025));
+    border: 1px dashed rgba(139, 92, 246, 0.25);
+    border-radius: 18px;
+}
+
+.exercise-add-header {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-bottom: 20px;
+}
+
+.exercise-add-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    color: var(--app-primary-light);
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.16);
+    border-radius: 11px;
+    font-size: 14px;
+}
+
+.exercise-add-header h2 {
+    margin: 0;
+    color: var(--app-text);
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.exercise-add-header p {
+    margin: 4px 0 0;
+    color: var(--app-text-secondary);
+    font-size: 12px;
+}
+
+/* =========================================================
+   NOTES
+   ========================================================= */
+
+.exercise-add-field {
+    margin-bottom: 16px;
+}
+
+.exercise-add-field label,
+.exercise-day-number-field label,
+.exercise-day-description-field label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--app-text-muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.exercise-add-input {
+    width: 100%;
+    min-height: 42px;
+    padding: 0 12px;
+    box-sizing: border-box;
+    color: var(--app-text);
+    background: var(--app-bg);
+    border: 1px solid var(--app-border-strong);
+    border-radius: 9px;
+    outline: none;
+    font-family: inherit;
+    font-size: 12px;
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        background-color 0.15s ease;
+}
+
+.exercise-add-input::placeholder {
+    color: var(--app-text-muted);
+}
+
+.exercise-add-input:focus {
+    background: var(--app-surface-2);
+    border-color: color-mix(in srgb, var(--app-primary) 65%, transparent);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* =========================================================
+   MODE SWITCH
+   ========================================================= */
+
+.exercise-mode-switch {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.exercise-mode-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 36px;
+    padding: 0 12px;
+    color: var(--app-text-secondary);
+    background: var(--app-surface);
+    border: 1px solid var(--app-border-strong);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        color 0.15s ease,
+        background-color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.exercise-mode-button:hover {
+    color: var(--app-text);
+    background: var(--app-surface-hover);
+}
+
+.exercise-mode-button.active {
+    color: #ffffff;
+    background: var(--app-primary);
+    border-color: var(--app-primary);
+}
+
+.exercise-mode-button i {
+    font-size: 10px;
+}
+
+/* =========================================================
+   ADD ROW
+   ========================================================= */
+
+.exercise-add-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.exercise-add-row > .exercise-add-input {
+    flex: 1;
+}
+
+.exercise-add-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 42px;
+    padding: 0 15px;
+    flex-shrink: 0;
+    color: #ffffff;
+    background: var(--app-primary);
+    border: 1px solid var(--app-primary);
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.15s ease,
+        opacity 0.15s ease;
+}
+
+.exercise-add-button:hover:not(:disabled) {
+    background: var(--app-primary-light);
+    border-color: var(--app-primary-light);
+    transform: translateY(-1px);
+}
+
+.exercise-add-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+}
+
+/* =========================================================
+   NEW DAY
+   ========================================================= */
+
+.exercise-day-number-field {
+    flex: 0 0 90px;
+}
+
+.exercise-day-description-field {
+    flex: 1;
+}
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.exercise-detail-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 240px;
+    color: var(--app-text-secondary);
+    font-size: 12px;
+}
+
+.exercise-detail-loading-spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid rgba(139, 92, 246, 0.15);
+    border-top-color: var(--app-primary);
+    border-radius: 50%;
+    animation: exercise-detail-spinner 0.7s linear infinite;
+}
+
+@keyframes exercise-detail-spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 700px) {
+    .exercise-detail-page {
+        padding: 28px 14px 60px;
+    }
+
+    .exercise-detail-header {
+        margin-bottom: 26px;
+    }
+
+    .exercise-detail-title {
+        font-size: 30px;
+    }
+
+    .exercise-detail-image {
+        max-height: 360px;
+    }
+
+    .exercise-detail-image img {
+        max-height: 360px;
+    }
+
+    .exercise-add-card {
+        padding: 18px;
+    }
+
+    .exercise-add-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .exercise-day-number-field {
+        flex: initial;
+    }
+
+    .exercise-add-button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 520px) {
+    .exercise-mode-switch {
+        flex-direction: column;
+    }
+
+    .exercise-mode-button {
+        width: 100%;
+    }
+
+    .exercise-detail-instructions {
+        padding: 18px;
+    }
+}
