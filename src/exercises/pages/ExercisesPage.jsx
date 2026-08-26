@@ -21,14 +21,14 @@ export const ExercisesPage = () => {
     return (
         <>
             <Navbar />
-            <main className="exercises-page">
-                <div className="exercises-page-container">
-                    <header className="exercises-page-header">
-                        <span className="exercises-page-eyebrow">EXERCISES</span>
+            <main className="app-page exercises-page">
+                <div className="app-page-container exercises-page-container">
+                    <header className="app-page-header exercises-page-header">
+                        <span className="app-page-eyebrow exercises-page-eyebrow">EXERCISES</span>
 
-                        <h1>Catálogo de ejercicios</h1>
+                        <h1 className="app-page-title">Catálogo de ejercicios</h1>
 
-                        <p>
+                        <p className="app-page-subtitle">
                             Buscá ejercicios y consultá su información para completar tu
                             entrenamiento.
                         </p>

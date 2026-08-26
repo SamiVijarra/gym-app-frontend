@@ -5,14 +5,14 @@ export const HomePage = () => {
     const { user } = useAuthStore();
 
     return (
-        <main className="home-page">
-            <div className="home-container">
-                <header className="home-header">
-                    <span className="home-eyebrow">GYM TRACKER</span>
+        <main className="app-page home-page">
+            <div className="app-page-container home-container">
+                <header className="app-page-header home-header">
+                    <span className="app-page-eyebrow home-eyebrow">GYM TRACKER</span>
 
-                    <h1>Hola, {user.name}</h1>
+                    <h1 className="app-page-title">Hola, {user.name}</h1>
 
-                    <p>Todo listo para seguir tu progreso.</p>
+                    <p className="app-page-subtitle">Todo listo para seguir tu progreso.</p>
                 </header>
 
                 <section className="home-featured">

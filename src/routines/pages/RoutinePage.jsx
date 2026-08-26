@@ -24,14 +24,14 @@ export const RoutinePage = () => {
     return (
         <>
             <Navbar />
-            <main className="routine-page">
-                <div className="routine-page-container">
-                    <header className="routine-page-header">
-                        <span className="routine-page-eyebrow">TRAINING</span>
+            <main className="app-page routine-page">
+                <div className="app-page-container routine-page-container">
+                    <header className="app-page-header routine-page-header">
+                        <span className="app-page-eyebrow routine-page-eyebrow">TRAINING</span>
 
-                        <h1>Mi rutina</h1>
+                        <h1 className="app-page-title">Mi rutina</h1>
 
-                        <p>
+                        <p className="app-page-subtitle">
                             Organizá tus días de entrenamiento y mantené todo tu progreso en un solo
                             lugar.
                         </p>

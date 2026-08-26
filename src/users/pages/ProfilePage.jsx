@@ -30,8 +30,8 @@ export const ProfilePage = () => {
             <>
                 <Navbar />
 
-                <main className="profile-page">
-                    <div className="profile-page-container">
+                <main className="app-page profile-page">
+                    <div className="app-page-container profile-page-container">
                         <div className="profile-page-loading">
                             <div className="profile-loading-spinner" />
                             <span>Cargando perfil...</span>
@@ -45,14 +45,14 @@ export const ProfilePage = () => {
     return (
         <>
             <Navbar />
-            <main className="profile-page">
-                <div className="profile-page-container">
-                    <header className="profile-page-header">
-                        <span className="profile-page-eyebrow">PERFIL</span>
+            <main className="app-page profile-page">
+                <div className="app-page-container profile-page-container">
+                    <header className="app-page-header profile-page-header">
+                        <span className="app-page-eyebrow profile-page-eyebrow">PERFIL</span>
 
-                        <h1>Mi perfil</h1>
+                        <h1 className="app-page-title">Mi perfil</h1>
 
-                        <p>Administrá tu información personal y mantené tus datos actualizados.</p>
+                        <p className="app-page-subtitle">Administrá tu información personal y mantené tus datos actualizados.</p>
                     </header>
 
                     <section className="profile-card">
