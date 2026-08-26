@@ -4,3 +4,4 @@ export * from './users/usersSlice';
 export * from './exercises/exercisesSlice';
 export * from './routines/routinesSlice';
 export * from './theme/themeSlice';
+export * from './calendar/calendarSlice';

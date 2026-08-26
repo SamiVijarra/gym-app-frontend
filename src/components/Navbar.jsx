@@ -27,6 +27,9 @@ export const Navbar = () => {
                         <Link to="/routine" className="gym-navbar-link">
                             Rutina
                         </Link>
+                        <Link to="/calendar" className="gym-navbar-link">
+                            Calendario
+                        </Link>
                     </div>
                 </div>
                 <div className="gym-navbar-actions">

@@ -28,7 +28,7 @@
 
     /* Shadows */
     --app-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
-    --app-shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.10);
+    --app-shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.1);
 
     /* Semantic helpers */
     --app-on-primary: #ffffff;
@@ -59,7 +59,7 @@
     --app-danger: #dc2626;
 
     --app-shadow: 0 10px 30px rgba(30, 20, 50, 0.08);
-    --app-shadow-lg: 0 20px 60px rgba(30, 20, 50, 0.10);
+    --app-shadow-lg: 0 20px 60px rgba(30, 20, 50, 0.1);
 }
 
 /* =========================================================
@@ -3361,7 +3361,6 @@ body {
     }
 }
 
-
 /* =========================================================
    AUTH / LOGIN
    ========================================================= */
@@ -3372,12 +3371,7 @@ body {
     position: relative;
 
     background:
-        radial-gradient(
-            circle at 85% 0%,
-            var(--app-primary-soft),
-            transparent 30%
-        ),
-        var(--app-bg);
+        radial-gradient(circle at 85% 0%, var(--app-primary-soft), transparent 30%), var(--app-bg);
 
     color: var(--app-text);
 }
@@ -3720,5 +3714,155 @@ body {
 
     .auth-section-header {
         margin-bottom: 24px;
+    }
+}
+
+/* =========================================================
+   CALENDAR PAGE
+   ========================================================= */
+
+.calendar-card {
+    padding: 24px;
+    background: var(--app-surface);
+    border: 1px solid var(--app-border);
+    border-radius: 20px;
+    box-shadow: var(--app-shadow);
+}
+
+.calendar-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.calendar-nav-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    color: var(--app-text);
+    background: var(--app-surface-2);
+    border: 1px solid var(--app-border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.calendar-nav-button:hover {
+    background: var(--app-surface-hover);
+}
+
+.calendar-nav-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.calendar-nav-title strong {
+    color: var(--app-text);
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.calendar-today-button {
+    padding: 4px 10px;
+    color: var(--app-primary-light);
+    background: var(--app-primary-soft);
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 8px;
+}
+
+.calendar-weekdays span {
+    color: var(--app-text-muted);
+    font-size: 11px;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.04em;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+}
+
+.calendar-day-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    aspect-ratio: 1;
+    padding: 6px 4px;
+    color: var(--app-text);
+    text-decoration: none;
+    background: var(--app-surface-2);
+    border: 1px solid transparent;
+    border-radius: 12px;
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.calendar-day-cell:hover {
+    background: var(--app-surface-hover);
+}
+
+.calendar-day-cell-muted {
+    color: var(--app-text-muted);
+    opacity: 0.45;
+}
+
+.calendar-day-cell-today {
+    border-color: var(--app-primary);
+}
+
+.calendar-day-number {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.calendar-day-status {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.calendar-day-cell-planned {
+    background: color-mix(in srgb, var(--app-primary) 14%, var(--app-surface-2));
+}
+
+.calendar-day-cell-planned .calendar-day-status {
+    color: var(--app-primary-light);
+}
+
+.calendar-day-cell-done {
+    background: color-mix(in srgb, var(--app-success) 16%, var(--app-surface-2));
+}
+
+.calendar-day-cell-done .calendar-day-status {
+    color: var(--app-success);
+}
+
+.calendar-loading {
+    padding: 40px 0;
+}
+
+@media (max-width: 640px) {
+    .calendar-day-status {
+        display: none;
     }
 }

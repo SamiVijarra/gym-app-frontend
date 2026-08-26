@@ -8,6 +8,7 @@ import { ExercisesPage } from '../exercises/pages/ExercisesPage';
 import { RoutinePage } from '../routines/pages/RoutinePage';
 import { RoutineDayDetailPage } from '../routines/pages/RoutineDayDetailPage';
 import { ExerciseDetailPage } from '../exercises/pages/ExerciseDetailPage';
+import { CalendarPage } from '../calendar/pages/CalendarPage';
 
 export const AppRouter = () => {
     const { status, checkAuthToken } = useAuthStore();
@@ -40,6 +41,7 @@ export const AppRouter = () => {
                     <Route path="/exercises/:id" element={<ExerciseDetailPage />} />
                     <Route path="/routine" element={<RoutinePage />} />
                     <Route path="/routine/:dayId" element={<RoutineDayDetailPage />} />
+                    <Route path="/calendar" element={<CalendarPage />} />
                     <Route path="/*" element={<Navigate to="/" />} />
                 </>
             )}
