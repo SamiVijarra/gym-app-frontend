@@ -17,18 +17,18 @@ export const Navbar = () => {
                     </Link>
                     <div className="gym-navbar-links">
                         <Link to="/profile" className="gym-navbar-link">
-                            Perfil
+                            Profile
                         </Link>
 
                         <Link to="/exercises" className="gym-navbar-link">
-                            Ejercicios
+                            Exercises
                         </Link>
 
                         <Link to="/routine" className="gym-navbar-link">
-                            Rutina
+                            Routine
                         </Link>
                         <Link to="/calendar" className="gym-navbar-link">
-                            Calendario
+                            Calendar
                         </Link>
                     </div>
                 </div>
@@ -36,7 +36,7 @@ export const Navbar = () => {
                     <ThemeToggle />
                     <button className="gym-navbar-logout" onClick={startLogout}>
                         <i className="fas fa-sign-out-alt"></i>
-                        <span>Salir</span>
+                        <span>Logout</span>
                     </button>
                 </div>
             </div>

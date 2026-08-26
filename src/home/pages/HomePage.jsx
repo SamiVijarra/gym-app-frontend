@@ -10,21 +10,21 @@ export const HomePage = () => {
                 <header className="app-page-header home-header">
                     <span className="app-page-eyebrow home-eyebrow">GYM TRACKER</span>
 
-                    <h1 className="app-page-title">Hola, {user.name}</h1>
+                    <h1 className="app-page-title">Hi, {user.name}!</h1>
 
-                    <p className="app-page-subtitle">Todo listo para seguir tu progreso.</p>
+                    <p className="app-page-subtitle">All set to track your progress.</p>
                 </header>
 
                 <section className="home-featured">
                     <div className="home-featured-content">
-                        <span className="home-card-label">TU ENTRENAMIENTO</span>
+                        <span className="home-card-label">YOUR TRAINING</span>
 
-                        <h2>Rutina de entrenamiento</h2>
+                        <h2>Training Routine</h2>
 
-                        <p>Accedé a tus rutinas y comenzá tu entrenamiento.</p>
+                        <p>Access your routines and start your workout.</p>
 
                         <Link to="/routine" className="home-primary-action">
-                            Ver rutinas
+                            View routines
                             <span>→</span>
                         </Link>
                     </div>
@@ -36,7 +36,7 @@ export const HomePage = () => {
 
                 <section className="home-section">
                     <div className="home-section-header">
-                        <span>ACCESO RÁPIDO</span>
+                        <span>QUICK ACCESS</span>
                     </div>
 
                     <div className="home-quick-grid">
@@ -46,8 +46,8 @@ export const HomePage = () => {
                             </div>
 
                             <div>
-                                <h3>Rutinas</h3>
-                                <p>Ver tus entrenamientos</p>
+                                <h3>Routines</h3>
+                                <p>View your workouts</p>
                             </div>
 
                             <span className="home-quick-arrow">→</span>
@@ -59,8 +59,8 @@ export const HomePage = () => {
                             </div>
 
                             <div>
-                                <h3>Ejercicios</h3>
-                                <p>Explorar ejercicios</p>
+                                <h3>Exercises</h3>
+                                <p>Explore exercises</p>
                             </div>
 
                             <span className="home-quick-arrow">→</span>
@@ -72,8 +72,20 @@ export const HomePage = () => {
                             </div>
 
                             <div>
-                                <h3>Mi perfil</h3>
-                                <p>Ver tu información</p>
+                                <h3>My profile</h3>
+                                <p>View your information</p>
+                            </div>
+
+                            <span className="home-quick-arrow">→</span>
+                        </Link>
+                        <Link to="/calendar" className="home-quick-card">
+                            <div className="home-quick-icon">
+                                <i className="fas fa-calendar-check"></i>
+                            </div>
+
+                            <div>
+                                <h3>Calendar</h3>
+                                <p>Plan & view history</p>
                             </div>
 
                             <span className="home-quick-arrow">→</span>

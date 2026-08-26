@@ -12,7 +12,6 @@ import {
     startOfWeek,
     subMonths,
 } from 'date-fns';
-import { es } from 'date-fns/locale';
 import { useCalendarStore } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
 
@@ -62,7 +61,7 @@ export const CalendarPage = () => {
                         <span className="app-page-eyebrow">TRAINING</span>
                         <h1 className="app-page-title">Calendar</h1>
                         <p className="app-page-subtitle">
-                            Plan your sessions and keep a record of your training.
+                            Plan your sessions and keep track of your training.
                         </p>
                     </header>
                     <section className="calendar-card">
@@ -71,12 +70,12 @@ export const CalendarPage = () => {
                                 type="button"
                                 className="calendar-nav-button"
                                 onClick={onPrevMonth}
-                                aria-label="Prev Month"
+                                aria-label="Previous Month"
                             >
                                 <i className="fas fa-chevron-left"></i>
                             </button>
                             <div className="calendar-nav-title">
-                                <strong>{format(visibleMonth, 'MMMM yyyy', { locale: es })}</strong>
+                                <strong>{format(visibleMonth, 'MMMM yyyy')}</strong>
                                 <button
                                     type="button"
                                     className="calendar-today-button"
@@ -87,7 +86,7 @@ export const CalendarPage = () => {
                             </div>
                             <button
                                 type="button"
-                                className="calendar-nac-button"
+                                className="calendar-nav-button"
                                 onClick={onNextMonth}
                                 aria-label="Next Month"
                             >
@@ -102,7 +101,7 @@ export const CalendarPage = () => {
                         {isLoading ? (
                             <div className="routine-page-loading calendar-loading">
                                 <div className="routine-loading-spinner"></div>
-                                <span>Loading Calendar</span>
+                                <span>Loading calendar...</span>
                             </div>
                         ) : (
                             <div className="calendar-grid">
