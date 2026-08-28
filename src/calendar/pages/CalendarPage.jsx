@@ -18,8 +18,8 @@ import { Navbar } from '../../components/Navbar';
 const WEEKDAY_LABELS = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
 const STATUS_LABEL = {
-    PLANNED: 'Planned',
-    DONE: 'Done',
+    planned: 'Planned',
+    done: 'Done',
 };
 
 export const CalendarPage = () => {
@@ -118,8 +118,8 @@ export const CalendarPage = () => {
                                                 'calendar-day-cell',
                                                 !inCurrentMonth && 'calendar-day-cell-muted',
                                                 isToday(day) && 'calendar-day-cell-today',
-                                                status === 'PLANNED' && 'calendar-day-cell-planned',
-                                                status === 'DONE' && 'calendar-day-cell-done',
+                                                status === 'planned' && 'calendar-day-cell-planned',
+                                                status === 'done' && 'calendar-day-cell-done',
                                             ]
                                                 .filter(Boolean)
                                                 .join(' ')}

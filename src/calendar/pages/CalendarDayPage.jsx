@@ -8,8 +8,8 @@ import { SessionBuilder } from '../components/SessionBuilder';
 import { HistorySessionView } from '../components/HistorySessionView';
 
 const STATUS_BADGE = {
-    PLANNED: { label: 'Planned', className: 'calendar-status-badge-planned' },
-    DONE: { label: 'Done', className: 'calendar-status-badge-done' },
+    planned: { label: 'Planned', className: 'calendar-status-badge-planned' },
+    done: { label: 'Done', className: 'calendar-status-badge-done' },
 };
 
 export const CalendarDayPage = () => {
@@ -38,9 +38,11 @@ export const CalendarDayPage = () => {
 
     const entry = entries.find((e) => e.date === date);
     const status = entry?.status;
+    // treats "no entry at all" and "entry explicitly empty" the same way
+    const isEmptyDay = !status || status === 'empty';
 
     useEffect(() => {
-        if (status === 'DONE' && entry?.historyEntry?.id) {
+        if (status === 'done' && entry?.historyEntry?.id) {
             startLoadingHistoryEntry(entry.historyEntry.id);
         }
     }, [status, entry?.historyEntry?.id]);
@@ -73,14 +75,14 @@ export const CalendarDayPage = () => {
                         <div className="routine-detail-eyebrow">{date}</div>
 
                         <h1 className="routine-detail-title">
-                            {status
-                                ? entry.routineDay
-                                    ? entry.routineDay.description
-                                    : 'Free session'
-                                : 'Empty day'}
+                            {isEmptyDay
+                                ? 'Empty day'
+                                : entry.routineDay
+                                  ? entry.routineDay.description
+                                  : 'Free session'}
                         </h1>
 
-                        {status && (
+                        {!isEmptyDay && (
                             <div className="routine-detail-meta">
                                 <span
                                     className={`calendar-status-badge ${STATUS_BADGE[status].className}`}
@@ -111,11 +113,11 @@ export const CalendarDayPage = () => {
                         />
                     )}
 
-                    {!isLoading && logMode === null && status === 'DONE' && historyEntry && (
+                    {!isLoading && logMode === null && status === 'done' && historyEntry && (
                         <HistorySessionView historyEntry={historyEntry} />
                     )}
 
-                    {!isLoading && logMode === null && status === 'PLANNED' && (
+                    {!isLoading && logMode === null && status === 'planned' && (
                         <section className="routine-create-card">
                             <div className="routine-create-header">
                                 <div>
@@ -133,7 +135,7 @@ export const CalendarDayPage = () => {
                         </section>
                     )}
 
-                    {!isLoading && logMode === null && !status && (
+                    {!isLoading && logMode === null && isEmptyDay && (
                         <div className="calendar-choice-grid">
                             {!isPastDate && (
                                 <section className="calendar-choice-card">
