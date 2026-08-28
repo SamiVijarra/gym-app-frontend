@@ -3866,3 +3866,59 @@ body {
         display: none;
     }
 }
+
+/* =========================================================
+   CALENDAR DAY PAGE
+   ========================================================= */
+
+.calendar-status-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.calendar-status-badge-planned {
+    color: var(--app-primary-light);
+    background: var(--app-primary-soft);
+}
+
+.calendar-status-badge-done {
+    color: var(--app-success);
+    background: color-mix(in srgb, var(--app-success) 16%, transparent);
+}
+
+.calendar-choice-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.calendar-choice-card {
+    padding: 20px;
+    background: var(--app-surface);
+    border: 1px solid var(--app-border);
+    border-radius: 16px;
+}
+
+.calendar-choice-card h3 {
+    margin: 0 0 4px;
+    color: var(--app-text);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.calendar-choice-card p {
+    margin: 0;
+    color: var(--app-text-secondary);
+    font-size: 13px;
+}
+
+@media (max-width: 640px) {
+    .calendar-choice-grid {
+        grid-template-columns: 1fr;
+    }
+}

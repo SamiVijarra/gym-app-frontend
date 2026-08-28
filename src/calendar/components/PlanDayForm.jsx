@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useCalendarStore, useRoutinesStore } from '../../hooks';
 
-export const PanDayForm = ({ date, onPlanned }) => {
+export const PlanDayForm = ({ date, onPlanned }) => {
     const { days, startLoadingRoutine } = useRoutinesStore();
     const { startPlanningDay } = useCalendarStore();
 
