@@ -6,7 +6,7 @@ export const calendarSlice = createSlice({
         isLoading: false,
         entries: [],
         sessionPrefill: null,
-        historyEntry: null,
+        historyEntries: {},
         errorMessage: undefined,
     },
     reducers: {
@@ -26,7 +26,7 @@ export const calendarSlice = createSlice({
         },
         onSetHistoryEntry: (state, { payload }) => {
             state.isLoading = false;
-            state.historyEntry = payload;
+            state.historyEntries[payload.id] = payload;
             state.errorMessage = undefined;
         },
         onCalendarError: (state, { payload }) => {

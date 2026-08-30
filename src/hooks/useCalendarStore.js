@@ -44,6 +44,22 @@ export const useCalendarStore = () => {
         }
     };
 
+    const startCancelingPlan = async (id, date) => {
+        try {
+            await calendarApi.delete(`/calendar/${id}`);
+            const { year, month } = parseYearMonth(date);
+            await startLoadingMonth(year, month);
+            return true;
+        } catch (error) {
+            dispatch(
+                onCalendarError(
+                    error.response?.data?.message || 'No se pudo cancelar el día planeado'
+                )
+            );
+            return false;
+        }
+    };
+
     const startLoadingSessionPrefill = async (date, routineDayId) => {
         dispatch(onLoadingCalendar());
         try {
@@ -120,6 +136,7 @@ export const useCalendarStore = () => {
 
         startLoadingMonth,
         startPlanningDay,
+        startCancelingPlan,
         startLoadingSessionPrefill,
         startCompletingSession,
         startLoadingHistoryEntry,
