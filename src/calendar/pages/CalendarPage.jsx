@@ -37,7 +37,10 @@ export const CalendarPage = () => {
     const entriesByDate = useMemo(() => {
         const map = new Map();
         entries.forEach((entry) => {
-            map.set(entry.date, entry);
+            if (entry.status === 'empty') return;
+            const list = map.get(entry.date) ?? [];
+            list.push(entry);
+            map.set(entry.date, list);
         });
         return map;
     }, [entries]);
@@ -107,9 +110,20 @@ export const CalendarPage = () => {
                             <div className="calendar-grid">
                                 {gridDays.map((day) => {
                                     const dateKey = format(day, 'yyyy-MM-dd');
-                                    const entry = entriesByDate.get(dateKey);
+                                    const dayEntries = entriesByDate.get(dateKey) ?? [];
                                     const inCurrentMonth = isSameMonth(day, visibleMonth);
-                                    const status = entry?.status;
+
+                                    const hasDone = dayEntries.some((e) => e.status === 'done');
+                                    const hasPlanned = dayEntries.some(
+                                        (e) => e.status === 'planned'
+                                    );
+
+                                    const displayStatus = hasDone
+                                        ? 'done'
+                                        : hasPlanned
+                                          ? 'planned'
+                                          : null;
+                                    const sessionCount = dayEntries.length;
                                     return (
                                         <Link
                                             key={dateKey}
@@ -118,8 +132,10 @@ export const CalendarPage = () => {
                                                 'calendar-day-cell',
                                                 !inCurrentMonth && 'calendar-day-cell-muted',
                                                 isToday(day) && 'calendar-day-cell-today',
-                                                status === 'planned' && 'calendar-day-cell-planned',
-                                                status === 'done' && 'calendar-day-cell-done',
+                                                displayStatus === 'planned' &&
+                                                    'calendar-day-cell-planned',
+                                                displayStatus === 'done' &&
+                                                    'calendar-day-cell-done',
                                             ]
                                                 .filter(Boolean)
                                                 .join(' ')}
@@ -127,9 +143,10 @@ export const CalendarPage = () => {
                                             <span className="calendar-day-number">
                                                 {format(day, 'd')}
                                             </span>
-                                            {status && (
+                                            {displayStatus && (
                                                 <span className="calendar-day-status">
-                                                    {STATUS_LABEL[status]}
+                                                    {STATUS_LABEL[displayStatus]}
+                                                    {sessionCount > 1 && ` ×${sessionCount}`}
                                                 </span>
                                             )}
                                         </Link>

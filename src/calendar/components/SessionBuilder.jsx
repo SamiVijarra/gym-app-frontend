@@ -18,7 +18,13 @@ const buildInitialRows = (initialExercises) =>
         })),
     }));
 
-export const SessionBuilder = ({ date, routineDayId, initialExercises, onDone }) => {
+export const SessionBuilder = ({
+    date,
+    routineDayId,
+    calendarEntryId,
+    initialExercises,
+    onDone,
+}) => {
     const [rows, setRows] = useState(() => buildInitialRows(initialExercises));
     const [searchTerm, setSearchTerm] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -112,6 +118,7 @@ export const SessionBuilder = ({ date, routineDayId, initialExercises, onDone })
         const success = await startCompletingSession({
             date,
             routineDayId,
+            calendarEntryId,
             exercises: exercisesPayload,
         });
         setIsSubmitting(false);

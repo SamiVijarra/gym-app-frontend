@@ -5,30 +5,21 @@ import { useCalendarStore, useRoutinesStore } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
 import { PlanDayForm } from '../components/PlanDayForm';
 import { SessionBuilder } from '../components/SessionBuilder';
-import { HistorySessionView } from '../components/HistorySessionView';
-
-const STATUS_BADGE = {
-    planned: { label: 'Planned', className: 'calendar-status-badge-planned' },
-    done: { label: 'Done', className: 'calendar-status-badge-done' },
-};
+import { PlannedSessionCard } from '../components/PlannedSessionCard';
+import { DoneSessionCard } from '../components/DoneSessionCard';
 
 export const CalendarDayPage = () => {
     const { date } = useParams();
     const [year, month] = date.split('-').map(Number);
 
-    const {
-        entries,
-        isLoading,
-        sessionPrefill,
-        historyEntry,
-        startLoadingMonth,
-        startLoadingSessionPrefill,
-        startLoadingHistoryEntry,
-    } = useCalendarStore();
+    const { entries, isLoading, sessionPrefill, startLoadingMonth, startLoadingSessionPrefill } =
+        useCalendarStore();
     const { days: routineDays, startLoadingRoutine } = useRoutinesStore();
 
+    // null | 'log-active' (prefilled builder open) | 'log-free' (free builder open)
     const [logMode, setLogMode] = useState(null);
     const [activeRoutineDayId, setActiveRoutineDayId] = useState('');
+    const [activeCalendarEntryId, setActiveCalendarEntryId] = useState(undefined);
     const [logPickerRoutineDayId, setLogPickerRoutineDayId] = useState('');
 
     useEffect(() => {
@@ -36,21 +27,25 @@ export const CalendarDayPage = () => {
         startLoadingRoutine();
     }, []);
 
-    const entry = entries.find((e) => e.date === date);
-    const status = entry?.status;
-    // treats "no entry at all" and "entry explicitly empty" the same way
-    const isEmptyDay = !status || status === 'empty';
-
-    useEffect(() => {
-        if (status === 'done' && entry?.historyEntry?.id) {
-            startLoadingHistoryEntry(entry.historyEntry.id);
-        }
-    }, [status, entry?.historyEntry?.id]);
+    // a day can have more than one session — each rendered as its own card
+    const dayEntries = entries.filter((e) => e.date === date && e.status !== 'empty');
 
     const isPastDate = isBefore(parseISO(date), startOfDay(new Date()));
 
-    const onStartPrefilledSession = async (routineDayId) => {
+    // completing a *specific* planned card — we know exactly which
+    // CalendarEntry to mark done, so no ambiguity even with duplicates
+    const onCompletePlannedEntry = async (entry) => {
+        setActiveRoutineDayId(entry.routineDay.id);
+        setActiveCalendarEntryId(entry.id);
+        await startLoadingSessionPrefill(date, entry.routineDay.id);
+        setLogMode('log-active');
+    };
+
+    // logging fresh, from the "Log a session now" picker — no pre-existing
+    // planned entry is being targeted
+    const onStartFreshRoutineSession = async (routineDayId) => {
         setActiveRoutineDayId(routineDayId);
+        setActiveCalendarEntryId(undefined);
         await startLoadingSessionPrefill(date, routineDayId);
         setLogMode('log-active');
     };
@@ -58,6 +53,7 @@ export const CalendarDayPage = () => {
     const onSessionDone = () => {
         setLogMode(null);
         setActiveRoutineDayId('');
+        setActiveCalendarEntryId(undefined);
         setLogPickerRoutineDayId('');
     };
 
@@ -73,24 +69,11 @@ export const CalendarDayPage = () => {
 
                     <header className="routine-detail-header">
                         <div className="routine-detail-eyebrow">{date}</div>
-
                         <h1 className="routine-detail-title">
-                            {isEmptyDay
+                            {dayEntries.length === 0
                                 ? 'Empty day'
-                                : entry.routineDay
-                                  ? entry.routineDay.description
-                                  : 'Free session'}
+                                : `${dayEntries.length} session${dayEntries.length > 1 ? 's' : ''}`}
                         </h1>
-
-                        {!isEmptyDay && (
-                            <div className="routine-detail-meta">
-                                <span
-                                    className={`calendar-status-badge ${STATUS_BADGE[status].className}`}
-                                >
-                                    {STATUS_BADGE[status].label}
-                                </span>
-                            </div>
-                        )}
                     </header>
 
                     {isLoading && <p className="routine-detail-loading">Loading...</p>}
@@ -99,6 +82,7 @@ export const CalendarDayPage = () => {
                         <SessionBuilder
                             date={date}
                             routineDayId={activeRoutineDayId}
+                            calendarEntryId={activeCalendarEntryId}
                             initialExercises={sessionPrefill.exercises}
                             onDone={onSessionDone}
                         />
@@ -108,77 +92,78 @@ export const CalendarDayPage = () => {
                         <SessionBuilder
                             date={date}
                             routineDayId={undefined}
+                            calendarEntryId={undefined}
                             initialExercises={[]}
                             onDone={onSessionDone}
                         />
                     )}
 
-                    {!isLoading && logMode === null && status === 'done' && historyEntry && (
-                        <HistorySessionView historyEntry={historyEntry} />
-                    )}
-
-                    {!isLoading && logMode === null && status === 'planned' && (
-                        <section className="routine-create-card">
-                            <div className="routine-create-header">
-                                <div>
-                                    <h2>{entry.routineDay?.description}</h2>
-                                    <p>Day {entry.routineDay?.dayNumber}</p>
+                    {!isLoading && logMode === null && (
+                        <>
+                            {dayEntries.length > 0 && (
+                                <div className="calendar-session-list">
+                                    {dayEntries.map((entry) =>
+                                        entry.status === 'planned' ? (
+                                            <PlannedSessionCard
+                                                key={entry.id}
+                                                entry={entry}
+                                                onComplete={onCompletePlannedEntry}
+                                            />
+                                        ) : (
+                                            <DoneSessionCard key={entry.id} entry={entry} />
+                                        )
+                                    )}
                                 </div>
-                            </div>
-
-                            <button
-                                className="btn btn-success"
-                                onClick={() => onStartPrefilledSession(entry.routineDay.id)}
-                            >
-                                Complete session
-                            </button>
-                        </section>
-                    )}
-
-                    {!isLoading && logMode === null && isEmptyDay && (
-                        <div className="calendar-choice-grid">
-                            {!isPastDate && (
-                                <section className="calendar-choice-card">
-                                    <h3>Plan this day</h3>
-                                    <p>Assign a routine day for later.</p>
-                                    <PlanDayForm date={date} onPlanned={() => {}} />
-                                </section>
                             )}
 
-                            <section className="calendar-choice-card">
-                                <h3>Log a session now</h3>
-                                <p>Record a session you already did.</p>
+                            <div className="calendar-choice-grid">
+                                {!isPastDate && (
+                                    <section className="calendar-choice-card">
+                                        <h3>Plan this day</h3>
+                                        <p>Assign a routine day for later.</p>
+                                        <PlanDayForm date={date} onPlanned={() => {}} />
+                                    </section>
+                                )}
 
-                                <div className="d-flex gap-2 flex-wrap mt-2">
-                                    <select
-                                        className="form-select form-select-sm"
-                                        value={logPickerRoutineDayId}
-                                        onChange={(e) => setLogPickerRoutineDayId(e.target.value)}
-                                        style={{ maxWidth: '220px' }}
-                                    >
-                                        <option value="">Free session (no routine)</option>
-                                        {routineDays.map((day) => (
-                                            <option key={day.id} value={day.id}>
-                                                Day {day.dayNumber} — {day.description}
-                                            </option>
-                                        ))}
-                                    </select>
+                                <section className="calendar-choice-card">
+                                    <h3>Log a session now</h3>
+                                    <p>Record a session you already did.</p>
 
-                                    <button
-                                        className="btn btn-sm btn-outline-success"
-                                        onClick={() => {
-                                            if (logPickerRoutineDayId) {
-                                                onStartPrefilledSession(logPickerRoutineDayId);
-                                            } else {
-                                                setLogMode('log-free');
+                                    <div className="d-flex gap-2 flex-wrap mt-2">
+                                        <select
+                                            className="form-select form-select-sm"
+                                            value={logPickerRoutineDayId}
+                                            onChange={(e) =>
+                                                setLogPickerRoutineDayId(e.target.value)
                                             }
-                                        }}
-                                    >
-                                        Start
-                                    </button>
-                                </div>
-                            </section>
-                        </div>
+                                            style={{ maxWidth: '220px' }}
+                                        >
+                                            <option value="">Free session (no routine)</option>
+                                            {routineDays.map((day) => (
+                                                <option key={day.id} value={day.id}>
+                                                    Day {day.dayNumber} — {day.description}
+                                                </option>
+                                            ))}
+                                        </select>
+
+                                        <button
+                                            className="btn btn-sm btn-outline-success"
+                                            onClick={() => {
+                                                if (logPickerRoutineDayId) {
+                                                    onStartFreshRoutineSession(
+                                                        logPickerRoutineDayId
+                                                    );
+                                                } else {
+                                                    setLogMode('log-free');
+                                                }
+                                            }}
+                                        >
+                                            Start
+                                        </button>
+                                    </div>
+                                </section>
+                            </div>
+                        </>
                     )}
                 </div>
             </main>
