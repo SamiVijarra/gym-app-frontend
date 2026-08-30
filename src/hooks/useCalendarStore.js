@@ -15,7 +15,7 @@ const parseYearMonth = (date) => {
 
 export const useCalendarStore = () => {
     const dispatch = useDispatch();
-    const { isLoading, entries, sessionPrefill, historyEntry, errorMessage } = useSelector(
+    const { isLoading, entries, sessionPrefill, historyEntries, errorMessage } = useSelector(
         (state) => state.calendar
     );
 
@@ -93,7 +93,6 @@ export const useCalendarStore = () => {
     };
 
     const startLoadingHistoryEntry = async (id) => {
-        dispatch(onLoadingCalendar());
         try {
             const { data } = await calendarApi.get(`/calendar/history/${id}`);
             dispatch(onSetHistoryEntry(data));
@@ -131,7 +130,7 @@ export const useCalendarStore = () => {
         isLoading,
         entries,
         sessionPrefill,
-        historyEntry,
+        historyEntries,
         errorMessage,
 
         startLoadingMonth,

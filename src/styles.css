@@ -3922,3 +3922,41 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* =========================================================
+   CALENDAR — MULTIPLE SESSIONS PER DAY
+   ========================================================= */
+
+.calendar-session-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.calendar-session-block {
+    padding: 20px;
+    background: var(--app-surface);
+    border: 1px solid var(--app-border);
+    border-radius: 16px;
+}
+
+.calendar-session-block-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+.calendar-session-block-header h3 {
+    margin: 0;
+    color: var(--app-text);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.calendar-session-block-meta {
+    margin: 0;
+    color: var(--app-text-secondary);
+    font-size: 13px;
+}
