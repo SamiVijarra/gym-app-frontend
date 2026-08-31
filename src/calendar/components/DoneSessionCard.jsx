@@ -1,28 +1,24 @@
-import { useEffect } from 'react';
-import { useCalendarStore } from '../../hooks';
-import { HistorySessionView } from './HistorySessionView';
+import { Link } from 'react-router-dom';
 
 export const DoneSessionCard = ({ entry }) => {
-    const { historyEntries, startLoadingHistoryEntry } = useCalendarStore();
-
-    const historyEntryId = entry.historyEntry.id;
-    const historyEntry = historyEntries[historyEntryId];
-
-    useEffect(() => {
-        startLoadingHistoryEntry(historyEntryId);
-    }, [historyEntryId]);
-
     return (
-        <section className="calendar-session-block">
-            <div className="calendar-session-block-fa-header">
-                <span className="calendar-status-badge calendar-status-badge-done">Done</span>
-                <h3>{entry.routineDay ? entry.routineDay.description : 'Free session'}</h3>
+        <Link
+            to={`/calendar/${entry.date}/session/${entry.historyEntry.id}`}
+            className="routine-day-card"
+        >
+            <div className="routine-day-number calendar-day-icon-done">
+                <i className="fas fa-check"></i>
             </div>
-            {!historyEntry ? (
-                <p className="routine-detail-loading">Loading...</p>
-            ) : (
-                <HistorySessionView historyEntry={historyEntry} />
-            )}
-        </section>
+
+            <div className="routine-day-info">
+                <h2>{entry.routineDay ? entry.routineDay.description : 'Free session'}</h2>
+
+                <div className="routine-day-meta">
+                    <span className="calendar-status-badge calendar-status-badge-done">Done</span>
+                </div>
+            </div>
+
+            <div className="routine-day-arrow">→</div>
+        </Link>
     );
 };
