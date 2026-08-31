@@ -587,6 +587,7 @@ body {
 }
 
 .routine-sets-table {
+    width: 100%;
     color: var(--app-text) !important;
 
     --bs-table-bg: transparent;
