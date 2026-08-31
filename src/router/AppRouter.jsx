@@ -1,8 +1,9 @@
 import { Navigate, Route, Routes, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+
 import { LoginPage } from '../auth/pages/LoginPage';
 import { HomePage } from '../home/pages/HomePage';
 import { useAuthStore, useThemeStore } from '../hooks';
-import { useEffect } from 'react';
 import { ProfilePage } from '../users/pages/ProfilePage';
 import { ExercisesPage } from '../exercises/pages/ExercisesPage';
 import { RoutinePage } from '../routines/pages/RoutinePage';
@@ -10,6 +11,7 @@ import { RoutineDayDetailPage } from '../routines/pages/RoutineDayDetailPage';
 import { ExerciseDetailPage } from '../exercises/pages/ExerciseDetailPage';
 import { CalendarPage } from '../calendar/pages/CalendarPage';
 import { CalendarDayPage } from '../calendar/pages/CalendarDayPage';
+import { CalendarSessionDetailPage } from '../calendar/pages/CalendarSessionDetailPage';
 
 export const AppRouter = () => {
     const { status, checkAuthToken } = useAuthStore();
@@ -18,6 +20,11 @@ export const AppRouter = () => {
     const CalendarDayRoute = () => {
         const { date } = useParams();
         return <CalendarDayPage key={date} />;
+    };
+
+    const CalendarSessionDetailRoute = () => {
+        const { historyEntryId } = useParams();
+        return <CalendarSessionDetailPage key={historyEntryId} />;
     };
 
     useEffect(() => {
@@ -49,6 +56,10 @@ export const AppRouter = () => {
                     <Route path="/routine/:dayId" element={<RoutineDayDetailPage />} />
                     <Route path="/calendar" element={<CalendarPage />} />
                     <Route path="/calendar/:date" element={<CalendarDayRoute />} />
+                    <Route
+                        path="/calendar/:date/session/:historyEntryId"
+                        element={<CalendarSessionDetailRoute />}
+                    />
                     <Route path="/*" element={<Navigate to="/" />} />
                 </>
             )}
