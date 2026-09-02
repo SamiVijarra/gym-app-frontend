@@ -7,7 +7,8 @@ export const ExerciseDetailPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { user } = useAuthStore();
-    const { selectedExercise, startLoadingExercise, startUpdatingExercise } = useExercisesStore();
+    const { selectedExercise, startLoadingExercise, startUpdatingExercise, errorMessage } =
+        useExercisesStore();
     const { days, startAddingExercise, startCreatingDay, startLoadingRoutine } = useRoutinesStore();
 
     const [notes, setNotes] = useState('');
@@ -223,6 +224,12 @@ export const ExerciseDetailPage = () => {
                                         onChange={onEditInputChange}
                                     />
                                 </div>
+
+                                {errorMessage && (
+                                    <p className="text-danger" style={{ gridColumn: '1 / -1' }}>
+                                        {errorMessage}
+                                    </p>
+                                )}
 
                                 <button
                                     className="routine-create-button"

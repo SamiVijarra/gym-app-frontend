@@ -56,7 +56,7 @@ export const useExercisesStore = () => {
 
     const startUpdatingExercise = async (id, updateExerciseDto) => {
         try {
-            const { data } = await calendarApi.put(`/exercises/${id}`, updateExerciseDto);
+            const { data } = await calendarApi.patch(`/exercises/${id}`, updateExerciseDto);
             dispatch(onSetSelectedExercise(data));
             return data;
         } catch (error) {
