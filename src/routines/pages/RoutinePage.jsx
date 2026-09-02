@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { useForm, useRoutinesStore } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
 
 const newDayFields = { dayNumber: '', description: '' };
 
 export const RoutinePage = () => {
-    const { days, isLoading, startLoadingRoutine, startCreatingDay } = useRoutinesStore();
+    const { days, isLoading, startLoadingRoutine, startCreatingDay, startRemovingDay } =
+        useRoutinesStore();
 
     const { dayNumber, description, onInputChange, onResetForm } = useForm(newDayFields);
 
@@ -21,6 +23,24 @@ export const RoutinePage = () => {
         onResetForm();
     };
 
+    const onDeleteDay = async (event, day) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const result = await Swal.fire({
+            title: 'Delete day?',
+            text: `"${day.description}" and all its exercises will be permanently deleted.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, deleted',
+            cancelButtonText: 'Cancel',
+        });
+
+        if (result.isConfirmed) {
+            await startRemovingDay(day.id);
+        }
+    };
+
     return (
         <>
             <Navbar />
@@ -29,11 +49,10 @@ export const RoutinePage = () => {
                     <header className="app-page-header routine-page-header">
                         <span className="app-page-eyebrow routine-page-eyebrow">TRAINING</span>
 
-                        <h1 className="app-page-title">Mi rutina</h1>
+                        <h1 className="app-page-title">My routine</h1>
 
                         <p className="app-page-subtitle">
-                            Organizá tus días de entrenamiento y mantené todo tu progreso en un solo
-                            lugar.
+                            Organize your training days and keep all your progress in one place.
                         </p>
                     </header>
                     <section className="routine-create-card">
@@ -43,15 +62,15 @@ export const RoutinePage = () => {
                             </div>
 
                             <div>
-                                <h2>Nuevo día</h2>
+                                <h2>New day</h2>
 
-                                <p>Agregá un nuevo día a tu rutina.</p>
+                                <p>Add a new day to your routine.</p>
                             </div>
                         </div>
 
                         <form onSubmit={onCreateDay} className="routine-create-form">
                             <div className="routine-form-field routine-form-day">
-                                <label htmlFor="dayNumber">Día</label>
+                                <label htmlFor="dayNumber">Day</label>
 
                                 <input
                                     id="dayNumber"
@@ -66,13 +85,13 @@ export const RoutinePage = () => {
                             </div>
 
                             <div className="routine-form-field">
-                                <label htmlFor="description">Descripción</label>
+                                <label htmlFor="description">Description</label>
 
                                 <input
                                     id="description"
                                     type="text"
                                     className="routine-form-input"
-                                    placeholder="Pecho, hombros y tríceps"
+                                    placeholder="Chest, shoulders and triceps"
                                     name="description"
                                     value={description}
                                     onChange={onInputChange}
@@ -81,7 +100,7 @@ export const RoutinePage = () => {
 
                             <button className="routine-create-button" type="submit">
                                 <i className="fas fa-plus"></i>
-                                Crear día
+                                Create day
                             </button>
                         </form>
                     </section>
@@ -89,10 +108,10 @@ export const RoutinePage = () => {
                     <section className="routine-days-section">
                         <div className="routine-days-header">
                             <div>
-                                <span>TU RUTINA</span>
+                                <span>MY ROUTINE</span>
 
                                 <p>
-                                    {days.length} {days.length === 1 ? 'día' : 'días'}
+                                    {days.length} {days.length === 1 ? 'day' : 'days'}
                                 </p>
                             </div>
                         </div>
@@ -101,7 +120,7 @@ export const RoutinePage = () => {
                             <div className="routine-page-loading">
                                 <div className="routine-loading-spinner"></div>
 
-                                <span>Cargando rutina...</span>
+                                <span>Loading routine...</span>
                             </div>
                         )}
 
@@ -111,12 +130,9 @@ export const RoutinePage = () => {
                                     <i className="fas fa-calendar-plus"></i>
                                 </div>
 
-                                <h2>Todavía no tenés días</h2>
+                                <h2>You don't have any days yet</h2>
 
-                                <p>
-                                    Creá tu primer día de entrenamiento usando el formulario de
-                                    arriba.
-                                </p>
+                                <p>Create your first training day using the form above.</p>
                             </div>
                         )}
 
@@ -129,7 +145,7 @@ export const RoutinePage = () => {
                                         className="routine-day-card"
                                     >
                                         <div className="routine-day-number">
-                                            <span>DÍA</span>
+                                            <span>DAY</span>
 
                                             <strong>
                                                 {String(day.dayNumber).padStart(2, '0')}
@@ -144,13 +160,22 @@ export const RoutinePage = () => {
                                                     <i className="fas fa-dumbbell"></i>
                                                     {day.exercises.length}{' '}
                                                     {day.exercises.length === 1
-                                                        ? 'ejercicio'
-                                                        : 'ejercicios'}
+                                                        ? 'exercise'
+                                                        : 'exercises'}
                                                 </span>
                                             </div>
                                         </div>
 
                                         <div className="routine-day-arrow">→</div>
+
+                                        <button
+                                            type="button"
+                                            className="routine-day-delete"
+                                            onClick={(event) => onDeleteDay(event, day)}
+                                            aria-label="Eliminar día"
+                                        >
+                                            <i className="fas fa-trash"></i>
+                                        </button>
                                     </Link>
                                 ))}
                             </div>
