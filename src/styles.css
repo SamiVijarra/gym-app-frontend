@@ -3975,3 +3975,31 @@ body {
 .calendar-day-icon-done i {
     font-size: 20px;
 }
+
+/* =========================================================
+   ROUTINE DAY — DELETE BUTTON
+   ========================================================= */
+
+.routine-day-delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin-left: 8px;
+    color: var(--app-text-muted);
+    background: transparent;
+    border: 1px solid var(--app-border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition:
+        color 0.15s ease,
+        border-color 0.15s ease,
+        background 0.15s ease;
+}
+
+.routine-day-delete:hover {
+    color: var(--app-danger);
+    background: color-mix(in srgb, var(--app-danger) 12%, transparent);
+    border-color: color-mix(in srgb, var(--app-danger) 30%, transparent);
+}
