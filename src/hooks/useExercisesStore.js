@@ -54,6 +54,21 @@ export const useExercisesStore = () => {
         }
     };
 
+    const startUpdatingExercise = async (id, updateExerciseDto) => {
+        try {
+            const { data } = await calendarApi.put(`/exercises/${id}`, updateExerciseDto);
+            dispatch(onSetSelectedExercise(data));
+            return data;
+        } catch (error) {
+            dispatch(
+                onExercisesError(
+                    error.response?.data?.message || 'The exercise could not be updated.'
+                )
+            );
+            return null;
+        }
+    };
+
     return {
         isLoading,
         exercises,
@@ -63,5 +78,6 @@ export const useExercisesStore = () => {
         startSearchingExercises,
         startLoadingExercise,
         startCreatingExercise,
+        startUpdatingExercise,
     };
 };
