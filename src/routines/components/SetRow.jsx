@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 import { useRoutinesStore } from '../../hooks';
 
 export const SetRow = ({ set }) => {
@@ -7,7 +8,7 @@ export const SetRow = ({ set }) => {
     const [reps, setReps] = useState(set.reps);
     const [restSeconds, setRestSeconds] = useState(set.restSeconds ?? '');
     const [notes, setNotes] = useState(set.notes ?? '');
-    const { startUpdatingSet } = useRoutinesStore();
+    const { startUpdatingSet, startRemovingSet } = useRoutinesStore();
 
     const onSave = async () => {
         await startUpdatingSet(set.id, {
@@ -27,6 +28,21 @@ export const SetRow = ({ set }) => {
         setIsEditing(false);
     };
 
+    const onDelete = async () => {
+        const result = await Swal.fire({
+            title: 'Delete set?',
+            text: `Set ${set.order} will be permanently deleted.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete',
+            cancelButtonText: 'Cancel',
+        });
+
+        if (result.isConfirmed) {
+            await startRemovingSet(set.id);
+        }
+    };
+
     if (!isEditing) {
         return (
             <tr>
@@ -41,6 +57,9 @@ export const SetRow = ({ set }) => {
                         onClick={() => setIsEditing(true)}
                     >
                         <i className="fas fa-pen"></i>
+                    </button>
+                    <button className="btn btn-sm btn-outline-danger" onClick={onDelete}>
+                        <i className="fas fa-trash"></i>
                     </button>
                 </td>
             </tr>

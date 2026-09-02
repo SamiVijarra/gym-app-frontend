@@ -1,4 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { useRoutinesStore } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
 import { AddExerciseForm } from '../components/AddExerciseForm';
@@ -7,9 +8,24 @@ import { SetRow } from '../components/SetRow';
 
 export const RoutineDayDetailPage = () => {
     const { dayId } = useParams();
-    const { days, isLoading } = useRoutinesStore();
+    const { days, isLoading, startRemovingExercise } = useRoutinesStore();
 
     const day = days.find((d) => d.id === dayId);
+
+    const onDeleteExercise = async (routineExercise) => {
+        const result = await Swal.fire({
+            title: 'Delete exercise?',
+            text: `"${routineExercise.exercise.name}" and all its sets will be permanently deleted from this day.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete',
+            cancelButtonText: 'Cancel',
+        });
+
+        if (result.isConfirmed) {
+            await startRemovingExercise(routineExercise.id);
+        }
+    };
 
     if (isLoading) {
         return (
@@ -17,7 +33,7 @@ export const RoutineDayDetailPage = () => {
                 <Navbar />
                 <main className="routine-detail-page">
                     <div className="routine-detail-container">
-                        <p className="routine-detail-loading">Cargando...</p>
+                        <p className="routine-detail-loading">Loading...</p>
                     </div>
                 </main>
             </>
@@ -30,7 +46,7 @@ export const RoutineDayDetailPage = () => {
                 <Navbar />
                 <main className="routine-detail-page">
                     <div className="routine-detail-container">
-                        <p className="routine-detail-loading">Día no encontrado</p>
+                        <p className="routine-detail-loading">Day not found</p>
                     </div>
                 </main>
             </>
@@ -44,23 +60,23 @@ export const RoutineDayDetailPage = () => {
                 <div className="routine-detail-container">
                     <Link to="/routine" className="routine-back-link">
                         <span>←</span>
-                        Volver a mi rutina
+                        Back to routine
                     </Link>
 
                     <header className="routine-detail-header">
-                        <div className="routine-detail-eyebrow">DÍA {day.dayNumber}</div>
+                        <div className="routine-detail-eyebrow">DAY {day.dayNumber}</div>
 
                         <h1 className="routine-detail-title">{day.description}</h1>
 
                         <div className="routine-detail-meta">
                             <span>
                                 {day.exercises.length}{' '}
-                                {day.exercises.length === 1 ? 'ejercicio' : 'ejercicios'}
+                                {day.exercises.length === 1 ? 'exercise' : 'exercises'}
                             </span>
 
                             <span className="routine-detail-meta-dot">•</span>
 
-                            <span>Rutina programada</span>
+                            <span>Programmed routine</span>
                         </div>
                     </header>
 
@@ -68,9 +84,9 @@ export const RoutineDayDetailPage = () => {
                         <section className="routine-empty-state">
                             <div className="routine-empty-icon">+</div>
 
-                            <h2>Todavía no hay ejercicios</h2>
+                            <h2>There are no exercises yet</h2>
 
-                            <p>Agregá el primer ejercicio para empezar a construir este día.</p>
+                            <p>Add the first exercise to start building this day.</p>
                         </section>
                     )}
                     <div className="routine-exercises">
@@ -112,11 +128,20 @@ export const RoutineDayDetailPage = () => {
                                             )}
                                         </div>
                                     </div>
+
+                                    <button
+                                        type="button"
+                                        className="routine-day-delete"
+                                        onClick={() => onDeleteExercise(routineExercise)}
+                                        aria-label="Delete exercise"
+                                    >
+                                        <i className="fas fa-trash"></i>
+                                    </button>
                                 </div>
 
                                 {routineExercise.exercise.instructions?.length > 0 && (
                                     <details className="routine-instructions">
-                                        <summary>Ver instrucciones</summary>
+                                        <summary>View instructions</summary>
                                         <ol>
                                             {routineExercise.exercise.instructions.map(
                                                 (step, stepIndex) => (
@@ -131,24 +156,24 @@ export const RoutineDayDetailPage = () => {
                                         <div>
                                             <span className="routine-section-label">Series</span>
                                             <span className="routine-section-description">
-                                                Registrá tu rendimiento
+                                                Register your performance
                                             </span>
                                         </div>
                                         <span className="routine-set-count">
                                             {routineExercise.sets.length}
                                             {''}
-                                            {routineExercise.sets.length === 1 ? 'serie' : 'series'}
+                                            {routineExercise.sets.length === 1 ? 'set' : 'sets'}
                                         </span>
                                     </div>
                                     <div className="routine-table-wrapper">
                                         <table className="routine-sets-table">
                                             <thead>
                                                 <tr>
-                                                    <th>Serie</th>
-                                                    <th>Peso</th>
+                                                    <th>Set</th>
+                                                    <th>Weight</th>
                                                     <th>Reps</th>
-                                                    <th>Descanso</th>
-                                                    <th>Notas</th>
+                                                    <th>Rest</th>
+                                                    <th>Notes</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -160,7 +185,7 @@ export const RoutineDayDetailPage = () => {
                                         </table>
                                     </div>
                                     <div className="routine-add-set">
-                                        <div className="routine-add-set-title">Agregar serie</div>
+                                        <div className="routine-add-set-title">Add Set</div>
                                         <AddSetForm routineExerciseId={routineExercise.id} />
                                     </div>
                                 </div>
@@ -170,9 +195,9 @@ export const RoutineDayDetailPage = () => {
                     <section className="routine-add-exercise">
                         <div className="routine-add-exercise-header">
                             <div>
-                                <span className="routine-section-label">EJERCICIOS</span>
-                                <h2>Agregar ejercicio</h2>
-                                <p>Buscá y agrega ejercicios</p>
+                                <span className="routine-section-label">EXERCISES</span>
+                                <h2>Add Exercise</h2>
+                                <p>Search and add exercises</p>
                             </div>
                         </div>
                         <AddExerciseForm dayId={day.id} />
