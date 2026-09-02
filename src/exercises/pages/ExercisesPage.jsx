@@ -1,12 +1,25 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { useExercisesStore } from '../../hooks';
+import { useExercisesStore, useForm } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
 
+const newExerciseFields = {
+    name: '',
+    primaryMuscles: '',
+    equipment: '',
+    instructions: '',
+    imageUrl: '',
+};
+
 export const ExercisesPage = () => {
-    const { exercises, isLoading, startSearchingExercises } = useExercisesStore();
+    const { exercises, isLoading, startSearchingExercises, startCreatingExercise } =
+        useExercisesStore();
     const [searchTerm, setSearchTerm] = useState('');
+    const [isCreating, setIsCreating] = useState(false);
+
+    const { name, primaryMuscles, equipment, instructions, imageUrl, onInputChange, onResetForm } =
+        useForm(newExerciseFields);
 
     useEffect(() => {
         if (searchTerm.trim().length === 0) return;
@@ -18,6 +31,33 @@ export const ExercisesPage = () => {
         return () => clearTimeout(timeoutId);
     }, [searchTerm]);
 
+    const onCreateExercise = async (event) => {
+        event.preventDefault();
+        if (!name || !primaryMuscles) return;
+
+        setIsCreating(true);
+        const created = await startCreatingExercise({
+            name,
+            primaryMuscles: primaryMuscles
+                .split(',')
+                .map((m) => m.trim())
+                .filter(Boolean),
+            equipment: equipment || undefined,
+            instructions: instructions
+                ? instructions
+                      .split('\n')
+                      .map((line) => line.trim())
+                      .filter(Boolean)
+                : undefined,
+            images: imageUrl ? [imageUrl] : undefined,
+        });
+        setIsCreating(false);
+        if (created) {
+            onResetForm();
+            setSearchTerm(created.name);
+        }
+    };
+
     return (
         <>
             <Navbar />
@@ -26,20 +66,101 @@ export const ExercisesPage = () => {
                     <header className="app-page-header exercises-page-header">
                         <span className="app-page-eyebrow exercises-page-eyebrow">EXERCISES</span>
 
-                        <h1 className="app-page-title">Catálogo de ejercicios</h1>
+                        <h1 className="app-page-title">Exercises Catalog</h1>
 
                         <p className="app-page-subtitle">
-                            Buscá ejercicios y consultá su información para completar tu
-                            entrenamiento.
+                            Search for exercises and view their information to complete your
+                            workout.
                         </p>
                     </header>
+                    <section className="routine-create-card">
+                        <div className="routine-create-header">
+                            <div className="routine-create-icon">
+                                <i className="fas fa-plus"></i>
+                            </div>
+                            <div>
+                                <h2>New exercise</h2>
+                                <p>Can't find an exercise? Add it to the catalog.</p>
+                            </div>
+                        </div>
+                        <form onSubmit={onCreateExercise} className="routine-create-form">
+                            <div className="routine-form-field">
+                                <label htmlFor="name">Name</label>
+                                <input
+                                    id="name"
+                                    type="text"
+                                    className="routine-form-input"
+                                    placeholder="Hip Thrust"
+                                    name="name"
+                                    value={name}
+                                    onChange={onInputChange}
+                                />
+                            </div>
+                            <div className="routine-form-field">
+                                <label htmlFor="primaryMuscles">Primary Muscles</label>
+                                <input
+                                    id="primaryMuscles"
+                                    type="text"
+                                    className="routine-form-input"
+                                    placeholder="Glutes, Hamstrings"
+                                    name="primaryMuscles"
+                                    value={primaryMuscles}
+                                    onChange={onInputChange}
+                                />
+                            </div>
+                            <div className="routine-form-field">
+                                <label htmlFor="equipment">Equipment (optional)</label>
+                                <input
+                                    id="equipment"
+                                    type="text"
+                                    className="routine-form-input"
+                                    placeholder="Smith Machine, Barbell, Dumbbell"
+                                    name="equipment"
+                                    value={equipment}
+                                    onChange={onInputChange}
+                                />
+                            </div>
+                            <div className="routine-form-field">
+                                <label htmlFor="imageUrl">Image URL (optional)</label>
+                                <input
+                                    id="imageUrl"
+                                    type="text"
+                                    className="routine-form-input"
+                                    placeholder="https://example.com/image.jpg"
+                                    name="imageUrl"
+                                    value={imageUrl}
+                                    onChange={onInputChange}
+                                />
+                            </div>
+                            <div className="routine-form-field" style={{ gridColumn: '1 / -1' }}>
+                                <label htmlFor="instructions">Instructions (optional)</label>
+                                <textarea
+                                    id="instructions"
+                                    className="routine-form-input"
+                                    placeholder="Describe the exercise..."
+                                    name="instructions"
+                                    rows={3}
+                                    value={instructions}
+                                    onChange={onInputChange}
+                                />
+                            </div>
+                            <button
+                                className="routine-create-button"
+                                type="submit"
+                                disabled={isCreating}
+                            >
+                                <i className="fas fa-plus"></i>
+                                {isCreating ? 'Creating...' : 'Create Exercise'}
+                            </button>
+                        </form>
+                    </section>
                     <section className="exercises-search">
                         <div className="exercises-search-icon">
                             <i className="fas fa-search"></i>
                         </div>
                         <input
                             type="text"
-                            placeholder="Buscar ejercicio..."
+                            placeholder="Search exercises..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -48,7 +169,7 @@ export const ExercisesPage = () => {
                                 type="button"
                                 className="exercises-search-clear"
                                 onClick={() => setSearchTerm('')}
-                                aria-label="Limpiar búsqueda"
+                                aria-label="Clear search"
                             >
                                 <i className="fas fa-times"></i>
                             </button>
@@ -59,7 +180,7 @@ export const ExercisesPage = () => {
                         <div className="exercises-page-loading">
                             <div className="exercises-loading-spinner"></div>
 
-                            <span>Buscando ejercicios...</span>
+                            <span>Searching for exercises...</span>
                         </div>
                     )}
 
@@ -69,12 +190,9 @@ export const ExercisesPage = () => {
                                 <i className="fas fa-dumbbell"></i>
                             </div>
 
-                            <h2>Buscá un ejercicio</h2>
+                            <h2>Search for an exercise</h2>
 
-                            <p>
-                                Escribí el nombre de un ejercicio para comenzar a explorar el
-                                catálogo.
-                            </p>
+                            <p>Enter the name of an exercise to start exploring the catalog.</p>
                         </div>
                     )}
 
@@ -83,18 +201,18 @@ export const ExercisesPage = () => {
                             <div className="exercises-empty-icon">
                                 <i className="fas fa-search"></i>
                             </div>
-                            <h2>No encontramos ejercicios</h2>
+                            <h2>Exercises not found</h2>
 
-                            <p>Probá con otro nombre o término de búsqueda.</p>
+                            <p>Try searching with a different name or search term.</p>
                         </div>
                     )}
                     {!isLoading && exercises.length > 0 && (
                         <section className="exercises-results">
                             <div className="exercises-results-header">
-                                <span>RESULTADOS</span>
+                                <span>RESULTS</span>
                                 <p>
                                     {exercises.length}{' '}
-                                    {exercises.length === 1 ? 'ejercicio' : 'ejercicios'}
+                                    {exercises.length === 1 ? 'exercise' : 'exercises'}
                                 </p>
                             </div>
                             <div className="exercises-grid">
@@ -123,7 +241,6 @@ export const ExercisesPage = () => {
                                                     <p>{exercise.primaryMuscles.join(' · ')}</p>
                                                 )}
                                             </div>
-
                                             <div className="exercise-card-arrow">→</div>
                                         </div>
                                     </Link>
