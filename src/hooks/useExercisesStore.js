@@ -69,6 +69,20 @@ export const useExercisesStore = () => {
         }
     };
 
+    const startDeletingExercise = async (id) => {
+        try {
+            await calendarApi.delete(`/exercises/${id}`);
+            return true;
+        } catch (error) {
+            dispatch(
+                onExercisesError(
+                    error.response?.data?.message || 'The exercise could not be deleted.'
+                )
+            );
+            return false;
+        }
+    };
+
     return {
         isLoading,
         exercises,
@@ -79,5 +93,6 @@ export const useExercisesStore = () => {
         startLoadingExercise,
         startCreatingExercise,
         startUpdatingExercise,
+        startDeletingExercise,
     };
 };

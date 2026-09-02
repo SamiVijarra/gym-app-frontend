@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
 import { useAuthStore, useExercisesStore, useForm, useRoutinesStore } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
 
@@ -7,8 +9,13 @@ export const ExerciseDetailPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { user } = useAuthStore();
-    const { selectedExercise, startLoadingExercise, startUpdatingExercise, errorMessage } =
-        useExercisesStore();
+    const {
+        selectedExercise,
+        startLoadingExercise,
+        startUpdatingExercise,
+        startDeletingExercise,
+        errorMessage,
+    } = useExercisesStore();
     const { days, startAddingExercise, startCreatingDay, startLoadingRoutine } = useRoutinesStore();
 
     const [notes, setNotes] = useState('');
@@ -86,6 +93,22 @@ export const ExerciseDetailPage = () => {
         navigate(`/routine/${newDay.id}`);
     };
 
+    const onDeleteExercise = async () => {
+        const result = await Swal.fire({
+            title: 'Delete exercise?',
+            text: `"${selectedExercise.name}" will be permanently removed from the catalog.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete',
+            cancelButtonText: 'Cancel',
+        });
+
+        if (result.isConfirmed) {
+            const deleted = await startDeletingExercise(id);
+            if (deleted) navigate('/exercises');
+        }
+    };
+
     if (!selectedExercise) {
         return (
             <>
@@ -133,14 +156,31 @@ export const ExerciseDetailPage = () => {
                         </div>
 
                         {canEdit && (
-                            <button
-                                type="button"
-                                className="btn btn-sm btn-outline-secondary mt-2"
-                                onClick={() => setIsEditing((current) => !current)}
-                            >
-                                <i className="fas fa-pen"></i>{' '}
-                                {isEditing ? 'Cancel' : 'Edit exercise'}
-                            </button>
+                            <div className="d-flex gap-2 mt-2">
+                                <button
+                                    type="button"
+                                    className="btn btn-sm btn-outline-secondary"
+                                    onClick={() => setIsEditing((current) => !current)}
+                                >
+                                    <i className="fas fa-pen"></i>{' '}
+                                    {isEditing ? 'Cancel' : 'Edit exercise'}
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-sm btn-outline-danger"
+                                    onClick={onDeleteExercise}
+                                >
+                                    <i className="fas fa-trash"></i> Delete exercise
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-sm btn-outline-secondary mt-2"
+                                    onClick={() => setIsEditing((current) => !current)}
+                                >
+                                    <i className="fas fa-pen"></i>{' '}
+                                    {isEditing ? 'Cancel' : 'Edit exercise'}
+                                </button>
+                            </div>
                         )}
                     </header>
 
