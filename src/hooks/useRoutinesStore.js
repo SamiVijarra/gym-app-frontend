@@ -74,6 +74,32 @@ export const useRoutinesStore = () => {
         }
     };
 
+    const startRemovingExercise = async (routineExerciseId) => {
+        try {
+            await calendarApi.delete(`/routines/exercises/${routineExerciseId}`);
+            await startLoadingRoutine();
+            return true;
+        } catch (error) {
+            dispatch(
+                onRoutineError(error.response?.data?.message || 'The exercise could not be removed')
+            );
+            return false;
+        }
+    };
+
+    const startRemovingSet = async (setId) => {
+        try {
+            await calendarApi.delete(`/routines/sets/${setId}`);
+            await startLoadingRoutine();
+            return true;
+        } catch (error) {
+            dispatch(
+                onRoutineError(error.response?.data?.message || 'The set could not be removed')
+            );
+            return false;
+        }
+    };
+
     return {
         isLoading,
         days,
@@ -85,5 +111,7 @@ export const useRoutinesStore = () => {
         startAddingSet,
         startUpdatingSet,
         startRemovingDay,
+        startRemovingExercise,
+        startRemovingSet,
     };
 };
