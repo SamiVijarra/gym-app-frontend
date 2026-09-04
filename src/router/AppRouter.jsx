@@ -12,6 +12,7 @@ import { ExerciseDetailPage } from '../exercises/pages/ExerciseDetailPage';
 import { CalendarPage } from '../calendar/pages/CalendarPage';
 import { CalendarDayPage } from '../calendar/pages/CalendarDayPage';
 import { CalendarSessionDetailPage } from '../calendar/pages/CalendarSessionDetailPage';
+import { ExerciseProgressPage } from '../exercises/pages/ExerciseProgressPage';
 
 export const AppRouter = () => {
     const { status, checkAuthToken } = useAuthStore();
@@ -36,7 +37,7 @@ export const AppRouter = () => {
     }, [mode]);
 
     if (status === 'checking') {
-        return <h3>Cargando...</h3>;
+        return <h3>Loading...</h3>;
     }
 
     return (
@@ -60,6 +61,8 @@ export const AppRouter = () => {
                         path="/calendar/:date/session/:historyEntryId"
                         element={<CalendarSessionDetailRoute />}
                     />
+                    <Route path="/exercises/:id" element={<ExerciseDetailPage />} />
+                    <Route path="/exercises/:id/progress" element={<ExerciseProgressPage />} />
                     <Route path="/*" element={<Navigate to="/" />} />
                 </>
             )}
