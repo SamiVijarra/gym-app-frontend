@@ -172,16 +172,15 @@ export const ExerciseDetailPage = () => {
                                 >
                                     <i className="fas fa-trash"></i> Delete exercise
                                 </button>
-                                <button
-                                    type="button"
-                                    className="btn btn-sm btn-outline-secondary mt-2"
-                                    onClick={() => setIsEditing((current) => !current)}
-                                >
-                                    <i className="fas fa-pen"></i>{' '}
-                                    {isEditing ? 'Cancel' : 'Edit exercise'}
-                                </button>
                             </div>
                         )}
+
+                        <Link
+                            to={`/exercises/${id}/progress`}
+                            className="btn btn-sm btn-outline-secondary mt-2"
+                        >
+                            <i className="fas fa-chart-line"></i> View progress
+                        </Link>
                     </header>
 
                     {isEditing ? (
