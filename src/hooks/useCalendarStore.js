@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     onLoadingCalendar,
     onSetHistoryEntry,
+    onSetExerciseHistory,
     onSetSessionPrefill,
     onSetCalendarEntries,
     onCalendarError,
@@ -15,9 +16,8 @@ const parseYearMonth = (date) => {
 
 export const useCalendarStore = () => {
     const dispatch = useDispatch();
-    const { isLoading, entries, sessionPrefill, historyEntries, errorMessage } = useSelector(
-        (state) => state.calendar
-    );
+    const { isLoading, entries, sessionPrefill, historyEntries, exerciseHistory, errorMessage } =
+        useSelector((state) => state.calendar);
 
     const startLoadingMonth = async (year, month) => {
         dispatch(onLoadingCalendar());
@@ -103,6 +103,20 @@ export const useCalendarStore = () => {
         }
     };
 
+    const startLoadingExerciseHistory = async (exerciseId) => {
+        dispatch(onLoadingCalendar());
+        try {
+            const { data } = await calendarApi.get(`/calendar/history-exercises/${exerciseId}`);
+            dispatch(onSetExerciseHistory({ exerciseId, sessions: data }));
+        } catch (error) {
+            dispatch(
+                onCalendarError(
+                    error.response?.data?.message || 'The exercise history could not be loaded'
+                )
+            );
+        }
+    };
+
     const startUpdatingHistoryExerciseNotes = async (id, notes) => {
         try {
             await calendarApi.patch(`/calendar/history-exercises/${id}/notes`, { notes });
@@ -131,6 +145,7 @@ export const useCalendarStore = () => {
         entries,
         sessionPrefill,
         historyEntries,
+        exerciseHistory,
         errorMessage,
 
         startLoadingMonth,
@@ -139,6 +154,7 @@ export const useCalendarStore = () => {
         startLoadingSessionPrefill,
         startCompletingSession,
         startLoadingHistoryEntry,
+        startLoadingExerciseHistory,
         startUpdatingHistoryExerciseNotes,
         startUpdatingHistorySetNotes,
     };

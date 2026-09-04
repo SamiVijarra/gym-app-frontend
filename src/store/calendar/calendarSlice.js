@@ -7,6 +7,7 @@ export const calendarSlice = createSlice({
         entries: [],
         sessionPrefill: null,
         historyEntries: {},
+        exerciseHistory: {},
         errorMessage: undefined,
     },
     reducers: {
@@ -29,6 +30,11 @@ export const calendarSlice = createSlice({
             state.historyEntries[payload.id] = payload;
             state.errorMessage = undefined;
         },
+        onSetExerciseHistory: (state, { payload }) => {
+            state.isLoading = false;
+            state.exerciseHistory[payload.exerciseId] = payload.sessions;
+            state.errorMessage = undefined;
+        },
         onCalendarError: (state, { payload }) => {
             state.isLoading = false;
             state.errorMessage = payload;
@@ -41,5 +47,6 @@ export const {
     onSetCalendarEntries,
     onSetSessionPrefill,
     onSetHistoryEntry,
+    onSetExerciseHistory,
     onCalendarError,
 } = calendarSlice.actions;

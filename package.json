@@ -20,6 +20,7 @@
     "react-modal": "^3.16.3",
     "react-redux": "^9.2.0",
     "react-router-dom": "6",
+    "recharts": "^3.10.1",
     "sweetalert2": "^11.26.24"
   },
   "devDependencies": {
