@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 
 import { useAuthStore, useExercisesStore, useForm, useRoutinesStore } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
+import { Button } from '../../components/Button';
 
 export const ExerciseDetailPage = () => {
     const { id } = useParams();
@@ -157,21 +158,17 @@ export const ExerciseDetailPage = () => {
 
                         {canEdit && (
                             <div className="d-flex gap-2 mt-2">
-                                <button
+                                <Button
+                                    variant="secondary"
                                     type="button"
-                                    className="btn btn-sm btn-outline-secondary"
                                     onClick={() => setIsEditing((current) => !current)}
                                 >
                                     <i className="fas fa-pen"></i>{' '}
                                     {isEditing ? 'Cancel' : 'Edit exercise'}
-                                </button>
-                                <button
-                                    type="button"
-                                    className="btn btn-sm btn-outline-danger"
-                                    onClick={onDeleteExercise}
-                                >
+                                </Button>
+                                <Button variant="danger" type="button" onClick={onDeleteExercise}>
                                     <i className="fas fa-trash"></i> Delete exercise
-                                </button>
+                                </Button>
                             </div>
                         )}
 
