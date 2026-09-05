@@ -34,7 +34,7 @@ export const ProfilePage = () => {
                     <div className="app-page-container profile-page-container">
                         <div className="profile-page-loading">
                             <div className="profile-loading-spinner" />
-                            <span>Cargando perfil...</span>
+                            <span>Loading profile...</span>
                         </div>
                     </div>
                 </main>
@@ -48,11 +48,13 @@ export const ProfilePage = () => {
             <main className="app-page profile-page">
                 <div className="app-page-container profile-page-container">
                     <header className="app-page-header profile-page-header">
-                        <span className="app-page-eyebrow profile-page-eyebrow">PERFIL</span>
+                        <span className="app-page-eyebrow profile-page-eyebrow">PROFILE</span>
 
-                        <h1 className="app-page-title">Mi perfil</h1>
+                        <h1 className="app-page-title">My profile</h1>
 
-                        <p className="app-page-subtitle">Administrá tu información personal y mantené tus datos actualizados.</p>
+                        <p className="app-page-subtitle">
+                            Manage your personal information and keep your data up to date.
+                        </p>
                     </header>
 
                     <section className="profile-card">
@@ -62,14 +64,14 @@ export const ProfilePage = () => {
                             </div>
 
                             <div>
-                                <h2>Información personal</h2>
-                                <p>Actualizá los datos de tu perfil.</p>
+                                <h2>Personal information</h2>
+                                <p>Manage your personal information.</p>
                             </div>
                         </div>
 
                         <form className="profile-form" onSubmit={onSubmit}>
                             <div className="profile-form-field profile-form-field-full">
-                                <label htmlFor="name">Nombre</label>
+                                <label htmlFor="name">Name</label>
 
                                 <input
                                     id="name"
@@ -82,7 +84,7 @@ export const ProfilePage = () => {
 
                             <div className="profile-form-row">
                                 <div className="profile-form-field">
-                                    <label htmlFor="weight">Peso (kg)</label>
+                                    <label htmlFor="weight">Weight (kg)</label>
 
                                     <input
                                         id="weight"
@@ -95,7 +97,7 @@ export const ProfilePage = () => {
                                 </div>
 
                                 <div className="profile-form-field">
-                                    <label htmlFor="height">Estatura (m)</label>
+                                    <label htmlFor="height">Height (m)</label>
 
                                     <input
                                         id="height"
@@ -110,7 +112,7 @@ export const ProfilePage = () => {
                             </div>
 
                             <div className="profile-form-field profile-form-field-full">
-                                <label htmlFor="birthDate">Fecha de nacimiento</label>
+                                <label htmlFor="birthDate">Birth date</label>
 
                                 <input
                                     id="birthDate"
@@ -131,12 +133,12 @@ export const ProfilePage = () => {
                                     {isLoading ? (
                                         <>
                                             <span className="profile-button-spinner" />
-                                            Guardando...
+                                            Saving...
                                         </>
                                     ) : (
                                         <>
                                             <i className="fas fa-check" />
-                                            Guardar cambios
+                                            Save changes
                                         </>
                                     )}
                                 </button>

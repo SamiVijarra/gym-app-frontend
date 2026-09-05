@@ -38,7 +38,7 @@ export const LoginPage = () => {
     const registerSubmit = (event) => {
         event.preventDefault();
         if (registerPassword !== registerPassword2) {
-            Swal.fire('Error en registro', 'Las contraseñas deben ser iguales', 'error');
+            Swal.fire('Login error', 'Passwords must match', 'error');
             return;
         }
         startRegister({ name: registerName, email: registerEmail, password: registerPassword });
@@ -46,7 +46,7 @@ export const LoginPage = () => {
 
     useEffect(() => {
         if (errorMessage !== undefined) {
-            Swal.fire('Error en la autenticación', errorMessage, 'error');
+            Swal.fire('Error in authentication', errorMessage, 'error');
         }
     }, [errorMessage]);
 
@@ -65,12 +65,12 @@ export const LoginPage = () => {
                     <span className="auth-eyebrow">GYM TRACKER</span>
 
                     <h1>
-                        Tu entrenamiento,
+                        Your training,
                         <br />
-                        bajo control.
+                        under control.
                     </h1>
 
-                    <p>Organizá tus rutinas, registrá tus ejercicios y seguí tu progreso.</p>
+                    <p>Organize your routines, record your exercises and track your progress.</p>
                 </header>
 
                 <div className="auth-card">
@@ -83,15 +83,15 @@ export const LoginPage = () => {
                             </div>
 
                             <div>
-                                <span className="auth-section-label">BIENVENIDO</span>
+                                <span className="auth-section-label">WELCOME</span>
 
-                                <h2>Ingresá a tu cuenta</h2>
+                                <h2>Login to your account</h2>
                             </div>
                         </div>
 
                         <form onSubmit={loginSubmit}>
                             <div className="auth-form-field">
-                                <label htmlFor="loginEmail">Correo electrónico</label>
+                                <label htmlFor="loginEmail">Email address</label>
 
                                 <div className="auth-input-wrapper">
                                     <i className="fas fa-envelope" />
@@ -99,7 +99,7 @@ export const LoginPage = () => {
                                     <input
                                         id="loginEmail"
                                         type="email"
-                                        placeholder="tu@email.com"
+                                        placeholder="your@email.com"
                                         name="loginEmail"
                                         value={loginEmail}
                                         onChange={onLoginInputChange}
@@ -108,7 +108,7 @@ export const LoginPage = () => {
                             </div>
 
                             <div className="auth-form-field">
-                                <label htmlFor="loginPassword">Contraseña</label>
+                                <label htmlFor="loginPassword">Password</label>
 
                                 <div className="auth-input-wrapper">
                                     <i className="fas fa-lock" />
@@ -128,7 +128,7 @@ export const LoginPage = () => {
                                 type="submit"
                                 className="auth-submit-button auth-submit-primary"
                             >
-                                Ingresar
+                                Login
                                 <i className="fas fa-arrow-right" />
                             </button>
                         </form>
@@ -147,15 +147,15 @@ export const LoginPage = () => {
                             </div>
 
                             <div>
-                                <span className="auth-section-label">NUEVO ACÁ</span>
+                                <span className="auth-section-label">NEW HERE</span>
 
-                                <h2>Creá tu cuenta</h2>
+                                <h2>Create your account</h2>
                             </div>
                         </div>
 
                         <form onSubmit={registerSubmit}>
                             <div className="auth-form-field">
-                                <label htmlFor="registerName">Nombre</label>
+                                <label htmlFor="registerName">Name</label>
 
                                 <div className="auth-input-wrapper">
                                     <i className="fas fa-user" />
@@ -163,7 +163,7 @@ export const LoginPage = () => {
                                     <input
                                         id="registerName"
                                         type="text"
-                                        placeholder="Tu nombre"
+                                        placeholder="Your name"
                                         name="registerName"
                                         value={registerName}
                                         onChange={onRegisterInputChange}
@@ -172,7 +172,7 @@ export const LoginPage = () => {
                             </div>
 
                             <div className="auth-form-field">
-                                <label htmlFor="registerEmail">Correo electrónico</label>
+                                <label htmlFor="registerEmail">Email address</label>
 
                                 <div className="auth-input-wrapper">
                                     <i className="fas fa-envelope" />
@@ -180,7 +180,7 @@ export const LoginPage = () => {
                                     <input
                                         id="registerEmail"
                                         type="email"
-                                        placeholder="tu@email.com"
+                                        placeholder="your@email.com"
                                         name="registerEmail"
                                         value={registerEmail}
                                         onChange={onRegisterInputChange}
@@ -190,7 +190,7 @@ export const LoginPage = () => {
 
                             <div className="auth-form-row">
                                 <div className="auth-form-field">
-                                    <label htmlFor="registerPassword">Contraseña</label>
+                                    <label htmlFor="registerPassword">Password</label>
 
                                     <div className="auth-input-wrapper">
                                         <i className="fas fa-lock" />
@@ -207,7 +207,7 @@ export const LoginPage = () => {
                                 </div>
 
                                 <div className="auth-form-field">
-                                    <label htmlFor="registerPassword2">Repetir contraseña</label>
+                                    <label htmlFor="registerPassword2">Repeat password</label>
 
                                     <div className="auth-input-wrapper">
                                         <i className="fas fa-lock" />
@@ -228,7 +228,7 @@ export const LoginPage = () => {
                                 type="submit"
                                 className="auth-submit-button auth-submit-secondary"
                             >
-                                Crear cuenta
+                                Create account
                                 <i className="fas fa-user-plus" />
                             </button>
                         </form>
@@ -237,7 +237,7 @@ export const LoginPage = () => {
 
                 <footer className="auth-footer">
                     <i className="fas fa-shield-alt" />
-                    Tus datos están protegidos
+                    Your data is protected
                 </footer>
             </div>
         </main>
