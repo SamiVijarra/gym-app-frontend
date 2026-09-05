@@ -172,12 +172,9 @@ export const ExerciseDetailPage = () => {
                             </div>
                         )}
 
-                        <Link
-                            to={`/exercises/${id}/progress`}
-                            className="btn btn-sm btn-outline-secondary mt-2"
-                        >
+                        <Button as={Link} to={`/exercises/${id}/progress`} variant="secondary">
                             <i className="fas fa-chart-line"></i> View progress
-                        </Link>
+                        </Button>
                     </header>
 
                     {isEditing ? (
@@ -267,14 +264,10 @@ export const ExerciseDetailPage = () => {
                                     </p>
                                 )}
 
-                                <button
-                                    className="routine-create-button"
-                                    type="submit"
-                                    disabled={isSavingEdit}
-                                >
+                                <Button type="submit" variant="primary" disabled={isSavingEdit}>
                                     <i className="fas fa-check"></i>
                                     {isSavingEdit ? 'Saving...' : 'Save changes'}
-                                </button>
+                                </Button>
                             </form>
                         </section>
                     ) : (
@@ -339,31 +332,21 @@ export const ExerciseDetailPage = () => {
                         </div>
 
                         <div className="exercise-mode-switch">
-                            <button
-                                type="button"
-                                className={
-                                    mode === 'existing'
-                                        ? 'exercise-mode-button active'
-                                        : 'exercise-mode-button'
-                                }
+                            <Button
+                                variant={mode === 'existing' ? 'primary' : 'secondary'}
                                 onClick={() => setMode('existing')}
                             >
                                 <i className="fas fa-calendar-check" />
                                 Existing Day
-                            </button>
+                            </Button>
 
-                            <button
-                                type="button"
-                                className={
-                                    mode === 'new'
-                                        ? 'exercise-mode-button active'
-                                        : 'exercise-mode-button'
-                                }
+                            <Button
+                                variant={mode === 'new' ? 'primary' : 'secondary'}
                                 onClick={() => setMode('new')}
                             >
                                 <i className="fas fa-plus" />
                                 Create New Day
-                            </button>
+                            </Button>
                         </div>
 
                         {mode === 'existing' && (
@@ -382,15 +365,14 @@ export const ExerciseDetailPage = () => {
                                     ))}
                                 </select>
 
-                                <button
-                                    type="button"
-                                    className="exercise-add-button"
+                                <Button
+                                    variant="primary"
                                     disabled={!selectedDayId}
                                     onClick={onAddToExistingDay}
                                 >
                                     <i className="fas fa-plus" />
                                     Add
-                                </button>
+                                </Button>
                             </div>
                         )}
 
@@ -422,15 +404,14 @@ export const ExerciseDetailPage = () => {
                                     />
                                 </div>
 
-                                <button
-                                    type="button"
-                                    className="exercise-add-button"
+                                <Button
+                                    variant="primary"
                                     disabled={!newDayNumber || !newDayDescription}
                                     onClick={onCreateDayAndAdd}
                                 >
                                     <i className="fas fa-plus" />
                                     Create and Add
-                                </button>
+                                </Button>
                             </div>
                         )}
                     </section>

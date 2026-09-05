@@ -33,6 +33,33 @@
     /* Semantic helpers */
     --app-on-primary: #ffffff;
     --app-primary-soft: color-mix(in srgb, var(--app-primary) 10%, transparent);
+
+    /* Secondary / Accent / Warning */
+    --app-secondary: var(--app-surface-2);
+    --app-secondary-hover: var(--app-surface-hover);
+    --app-secondary-text: var(--app-text);
+    --app-accent: #22d3ee;
+    --app-accent-light: #67e8f9;
+    --app-on-accent: #05242b;
+    --app-warning: #fbbf24;
+    --app-on-warning: #1f1400;
+
+    /* Radius scale */
+    --app-radius-sm: 6px;
+    --app-radius-md: 10px;
+    --app-radius-lg: 14px;
+    --app-radius-xl: 20px;
+    --app-radius-full: 999px;
+
+    /* Spacing scale (base 4px) */
+    --app-space-1: 4px;
+    --app-space-2: 8px;
+    --app-space-3: 12px;
+    --app-space-4: 16px;
+    --app-space-5: 24px;
+    --app-space-6: 32px;
+    --app-space-7: 48px;
+    --app-space-8: 64px;
 }
 
 /* =========================================================
@@ -60,6 +87,12 @@
 
     --app-shadow: 0 10px 30px rgba(30, 20, 50, 0.08);
     --app-shadow-lg: 0 20px 60px rgba(30, 20, 50, 0.1);
+
+    --app-accent: #0891b2;
+    --app-accent-light: #22d3ee;
+    --app-on-accent: #ffffff;
+    --app-warning: #d97706;
+    --app-on-warning: #ffffff;
 }
 
 /* =========================================================
