@@ -12,6 +12,7 @@ import {
 } from 'recharts';
 import { useCalendarStore, useExercisesStore } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
+import { Button } from '../../components/Button';
 
 const METRICS = {
     maxWeight: {
@@ -51,10 +52,10 @@ export const ExerciseProgressPage = () => {
             <Navbar />
             <main className="exercise-detail-page">
                 <div className="exercise-detail-container">
-                    <Link to={`/exercises/${id}`} className="exercise-detail-back-link">
+                    <Button as={Link} to={`/exercises/${id}`} variant="secondary">
                         <span>←</span>
                         Return to exercise
-                    </Link>
+                    </Button>
 
                     <header className="exercise-detail-header">
                         <span className="exercise-detail-eyebrow">PROGRESS</span>
@@ -66,18 +67,12 @@ export const ExerciseProgressPage = () => {
                     <section className="routine-create-card">
                         <div className="exercise-mode-switch">
                             {Object.entries(METRICS).map(([key, { label }]) => (
-                                <button
-                                    key={key}
-                                    type="button"
-                                    className={
-                                        metric === key
-                                            ? 'exercise-mode-button active'
-                                            : 'exercise-mode-button'
-                                    }
+                                <Button
+                                    variant={metric === key ? 'primary' : 'secondary'}
                                     onClick={() => setMetric(key)}
                                 >
                                     {label}
-                                </button>
+                                </Button>
                             ))}
                         </div>
 

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { useExercisesStore, useForm } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
+import { Button } from '../../components/Button';
 
 const newExerciseFields = {
     name: '',
@@ -144,14 +145,10 @@ export const ExercisesPage = () => {
                                     onChange={onInputChange}
                                 />
                             </div>
-                            <button
-                                className="routine-create-button"
-                                type="submit"
-                                disabled={isCreating}
-                            >
+                            <Button variant="primary" type="submit" disabled={isCreating}>
                                 <i className="fas fa-plus"></i>
                                 {isCreating ? 'Creating...' : 'Create Exercise'}
-                            </button>
+                            </Button>
                         </form>
                     </section>
                     <section className="exercises-search">
@@ -165,14 +162,13 @@ export const ExercisesPage = () => {
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                         {searchTerm && (
-                            <button
-                                type="button"
-                                className="exercises-search-clear"
+                            <Button
+                                variant="secondary"
                                 onClick={() => setSearchTerm('')}
                                 aria-label="Clear search"
                             >
                                 <i className="fas fa-times"></i>
-                            </button>
+                            </Button>
                         )}
                     </section>
 
