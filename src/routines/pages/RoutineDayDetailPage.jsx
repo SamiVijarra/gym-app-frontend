@@ -137,6 +137,15 @@ export const RoutineDayDetailPage = () => {
                                     >
                                         <i className="fas fa-trash"></i>
                                     </button>
+
+                                    <Link
+                                        to={`/exercises/${routineExercise.exercise.id}/progress`}
+                                        className="routine-day-delete routine-icon-button-progress"
+                                        aria-label="View progress"
+                                        title="View progress"
+                                    >
+                                        <i className="fas fa-chart-line"></i>
+                                    </Link>
                                 </div>
 
                                 {routineExercise.exercise.instructions?.length > 0 && (

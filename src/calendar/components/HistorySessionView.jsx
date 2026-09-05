@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useCalendarStore } from '../../hooks';
 
 const InlineNotesEditor = ({ initialNotes, onSave }) => {
@@ -62,6 +63,14 @@ export const HistorySessionView = ({ historyEntry }) => {
                                 ))}
                             </div>
                         </div>
+                        <Link
+                            to={`/exercises/${historyExercise.exercise.id}/progress`}
+                            className="routine-day-delete routine-icon-button-progress"
+                            aria-label="View progress"
+                            title="View progress"
+                        >
+                            <i className="fas fa-chart-line"></i>
+                        </Link>
                     </div>
 
                     <InlineNotesEditor
