@@ -52,9 +52,7 @@ export const useCalendarStore = () => {
             return true;
         } catch (error) {
             dispatch(
-                onCalendarError(
-                    error.response?.data?.message || 'No se pudo cancelar el día planeado'
-                )
+                onCalendarError(error.response?.data?.message || 'Could not cancel the planned day')
             );
             return false;
         }
@@ -106,7 +104,7 @@ export const useCalendarStore = () => {
     const startLoadingExerciseHistory = async (exerciseId) => {
         dispatch(onLoadingCalendar());
         try {
-            const { data } = await calendarApi.get(`/calendar/history-exercises/${exerciseId}`);
+            const { data } = await calendarApi.get(`/calendar/history/exercise/${exerciseId}`);
             dispatch(onSetExerciseHistory({ exerciseId, sessions: data }));
         } catch (error) {
             dispatch(
@@ -123,7 +121,10 @@ export const useCalendarStore = () => {
             return true;
         } catch (error) {
             dispatch(
-                onCalendarError(error.response?.data?.message || 'No se pudieron guardar las notas')
+                onCalendarError(
+                    error.response?.data?.message ||
+                        'Could not save the notes for the exercise history'
+                )
             );
             return false;
         }
@@ -135,7 +136,9 @@ export const useCalendarStore = () => {
             return true;
         } catch (error) {
             dispatch(
-                onCalendarError(error.response?.data?.message || 'No se pudieron guardar las notas')
+                onCalendarError(
+                    error.response?.data?.message || 'Could not save the notes for the set history'
+                )
             );
             return false;
         }
