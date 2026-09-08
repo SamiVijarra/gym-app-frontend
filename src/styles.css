@@ -4042,3 +4042,19 @@ body {
     background: color-mix(in srgb, var(--app-primary) 12%, transparent);
     border-color: color-mix(in srgb, var(--app-primary) 30%, transparent);
 }
+
+/* =========================================================
+   FIELD VALIDATION
+   ========================================================= */
+
+.input-invalid {
+    border-color: var(--app-danger) !important;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--app-danger) 18%, transparent) !important;
+}
+
+.field-error-text {
+    display: block;
+    margin-top: 6px;
+    color: var(--app-danger);
+    font-size: 12px;
+}

@@ -31,6 +31,9 @@ export const LoginPage = () => {
         onInputChange: onRegisterInputChange,
     } = useForm(registerFormField);
 
+    const passwordsMismatch =
+        registerPassword2.length > 0 && registerPassword !== registerPassword2;
+
     const loginSubmit = (event) => {
         event.preventDefault();
         startLogin({ email: loginEmail, password: loginPassword });
@@ -38,10 +41,7 @@ export const LoginPage = () => {
 
     const registerSubmit = (event) => {
         event.preventDefault();
-        if (registerPassword !== registerPassword2) {
-            Swal.fire('Login error', 'Passwords must match', 'error');
-            return;
-        }
+        if (passwordsMismatch) return;
         startRegister({ name: registerName, email: registerEmail, password: registerPassword });
     };
 
@@ -222,8 +222,14 @@ export const LoginPage = () => {
                                             name="registerPassword2"
                                             value={registerPassword2}
                                             onChange={onRegisterInputChange}
+                                            className={passwordsMismatch ? 'input-invalid' : ''}
                                         />
                                     </div>
+                                    {passwordsMismatch && (
+                                        <span className="field-error-text">
+                                            Passwords do not match
+                                        </span>
+                                    )}
                                 </div>
                             </div>
 
@@ -235,7 +241,8 @@ export const LoginPage = () => {
                                     !registerName ||
                                     !registerEmail ||
                                     !registerPassword ||
-                                    !registerPassword2
+                                    !registerPassword2 ||
+                                    passwordsMismatch
                                 }
                             >
                                 Create account
