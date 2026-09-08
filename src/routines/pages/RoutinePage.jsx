@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useForm, useRoutinesStore } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
+import { Button } from '../../components/Button';
 
 const newDayFields = { dayNumber: '', description: '' };
 
@@ -98,10 +99,14 @@ export const RoutinePage = () => {
                                 />
                             </div>
 
-                            <button className="routine-create-button" type="submit">
+                            <Button
+                                type="submit"
+                                variant="primary"
+                                disabled={!dayNumber || !description}
+                            >
                                 <i className="fas fa-plus"></i>
                                 Create day
-                            </button>
+                            </Button>
                         </form>
                     </section>
 
@@ -168,14 +173,14 @@ export const RoutinePage = () => {
 
                                         <div className="routine-day-arrow">→</div>
 
-                                        <button
-                                            type="button"
-                                            className="routine-day-delete"
+                                        <Button
+                                            variant="danger"
+                                            size="icon"
                                             onClick={(event) => onDeleteDay(event, day)}
-                                            aria-label="Eliminar día"
+                                            aria-label="Delete day"
                                         >
                                             <i className="fas fa-trash"></i>
-                                        </button>
+                                        </Button>
                                     </Link>
                                 ))}
                             </div>
