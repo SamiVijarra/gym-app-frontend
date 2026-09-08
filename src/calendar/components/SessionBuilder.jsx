@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useCalendarStore, useExercisesStore } from '../../hooks';
+import { Button } from '../../components/Button';
 
 let rowKeySeed = 0;
 const nextRowKey = () => `row-${++rowKeySeed}`;
@@ -95,6 +96,10 @@ export const SessionBuilder = ({
         );
     };
 
+    const canSubmit = rows.some((row) =>
+        row.sets.some((set) => set.weight !== '' && set.reps !== '')
+    );
+
     const onSubmit = async (event) => {
         event.preventDefault();
 
@@ -164,22 +169,23 @@ export const SessionBuilder = ({
                                 </div>
                             </div>
 
-                            <button
-                                type="button"
-                                className="btn btn-sm btn-outline-danger"
-                                onClick={() => removeRow(row.key)}
-                            >
+                            <Button variant="danger" size="sm" onClick={() => removeRow(row.key)}>
                                 Remove
-                            </button>
+                            </Button>
                         </div>
 
-                        <input
-                            type="text"
-                            className="form-control form-control-sm mt-2 mb-2"
-                            placeholder="Notes for this exercise (optional)"
-                            value={row.notes}
-                            onChange={(e) => updateRowNotes(row.key, e.target.value)}
-                        />
+                        <div className="routine-form-field mt-2 mb-2">
+                            <label htmlFor={`notes-${row.key}`}>
+                                Notes for this exercise (optional)
+                            </label>
+                            <input
+                                id={`notes-${row.key}`}
+                                type="text"
+                                className="routine-form-input"
+                                value={row.notes}
+                                onChange={(e) => updateRowNotes(row.key, e.target.value)}
+                            />
+                        </div>
 
                         <div className="routine-table-wrapper">
                             <table className="routine-sets-table">
@@ -201,8 +207,9 @@ export const SessionBuilder = ({
                                                 <input
                                                     type="number"
                                                     step="0.5"
-                                                    className="form-control form-control-sm"
+                                                    className="routine-form-input"
                                                     value={set.weight}
+                                                    aria-label="Weight (kg)"
                                                     onChange={(e) =>
                                                         updateSet(
                                                             row.key,
@@ -216,8 +223,9 @@ export const SessionBuilder = ({
                                             <td>
                                                 <input
                                                     type="number"
-                                                    className="form-control form-control-sm"
+                                                    className="routine-form-input"
                                                     value={set.reps}
+                                                    aria-label="Reps"
                                                     onChange={(e) =>
                                                         updateSet(
                                                             row.key,
@@ -231,8 +239,9 @@ export const SessionBuilder = ({
                                             <td>
                                                 <input
                                                     type="number"
-                                                    className="form-control form-control-sm"
+                                                    className="routine-form-input"
                                                     value={set.restSeconds}
+                                                    aria-label="Rest (seconds)"
                                                     onChange={(e) =>
                                                         updateSet(
                                                             row.key,
@@ -246,8 +255,9 @@ export const SessionBuilder = ({
                                             <td>
                                                 <input
                                                     type="text"
-                                                    className="form-control form-control-sm"
+                                                    className="routine-form-input"
                                                     value={set.notes}
+                                                    aria-label="Notes"
                                                     onChange={(e) =>
                                                         updateSet(
                                                             row.key,
@@ -259,13 +269,14 @@ export const SessionBuilder = ({
                                                 />
                                             </td>
                                             <td>
-                                                <button
-                                                    type="button"
-                                                    className="btn btn-sm btn-outline-secondary"
+                                                <Button
+                                                    variant="danger"
+                                                    size="icon"
                                                     onClick={() => removeSet(row.key, index)}
+                                                    aria-label="Remove set"
                                                 >
-                                                    ✕
-                                                </button>
+                                                    <i className="fas fa-xmark"></i>
+                                                </Button>
                                             </td>
                                         </tr>
                                     ))}
@@ -273,13 +284,14 @@ export const SessionBuilder = ({
                             </table>
                         </div>
 
-                        <button
-                            type="button"
-                            className="btn btn-sm btn-outline-success mt-2"
+                        <Button
+                            variant="primary"
+                            size="sm"
+                            className="mt-2"
                             onClick={() => addSet(row.key)}
                         >
                             + Set
-                        </button>
+                        </Button>
                     </article>
                 ))}
             </div>
@@ -293,16 +305,20 @@ export const SessionBuilder = ({
                     </div>
                 </div>
 
-                <input
-                    type="text"
-                    className="form-control mb-1"
-                    placeholder="Search exercise to add..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
+                <div className="routine-form-field">
+                    <label htmlFor="session-builder-search">Search exercise</label>
+                    <input
+                        id="session-builder-search"
+                        type="text"
+                        className="routine-form-input"
+                        placeholder="Search exercise to add..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
 
                 {searchTerm.trim().length > 0 && (
-                    <ul className="list-group">
+                    <ul className="list-group mt-2">
                         {searchResults.map((exercise) => (
                             <li
                                 key={exercise.id}
@@ -320,11 +336,16 @@ export const SessionBuilder = ({
                 )}
             </section>
 
-            {errorMessage && <p className="text-danger mt-2">{errorMessage}</p>}
+            {errorMessage && <p className="field-error-text mt-2">{errorMessage}</p>}
 
-            <button className="btn btn-success mt-3" type="submit" disabled={isSubmitting}>
+            <Button
+                type="submit"
+                variant="primary"
+                className="mt-3"
+                disabled={isSubmitting || !canSubmit}
+            >
                 {isSubmitting ? 'Saving...' : 'Save session'}
-            </button>
+            </Button>
         </form>
     );
 };
