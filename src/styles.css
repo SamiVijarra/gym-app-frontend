@@ -4076,3 +4076,21 @@ body {
     color: var(--app-danger);
     font-size: 12px;
 }
+
+.routine-set-actions {
+    display: flex;
+    gap: var(--app-space-2);
+}
+
+.add-exercise-form {
+    margin-top: var(--app-space-2);
+    padding: var(--app-space-3);
+    border: 1px solid var(--app-border);
+    border-radius: var(--app-radius-md);
+}
+
+.add-exercise-form-actions {
+    display: flex;
+    gap: var(--app-space-2);
+    margin-top: var(--app-space-2);
+}

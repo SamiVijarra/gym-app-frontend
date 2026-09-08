@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 import { useRoutinesStore } from '../../hooks';
+import { Button } from '../../components/Button';
 
 export const SetRow = ({ set }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -11,6 +12,7 @@ export const SetRow = ({ set }) => {
     const { startUpdatingSet, startRemovingSet } = useRoutinesStore();
 
     const onSave = async () => {
+        if (!weight || !reps) return;
         await startUpdatingSet(set.id, {
             weight: Number(weight),
             reps: Number(reps),
@@ -51,16 +53,18 @@ export const SetRow = ({ set }) => {
                 <td>{set.reps}</td>
                 <td>{set.restSeconds ? `${set.restSeconds}s` : '-'}</td>
                 <td>{set.notes || '-'}</td>
-                <td>
-                    <button
-                        className="btn btn-sm btn-outline-secondary"
+                <td className="routine-set-actions">
+                    <Button
+                        variant="ghost"
+                        size="icon"
                         onClick={() => setIsEditing(true)}
+                        aria-label="Edit set"
                     >
                         <i className="fas fa-pen"></i>
-                    </button>
-                    <button className="btn btn-sm btn-outline-danger" onClick={onDelete}>
+                    </Button>
+                    <Button variant="danger" size="icon" onClick={onDelete} aria-label="Delete set">
                         <i className="fas fa-trash"></i>
-                    </button>
+                    </Button>
                 </td>
             </tr>
         );
@@ -73,42 +77,52 @@ export const SetRow = ({ set }) => {
                 <input
                     type="number"
                     step="0.5"
-                    className="form-control form-control-sm"
+                    className="routine-form-input"
                     value={weight}
                     onChange={(e) => setWeight(e.target.value)}
+                    aria-label="Weight (kg)"
                 />
             </td>
             <td>
                 <input
                     type="number"
-                    className="form-control form-control-sm"
+                    className="routine-form-input"
                     value={reps}
                     onChange={(e) => setReps(e.target.value)}
+                    aria-label="Reps"
                 />
             </td>
             <td>
                 <input
                     type="number"
-                    className="form-control form-control-sm"
+                    className="routine-form-input"
                     value={restSeconds}
                     onChange={(e) => setRestSeconds(e.target.value)}
+                    aria-label="Rest (seconds)"
                 />
             </td>
             <td>
                 <input
                     type="text"
-                    className="form-control form-control-sm"
+                    className="routine-form-input"
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
+                    aria-label="Notes"
                 />
             </td>
-            <td>
-                <button className="btn btn-sm btn-success me-1" onClick={onSave}>
+            <td className="routine-set-actions">
+                <Button
+                    variant="primary"
+                    size="icon"
+                    onClick={onSave}
+                    disabled={!weight || !reps}
+                    aria-label="Save set"
+                >
                     <i className="fas fa-check"></i>
-                </button>
-                <button className="btn btn-sm btn-outline-secondary" onClick={onCancel}>
+                </Button>
+                <Button variant="ghost" size="icon" onClick={onCancel} aria-label="Cancel">
                     <i className="fas fa-xmark"></i>
-                </button>
+                </Button>
             </td>
         </tr>
     );
