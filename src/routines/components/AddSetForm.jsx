@@ -60,18 +60,8 @@ export const AddSetForm = ({ routineExerciseId }) => {
                         onChange={(e) => setRestSeconds(e.target.value)}
                     />
                 </div>
-                <div className="routine-form-field">
-                    <label htmlFor="add-set-notes">Notes</label>
-                    <input
-                        id="add-set-notes"
-                        type="text"
-                        className="routine-form-input"
-                        value={notes}
-                        onChange={(e) => setNotes(e.target.value)}
-                    />
-                </div>
                 <Button type="submit" variant="primary" size="sm" disabled={!weight || !reps}>
-                    + Serie
+                    + Set
                 </Button>
             </div>
 
