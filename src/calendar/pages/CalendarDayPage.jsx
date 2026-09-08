@@ -3,10 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import { isBefore, parseISO, startOfDay } from 'date-fns';
 import { useCalendarStore, useRoutinesStore } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
-import { PlanDayForm } from '../components/PlanDayForm';
-import { SessionBuilder } from '../components/SessionBuilder';
-import { PlannedSessionCard } from '../components/PlannedSessionCard';
-import { DoneSessionCard } from '../components/DoneSessionCard';
+import { DoneSessionCard, PlannedSessionCard, SessionBuilder, PlanDayForm } from '../components';
+import { Button } from '../../components/Button';
 
 export const CalendarDayPage = () => {
     const { date } = useParams();
@@ -16,7 +14,6 @@ export const CalendarDayPage = () => {
         useCalendarStore();
     const { days: routineDays, startLoadingRoutine } = useRoutinesStore();
 
-    // null | 'log-active' (prefilled builder open) | 'log-free' (free builder open)
     const [logMode, setLogMode] = useState(null);
     const [activeRoutineDayId, setActiveRoutineDayId] = useState('');
     const [activeCalendarEntryId, setActiveCalendarEntryId] = useState(undefined);
@@ -27,13 +24,10 @@ export const CalendarDayPage = () => {
         startLoadingRoutine();
     }, []);
 
-    // a day can have more than one session — each rendered as its own card
     const dayEntries = entries.filter((e) => e.date === date && e.status !== 'empty');
 
     const isPastDate = isBefore(parseISO(date), startOfDay(new Date()));
 
-    // completing a *specific* planned card — we know exactly which
-    // CalendarEntry to mark done, so no ambiguity even with duplicates
     const onCompletePlannedEntry = async (entry) => {
         setActiveRoutineDayId(entry.routineDay.id);
         setActiveCalendarEntryId(entry.id);
@@ -41,8 +35,6 @@ export const CalendarDayPage = () => {
         setLogMode('log-active');
     };
 
-    // logging fresh, from the "Log a session now" picker — no pre-existing
-    // planned entry is being targeted
     const onStartFreshRoutineSession = async (routineDayId) => {
         setActiveRoutineDayId(routineDayId);
         setActiveCalendarEntryId(undefined);
@@ -129,25 +121,32 @@ export const CalendarDayPage = () => {
                                     <h3>Log a session now</h3>
                                     <p>Record a session you already did.</p>
 
-                                    <div className="d-flex gap-2 flex-wrap mt-2">
-                                        <select
-                                            className="form-select form-select-sm"
-                                            value={logPickerRoutineDayId}
-                                            onChange={(e) =>
-                                                setLogPickerRoutineDayId(e.target.value)
-                                            }
-                                            style={{ maxWidth: '220px' }}
+                                    <div className="add-set-form-row mt-2">
+                                        <div
+                                            className="routine-form-field"
+                                            style={{ marginRight: '220px' }}
                                         >
-                                            <option value="">Free session (no routine)</option>
-                                            {routineDays.map((day) => (
-                                                <option key={day.id} value={day.id}>
-                                                    Day {day.dayNumber} — {day.description}
-                                                </option>
-                                            ))}
-                                        </select>
+                                            <label htmlFor="log-session-routine">Routine day</label>
+                                            <select
+                                                id="log-session-routine"
+                                                className="routine-form-input"
+                                                value={logPickerRoutineDayId}
+                                                onChange={(e) =>
+                                                    setLogPickerRoutineDayId(e.target.value)
+                                                }
+                                            >
+                                                <option value="">Free session (no routine)</option>
+                                                {routineDays.map((day) => (
+                                                    <option key={day.id} value={day.id}>
+                                                        Day {day.dayNumber} — {day.description}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
 
-                                        <button
-                                            className="btn btn-sm btn-outline-success"
+                                        <Button
+                                            variant="primary"
+                                            size="sm"
                                             onClick={() => {
                                                 if (logPickerRoutineDayId) {
                                                     onStartFreshRoutineSession(
@@ -159,7 +158,7 @@ export const CalendarDayPage = () => {
                                             }}
                                         >
                                             Start
-                                        </button>
+                                        </Button>
                                     </div>
                                 </section>
                             </div>

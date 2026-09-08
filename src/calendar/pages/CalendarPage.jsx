@@ -60,7 +60,7 @@ export const CalendarPage = () => {
             <Navbar />
             <main className="app-page calendar-page">
                 <div className="app-page-container calendar-page-container">
-                    <header className="app- page-header calendar-page-header">
+                    <header className="app-page-header calendar-page-header">
                         <span className="app-page-eyebrow">TRAINING</span>
                         <h1 className="app-page-title">Calendar</h1>
                         <p className="app-page-subtitle">
