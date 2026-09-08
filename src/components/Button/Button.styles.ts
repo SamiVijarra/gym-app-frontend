@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { radius, spacing } from '../../theme';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'accent';
-export type ButtonSize = 'sm' | 'md' | 'lg';
+export type ButtonSize = 'sm' | 'md' | 'lg' | 'icon';
 
 const variantStyles = {
     primary: css`
@@ -70,6 +70,13 @@ const sizeStyles = {
         padding: 0 ${spacing[5]};
         font-size: 0.9375rem;
         border-radius: ${radius.lg};
+    `,
+    icon: css`
+        height: 32px;
+        width: 32px;
+        padding: 0;
+        font-size: 0.875rem;
+        border-radius: ${radius.sm};
     `,
 };
 

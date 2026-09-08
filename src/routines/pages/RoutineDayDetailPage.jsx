@@ -5,6 +5,7 @@ import { Navbar } from '../../components/Navbar';
 import { AddExerciseForm } from '../components/AddExerciseForm';
 import { AddSetForm } from '../components/AddSetForm';
 import { SetRow } from '../components/SetRow';
+import { Button } from '../../components/Button';
 
 export const RoutineDayDetailPage = () => {
     const { dayId } = useParams();
@@ -129,23 +130,25 @@ export const RoutineDayDetailPage = () => {
                                         </div>
                                     </div>
 
-                                    <button
-                                        type="button"
-                                        className="routine-day-delete"
+                                    <Button
+                                        variant="danger"
+                                        size="icon"
                                         onClick={() => onDeleteExercise(routineExercise)}
                                         aria-label="Delete exercise"
                                     >
                                         <i className="fas fa-trash"></i>
-                                    </button>
+                                    </Button>
 
-                                    <Link
+                                    <Button
+                                        as={Link}
                                         to={`/exercises/${routineExercise.exercise.id}/progress`}
-                                        className="routine-day-delete routine-icon-button-progress"
+                                        variant="ghost"
+                                        size="icon"
                                         aria-label="View progress"
                                         title="View progress"
                                     >
                                         <i className="fas fa-chart-line"></i>
-                                    </Link>
+                                    </Button>
                                 </div>
 
                                 {routineExercise.exercise.instructions?.length > 0 && (
