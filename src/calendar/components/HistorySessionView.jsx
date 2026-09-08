@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCalendarStore } from '../../hooks';
+import { Button } from '../../components/Button';
 
-const InlineNotesEditor = ({ initialNotes, onSave }) => {
+const InlineNotesEditor = ({ id, initialNotes, onSave }) => {
     const [notes, setNotes] = useState(initialNotes ?? '');
     const [isSaving, setIsSaving] = useState(false);
 
@@ -14,17 +15,21 @@ const InlineNotesEditor = ({ initialNotes, onSave }) => {
     };
 
     return (
-        <form onSubmit={onSubmit} className="d-flex gap-2 align-items-center">
+        <form onSubmit={onSubmit} className="inline-notes-form">
+            <label htmlFor={id} className="visually-hidden">
+                Notes
+            </label>
             <input
+                id={id}
                 type="text"
-                className="form-control form-control-sm"
+                className="routine-form-input"
                 placeholder="Notes"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
             />
-            <button className="btn btn-sm btn-outline-success" type="submit" disabled={isSaving}>
+            <Button type="submit" variant="secondary" size="sm" disabled={isSaving}>
                 {isSaving ? '...' : 'Save'}
-            </button>
+            </Button>
         </form>
     );
 };
@@ -63,17 +68,21 @@ export const HistorySessionView = ({ historyEntry }) => {
                                 ))}
                             </div>
                         </div>
-                        <Link
+
+                        <Button
+                            as={Link}
                             to={`/exercises/${historyExercise.exercise.id}/progress`}
-                            className="routine-day-delete routine-icon-button-progress"
+                            variant="ghost"
+                            size="icon"
                             aria-label="View progress"
                             title="View progress"
                         >
                             <i className="fas fa-chart-line"></i>
-                        </Link>
+                        </Button>
                     </div>
 
                     <InlineNotesEditor
+                        id={`exercise-notes-${historyExercise.id}`}
                         initialNotes={historyExercise.notes}
                         onSave={async (notes) => {
                             await startUpdatingHistoryExerciseNotes(historyExercise.id, notes);
@@ -101,6 +110,7 @@ export const HistorySessionView = ({ historyEntry }) => {
                                         <td>{set.restSeconds ? `${set.restSeconds}s` : '-'}</td>
                                         <td>
                                             <InlineNotesEditor
+                                                id={`set-notes-${set.id}`}
                                                 initialNotes={set.notes}
                                                 onSave={async (notes) => {
                                                     await startUpdatingHistorySetNotes(
