@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useForm, useAuthStore } from '../../hooks';
 import Swal from 'sweetalert2';
 import { ThemeToggle } from '../../components/ThemeToggle';
+import { Button } from '../../components/Button';
 
 const loginFormField = {
     loginEmail: '',
@@ -124,13 +125,15 @@ export const LoginPage = () => {
                                 </div>
                             </div>
 
-                            <button
+                            <Button
                                 type="submit"
-                                className="auth-submit-button auth-submit-primary"
+                                variant="primary"
+                                fullWidth
+                                disabled={!loginEmail || !loginPassword}
                             >
                                 Login
                                 <i className="fas fa-arrow-right" />
-                            </button>
+                            </Button>
                         </form>
                     </section>
 
@@ -224,13 +227,20 @@ export const LoginPage = () => {
                                 </div>
                             </div>
 
-                            <button
+                            <Button
                                 type="submit"
-                                className="auth-submit-button auth-submit-secondary"
+                                variant="secondary"
+                                fullWidth
+                                disabled={
+                                    !registerName ||
+                                    !registerEmail ||
+                                    !registerPassword ||
+                                    !registerPassword2
+                                }
                             >
                                 Create account
                                 <i className="fas fa-user-plus" />
-                            </button>
+                            </Button>
                         </form>
                     </section>
                 </div>
