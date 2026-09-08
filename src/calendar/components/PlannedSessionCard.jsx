@@ -1,5 +1,6 @@
 import Swal from 'sweetalert2';
 import { useCalendarStore } from '../../hooks';
+import { Button } from '../../components/Button';
 
 export const PlannedSessionCard = ({ entry, onComplete }) => {
     const { startCancelingPlan } = useCalendarStore();
@@ -28,14 +29,14 @@ export const PlannedSessionCard = ({ entry, onComplete }) => {
 
             <p className="calendar-session-block-meta">Day {entry.routineDay.dayNumber}</p>
 
-            <div className="d-flex gap-2 mt-2">
-                <button className="btn btn-success" onClick={() => onComplete(entry)}>
+            <div className="calendar-session-actions">
+                <Button variant="primary" onClick={() => onComplete(entry)}>
                     Complete session
-                </button>
+                </Button>
 
-                <button className="btn btn-outline-danger" onClick={onCancel}>
+                <Button variant="danger" onClick={onCancel}>
                     Cancel
-                </button>
+                </Button>
             </div>
         </section>
     );
