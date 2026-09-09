@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, useUsersStore } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
 import { Button } from '../../components/Button';
@@ -16,6 +16,9 @@ export const ProfilePage = () => {
     const { name, weight, height, birthDate, onInputChange } = useForm(
         profile ?? profileFormFields
     );
+
+    const [nameTouched, setNameTouched] = useState(false);
+    const nameError = nameTouched && !name;
 
     useEffect(() => {
         startLoadingProfile();
@@ -76,11 +79,19 @@ export const ProfilePage = () => {
 
                                 <input
                                     id="name"
-                                    className="profile-form-input"
+                                    className={
+                                        nameError
+                                            ? 'profile-form-input input-invalid'
+                                            : 'profile-form-input'
+                                    }
                                     name="name"
                                     value={name}
                                     onChange={onInputChange}
+                                    onBlur={() => setNameTouched(true)}
                                 />
+                                {nameError && (
+                                    <span className="field-error-text">Name is required.</span>
+                                )}
                             </div>
 
                             <div className="profile-form-row">
