@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useForm, useRoutinesStore } from '../../hooks';
@@ -12,6 +12,11 @@ export const RoutinePage = () => {
         useRoutinesStore();
 
     const { dayNumber, description, onInputChange, onResetForm } = useForm(newDayFields);
+
+    const [touched, setTouched] = useState({ dayNumber: false, description: false });
+    const onFieldBlur = (field) => setTouched((current) => ({ ...current, [field]: true }));
+    const dayNumberError = touched.dayNumber && !dayNumber;
+    const descriptionError = touched.description && !description;
 
     useEffect(() => {
         startLoadingRoutine();
@@ -77,12 +82,22 @@ export const RoutinePage = () => {
                                     id="dayNumber"
                                     type="number"
                                     min="1"
-                                    className="routine-form-input"
+                                    className={
+                                        dayNumberError
+                                            ? 'routine-form-input input-invalid'
+                                            : 'routine-form-input'
+                                    }
                                     placeholder="01"
                                     name="dayNumber"
                                     value={dayNumber}
                                     onChange={onInputChange}
+                                    onBlur={() => onFieldBlur('dayNumber')}
                                 />
+                                {dayNumberError && (
+                                    <span className="field-error-text">
+                                        Day number is required.
+                                    </span>
+                                )}
                             </div>
 
                             <div className="routine-form-field">
@@ -91,12 +106,22 @@ export const RoutinePage = () => {
                                 <input
                                     id="description"
                                     type="text"
-                                    className="routine-form-input"
+                                    className={
+                                        descriptionError
+                                            ? 'routine-form-input input-invalid'
+                                            : 'routine-form-input'
+                                    }
                                     placeholder="Chest, shoulders and triceps"
                                     name="description"
                                     value={description}
                                     onChange={onInputChange}
+                                    onBlur={() => onFieldBlur('description')}
                                 />
+                                {descriptionError && (
+                                    <span className="field-error-text">
+                                        Description is required.
+                                    </span>
+                                )}
                             </div>
 
                             <Button

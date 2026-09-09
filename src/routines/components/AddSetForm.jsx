@@ -8,6 +8,10 @@ export const AddSetForm = ({ routineExerciseId }) => {
     const [restSeconds, setRestSeconds] = useState('');
     const [notes, setNotes] = useState('');
     const { startAddingSet } = useRoutinesStore();
+    const [touched, setTouched] = useState({ weight: false, reps: false });
+    const onFieldBlur = (field) => setTouched((current) => ({ ...current, [field]: true }));
+    const weightError = touched.weight && !weight;
+    const repsError = touched.reps && !reps;
 
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -35,20 +39,28 @@ export const AddSetForm = ({ routineExerciseId }) => {
                         id="add-set-weight"
                         type="number"
                         step="0.5"
-                        className="routine-form-input"
+                        className={
+                            weightError ? 'routine-form-input input-invalid' : 'routine-form-input'
+                        }
                         value={weight}
                         onChange={(e) => setWeight(e.target.value)}
+                        onBlur={() => onFieldBlur('weight')}
                     />
+                    {weightError && <span className="field-error-text">Weight is required.</span>}
                 </div>
                 <div className="routine-form-field">
                     <label htmlFor="add-set-reps">Reps</label>
                     <input
                         id="add-set-reps"
                         type="number"
-                        className="routine-form-input"
+                        className={
+                            repsError ? 'routine-form-input input-invalid' : 'routine-form-input'
+                        }
                         value={reps}
                         onChange={(e) => setReps(e.target.value)}
+                        onBlur={() => onFieldBlur('reps')}
                     />
+                    {repsError && <span className="field-error-text">Reps is required.</span>}
                 </div>
                 <div className="routine-form-field">
                     <label htmlFor="add-set-rest">Rest (seg)</label>
