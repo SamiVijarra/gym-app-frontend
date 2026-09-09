@@ -28,6 +28,11 @@ export const ExerciseDetailPage = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [isSavingEdit, setIsSavingEdit] = useState(false);
 
+    const [touched, setTouched] = useState({ name: false, primaryMuscles: false });
+    const onFieldBlur = (field) => setTouched((current) => ({ ...current, [field]: true }));
+    const editNameError = touched.name && !editName;
+    const editPrimaryMusclesError = touched.primaryMuscles && !editPrimaryMuscles;
+
     const editFieldsInitial = useMemo(
         () => ({
             name: selectedExercise?.name ?? '',
@@ -57,6 +62,7 @@ export const ExerciseDetailPage = () => {
 
     const onSaveEdit = async (event) => {
         event.preventDefault();
+        if (!editName || !editPrimaryMuscles) return;
         setIsSavingEdit(true);
         const updated = await startUpdatingExercise(id, {
             name: editName,
@@ -196,11 +202,19 @@ export const ExerciseDetailPage = () => {
                                     <input
                                         id="edit-name"
                                         type="text"
-                                        className="routine-form-input"
+                                        className={
+                                            editNameError
+                                                ? 'routine-form-input input-invalid'
+                                                : 'routine-form-input'
+                                        }
                                         name="name"
                                         value={editName}
                                         onChange={onEditInputChange}
+                                        onBlur={() => onFieldBlur('name')}
                                     />
+                                    {editNameError && (
+                                        <span className="field-error-text">Name is required.</span>
+                                    )}
                                 </div>
 
                                 <div className="routine-form-field">
@@ -208,11 +222,21 @@ export const ExerciseDetailPage = () => {
                                     <input
                                         id="edit-primaryMuscles"
                                         type="text"
-                                        className="routine-form-input"
+                                        className={
+                                            editPrimaryMusclesError
+                                                ? 'routine-form-input input-invalid'
+                                                : 'routine-form-input'
+                                        }
                                         name="primaryMuscles"
                                         value={editPrimaryMuscles}
                                         onChange={onEditInputChange}
+                                        onBlur={() => onFieldBlur('primaryMuscles')}
                                     />
+                                    {editPrimaryMusclesError && (
+                                        <span className="field-error-text">
+                                            Primary muscles is required.
+                                        </span>
+                                    )}
                                 </div>
 
                                 <div className="routine-form-field">
@@ -264,7 +288,11 @@ export const ExerciseDetailPage = () => {
                                     </p>
                                 )}
 
-                                <Button type="submit" variant="primary" disabled={isSavingEdit}>
+                                <Button
+                                    type="submit"
+                                    variant="primary"
+                                    disabled={isSavingEdit || !editName || !editPrimaryMuscles}
+                                >
                                     <i className="fas fa-check"></i>
                                     {isSavingEdit ? 'Saving...' : 'Save changes'}
                                 </Button>
