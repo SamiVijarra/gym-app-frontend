@@ -1115,6 +1115,11 @@ body {
     background: var(--app-surface);
 }
 
+.gym-navbar-link.active {
+    color: var(--app-accent);
+    background: color-mix(in srgb, var(--app-accent) 12%, transparent);
+}
+
 .gym-navbar-actions {
     display: flex;
     align-items: center;

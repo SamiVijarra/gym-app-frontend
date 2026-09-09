@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useAuthStore } from '../hooks';
 import { ThemeToggle } from './ThemeToggle';
 
@@ -9,27 +9,27 @@ export const Navbar = () => {
         <nav className="gym-navbar">
             <div className="gym-navbar-inner">
                 <div className="gym-navbar-left">
-                    <Link to="/" className="gym-navbar-brand">
+                    <NavLink to="/" end className="gym-navbar-brand">
                         <span className="gym-navbar-brand-icon">
                             <i className="fas fa-calendar-alt"></i>
                         </span>
                         <span>{user.name}</span>
-                    </Link>
+                    </NavLink>
                     <div className="gym-navbar-links">
-                        <Link to="/profile" className="gym-navbar-link">
+                        <NavLink to="/profile" className="gym-navbar-link">
                             Profile
-                        </Link>
+                        </NavLink>
 
-                        <Link to="/exercises" className="gym-navbar-link">
+                        <NavLink to="/exercises" className="gym-navbar-link">
                             Exercises
-                        </Link>
+                        </NavLink>
 
-                        <Link to="/routine" className="gym-navbar-link">
+                        <NavLink to="/routine" className="gym-navbar-link">
                             Routine
-                        </Link>
-                        <Link to="/calendar" className="gym-navbar-link">
+                        </NavLink>
+                        <NavLink to="/calendar" className="gym-navbar-link">
                             Calendar
-                        </Link>
+                        </NavLink>
                     </div>
                 </div>
                 <div className="gym-navbar-actions">
