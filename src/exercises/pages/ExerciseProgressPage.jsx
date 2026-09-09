@@ -68,6 +68,7 @@ export const ExerciseProgressPage = () => {
                         <div className="exercise-mode-switch">
                             {Object.entries(METRICS).map(([key, { label }]) => (
                                 <Button
+                                    key={key}
                                     variant={metric === key ? 'primary' : 'secondary'}
                                     onClick={() => setMetric(key)}
                                 >
