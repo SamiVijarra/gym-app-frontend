@@ -19,6 +19,13 @@ export const ExercisesPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [isCreating, setIsCreating] = useState(false);
 
+    const [touched, setTouched] = useState({ name: false, primaryMuscles: false });
+
+    const onFieldBlur = (field) => setTouched((current) => ({ ...current, [field]: true }));
+
+    const nameError = touched.name && !name;
+    const primaryMusclesError = touched.primaryMuscles && !primaryMuscles;
+
     const { name, primaryMuscles, equipment, instructions, imageUrl, onInputChange, onResetForm } =
         useForm(newExerciseFields);
 
@@ -90,24 +97,43 @@ export const ExercisesPage = () => {
                                 <input
                                     id="name"
                                     type="text"
-                                    className="routine-form-input"
+                                    className={
+                                        nameError
+                                            ? 'routine-form-input input-invalid'
+                                            : 'routine-form-input'
+                                    }
                                     placeholder="Hip Thrust"
                                     name="name"
                                     value={name}
                                     onChange={onInputChange}
+                                    onBlur={() => onFieldBlur('name')}
                                 />
+                                {nameError && (
+                                    <span className="field-error-text">Name is required.</span>
+                                )}
                             </div>
+
                             <div className="routine-form-field">
                                 <label htmlFor="primaryMuscles">Primary Muscles</label>
                                 <input
                                     id="primaryMuscles"
                                     type="text"
-                                    className="routine-form-input"
+                                    className={
+                                        primaryMusclesError
+                                            ? 'routine-form-input input-invalid'
+                                            : 'routine-form-input'
+                                    }
                                     placeholder="Glutes, Hamstrings"
                                     name="primaryMuscles"
                                     value={primaryMuscles}
                                     onChange={onInputChange}
+                                    onBlur={() => onFieldBlur('primaryMuscles')}
                                 />
+                                {primaryMusclesError && (
+                                    <span className="field-error-text">
+                                        Primary muscles are required.
+                                    </span>
+                                )}
                             </div>
                             <div className="routine-form-field">
                                 <label htmlFor="equipment">Equipment (optional)</label>
