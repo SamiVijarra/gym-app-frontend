@@ -145,7 +145,11 @@ export const ExercisesPage = () => {
                                     onChange={onInputChange}
                                 />
                             </div>
-                            <Button variant="primary" type="submit" disabled={isCreating}>
+                            <Button
+                                variant="primary"
+                                type="submit"
+                                disabled={isCreating || !name || !primaryMuscles}
+                            >
                                 <i className="fas fa-plus"></i>
                                 {isCreating ? 'Creating...' : 'Create Exercise'}
                             </Button>
@@ -164,6 +168,7 @@ export const ExercisesPage = () => {
                         {searchTerm && (
                             <Button
                                 variant="secondary"
+                                size="icon"
                                 onClick={() => setSearchTerm('')}
                                 aria-label="Clear search"
                             >
