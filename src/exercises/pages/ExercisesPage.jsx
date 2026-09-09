@@ -19,15 +19,15 @@ export const ExercisesPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [isCreating, setIsCreating] = useState(false);
 
+    const { name, primaryMuscles, equipment, instructions, imageUrl, onInputChange, onResetForm } =
+        useForm(newExerciseFields);
+
     const [touched, setTouched] = useState({ name: false, primaryMuscles: false });
 
     const onFieldBlur = (field) => setTouched((current) => ({ ...current, [field]: true }));
 
     const nameError = touched.name && !name;
     const primaryMusclesError = touched.primaryMuscles && !primaryMuscles;
-
-    const { name, primaryMuscles, equipment, instructions, imageUrl, onInputChange, onResetForm } =
-        useForm(newExerciseFields);
 
     useEffect(() => {
         if (searchTerm.trim().length === 0) return;

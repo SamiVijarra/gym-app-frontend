@@ -28,11 +28,6 @@ export const ExerciseDetailPage = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [isSavingEdit, setIsSavingEdit] = useState(false);
 
-    const [touched, setTouched] = useState({ name: false, primaryMuscles: false });
-    const onFieldBlur = (field) => setTouched((current) => ({ ...current, [field]: true }));
-    const editNameError = touched.name && !editName;
-    const editPrimaryMusclesError = touched.primaryMuscles && !editPrimaryMuscles;
-
     const editFieldsInitial = useMemo(
         () => ({
             name: selectedExercise?.name ?? '',
@@ -52,6 +47,11 @@ export const ExerciseDetailPage = () => {
         imageUrl: editImageUrl,
         onInputChange: onEditInputChange,
     } = useForm(editFieldsInitial);
+
+    const [touched, setTouched] = useState({ name: false, primaryMuscles: false });
+    const onFieldBlur = (field) => setTouched((current) => ({ ...current, [field]: true }));
+    const editNameError = touched.name && !editName;
+    const editPrimaryMusclesError = touched.primaryMuscles && !editPrimaryMuscles;
 
     useEffect(() => {
         startLoadingExercise(id);
