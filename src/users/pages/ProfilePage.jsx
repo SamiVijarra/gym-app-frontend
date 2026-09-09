@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useForm, useUsersStore } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
+import { Button } from '../../components/Button';
 
 const profileFormFields = {
     name: '',
@@ -125,10 +126,10 @@ export const ProfilePage = () => {
                             </div>
 
                             <div className="profile-form-actions">
-                                <button
-                                    className="profile-save-button"
+                                <Button
                                     type="submit"
-                                    disabled={isLoading}
+                                    variant="primary"
+                                    disabled={isLoading || !name}
                                 >
                                     {isLoading ? (
                                         <>
@@ -141,7 +142,7 @@ export const ProfilePage = () => {
                                             Save changes
                                         </>
                                     )}
-                                </button>
+                                </Button>
                             </div>
                         </form>
                     </section>
