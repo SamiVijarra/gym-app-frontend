@@ -4119,6 +4119,7 @@ body {
 
 .calendar-session-actions {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--app-space-2);
     margin-top: var(--app-space-2);
 }
@@ -4127,4 +4128,9 @@ body {
     display: flex;
     gap: var(--app-space-2);
     align-items: center;
+}
+
+.add-set-form-row .form-field-grow {
+    flex: 1 1 200px;
+    min-width: 0;
 }

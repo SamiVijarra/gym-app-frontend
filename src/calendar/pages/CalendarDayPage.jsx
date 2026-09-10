@@ -122,10 +122,7 @@ export const CalendarDayPage = () => {
                                     <p>Record a session you already did.</p>
 
                                     <div className="add-set-form-row mt-2">
-                                        <div
-                                            className="routine-form-field"
-                                            style={{ marginRight: '220px' }}
-                                        >
+                                        <div className="routine-form-field form-field-grow">
                                             <label htmlFor="log-session-routine">Routine day</label>
                                             <select
                                                 id="log-session-routine"
