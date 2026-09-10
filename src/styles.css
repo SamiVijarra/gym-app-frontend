@@ -3197,9 +3197,9 @@ body {
    ========================================================= */
 
 .exercise-mode-switch {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
 }
 
 .exercise-mode-button {
@@ -3373,12 +3373,8 @@ body {
 
 @media (max-width: 520px) {
     .exercise-mode-switch {
-        flex-direction: column;
-    }
-
-    .exercise-mode-button {
-        width: 100%;
-    }
+    grid-template-columns: 1fr;
+}
 
     .exercise-detail-instructions {
         padding: 18px;
@@ -4133,4 +4129,85 @@ body {
 .add-set-form-row .form-field-grow {
     flex: 1 1 200px;
     min-width: 0;
+}
+
+/* =========================================================
+   SWEETALERT2 THEME
+   ========================================================= */
+
+.swal2-popup {
+    padding: 28px !important;
+    background: var(--app-surface) !important;
+    border: 1px solid var(--app-border) !important;
+    border-radius: var(--app-radius-xl) !important;
+    box-shadow: var(--app-shadow-lg) !important;
+    font-family: inherit !important;
+}
+
+.swal2-title {
+    color: var(--app-text) !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+}
+
+.swal2-html-container {
+    color: var(--app-text-secondary) !important;
+    font-size: 14px !important;
+}
+
+.swal2-icon.swal2-warning {
+    color: var(--app-warning) !important;
+    border-color: var(--app-warning) !important;
+}
+
+.swal2-icon.swal2-warning .swal2-icon-content {
+    color: var(--app-warning) !important;
+}
+
+.swal2-actions {
+    gap: 10px !important;
+}
+
+.swal2-confirm {
+    padding: 0 18px !important;
+    height: 40px !important;
+    color: #ffffff !important;
+    background: var(--app-danger) !important;
+    border: 1px solid transparent !important;
+    border-radius: var(--app-radius-md) !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    box-shadow: none !important;
+}
+
+.swal2-confirm:hover {
+    background: color-mix(in srgb, var(--app-danger) 85%, black) !important;
+}
+
+.swal2-confirm:focus {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--app-danger) 25%, transparent) !important;
+}
+
+.swal2-cancel {
+    padding: 0 18px !important;
+    height: 40px !important;
+    color: var(--app-secondary-text) !important;
+    background: var(--app-secondary) !important;
+    border: 1px solid var(--app-border) !important;
+    border-radius: var(--app-radius-md) !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    box-shadow: none !important;
+}
+
+.swal2-cancel:hover {
+    background: var(--app-secondary-hover) !important;
+}
+
+.swal2-cancel:focus {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--app-border-strong) 40%, transparent) !important;
+}
+
+.swal2-container {
+    background: color-mix(in srgb, var(--app-bg) 60%, transparent) !important;
 }
