@@ -13,6 +13,7 @@ import {
 import { useCalendarStore, useExercisesStore } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
 import { Button } from '../../components/Button';
+import { ToggleGroup } from '../../components/ToggleGroup';
 
 const METRICS = {
     maxWeight: {
@@ -65,17 +66,14 @@ export const ExerciseProgressPage = () => {
                     </header>
 
                     <section className="routine-create-card">
-                        <div className="exercise-mode-switch">
-                            {Object.entries(METRICS).map(([key, { label }]) => (
-                                <Button
-                                    key={key}
-                                    variant={metric === key ? 'primary' : 'secondary'}
-                                    onClick={() => setMetric(key)}
-                                >
-                                    {label}
-                                </Button>
-                            ))}
-                        </div>
+                        <ToggleGroup
+                            options={Object.entries(METRICS).map(([key, { label }]) => ({
+                                value: key,
+                                label,
+                            }))}
+                            value={metric}
+                            onChange={setMetric}
+                        />
 
                         {isLoading ? (
                             <div className="exercise-detail-loading">

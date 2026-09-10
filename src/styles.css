@@ -3196,12 +3196,6 @@ body {
    MODE SWITCH
    ========================================================= */
 
-.exercise-mode-switch {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
-
 .exercise-mode-button {
     display: inline-flex;
     align-items: center;
@@ -3369,11 +3363,6 @@ body {
     .exercise-add-button {
         width: 100%;
     }
-}
-
-@media (max-width: 520px) {
-    .exercise-mode-switch {
-    grid-template-columns: 1fr;
 }
 
     .exercise-detail-instructions {

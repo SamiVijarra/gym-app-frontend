@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { useAuthStore, useExercisesStore, useForm, useRoutinesStore } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
 import { Button } from '../../components/Button';
+import { ToggleGroup } from '../../components/ToggleGroup';
 
 export const ExerciseDetailPage = () => {
     const { id } = useParams();
@@ -359,23 +360,22 @@ export const ExerciseDetailPage = () => {
                             />
                         </div>
 
-                        <div className="exercise-mode-switch">
-                            <Button
-                                variant={mode === 'existing' ? 'primary' : 'secondary'}
-                                onClick={() => setMode('existing')}
-                            >
-                                <i className="fas fa-calendar-check" />
-                                Existing Day
-                            </Button>
-
-                            <Button
-                                variant={mode === 'new' ? 'primary' : 'secondary'}
-                                onClick={() => setMode('new')}
-                            >
-                                <i className="fas fa-plus" />
-                                Create New Day
-                            </Button>
-                        </div>
+                        <ToggleGroup
+                            options={[
+                                {
+                                    value: 'existing',
+                                    label: 'Existing Day',
+                                    icon: <i className="fas fa-calendar-check" />,
+                                },
+                                {
+                                    value: 'new',
+                                    label: 'Create New Day',
+                                    icon: <i className="fas fa-plus" />,
+                                },
+                            ]}
+                            value={mode}
+                            onChange={setMode}
+                        />
 
                         {mode === 'existing' && (
                             <div className="exercise-add-row">
