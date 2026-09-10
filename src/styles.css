@@ -3886,9 +3886,59 @@ body {
 }
 
 @media (max-width: 640px) {
+    .calendar-card {
+        padding: 16px;
+        border-radius: var(--app-radius-lg);
+    }
+
+    .calendar-nav {
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 14px;
+    }
+
+    .calendar-nav-title {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .calendar-nav-title strong {
+        font-size: 15px;
+    }
+
+    .calendar-grid {
+        gap: 4px;
+    }
+
+    .calendar-day-cell {
+        padding: 3px;
+        border-radius: var(--app-radius-sm);
+    }
+
+    .calendar-day-number {
+        font-size: 12px;
+    }
+
     .calendar-day-status {
         display: none;
     }
+}
+
+@media (max-width: 480px) {
+    .calendar-card {
+        padding: 12px;
+    }
+
+    .calendar-nav-button {
+        width: 32px;
+        height: 32px;
+    }
+
+    .calendar-day-number {
+        font-size: 11px;
+    }
+}
 }
 
 /* =========================================================
