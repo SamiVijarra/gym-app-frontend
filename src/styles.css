@@ -1051,41 +1051,6 @@ body {
     font-size: 13px;
 }
 
-.gym-navbar-links {
-    display: flex;
-    align-items: center;
-
-    gap: 4px;
-}
-
-.gym-navbar-link {
-    padding: 8px 10px;
-
-    color: var(--app-text-secondary);
-
-    border-radius: 8px;
-
-    font-size: 13px;
-    font-weight: 500;
-
-    text-decoration: none;
-
-    transition:
-        color 0.15s ease,
-        background-color 0.15s ease;
-}
-
-.gym-navbar-link:hover {
-    color: var(--app-text);
-
-    background: var(--app-surface);
-}
-
-.gym-navbar-link.active {
-    color: var(--app-accent);
-    background: color-mix(in srgb, var(--app-accent) 12%, transparent);
-}
-
 .gym-navbar-actions {
     display: flex;
     align-items: center;
@@ -4138,4 +4103,23 @@ body {
 
 .swal2-container {
     background: color-mix(in srgb, var(--app-bg) 60%, transparent) !important;
+}
+
+.gym-navbar-hamburger {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    color: var(--app-text);
+    background: transparent;
+    border: 1px solid var(--app-border);
+    border-radius: var(--app-radius-sm);
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .gym-navbar-hamburger {
+        display: flex;
+    }
 }

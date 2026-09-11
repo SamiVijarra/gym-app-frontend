@@ -9,10 +9,11 @@ import { ExercisesPage } from '../exercises/pages/ExercisesPage';
 import { RoutinePage } from '../routines/pages/RoutinePage';
 import { RoutineDayDetailPage } from '../routines/pages/RoutineDayDetailPage';
 import { ExerciseDetailPage } from '../exercises/pages/ExerciseDetailPage';
+import { ExerciseProgressPage } from '../exercises/pages/ExerciseProgressPage';
 import { CalendarPage } from '../calendar/pages/CalendarPage';
 import { CalendarDayPage } from '../calendar/pages/CalendarDayPage';
 import { CalendarSessionDetailPage } from '../calendar/pages/CalendarSessionDetailPage';
-import { ExerciseProgressPage } from '../exercises/pages/ExerciseProgressPage';
+import { Layout } from '../components/Layout';
 
 export const AppRouter = () => {
     const { status, checkAuthToken } = useAuthStore();
@@ -48,11 +49,12 @@ export const AppRouter = () => {
                     <Route path="/*" element={<Navigate to="/auth/login" />} />
                 </>
             ) : (
-                <>
+                <Route element={<Layout />}>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/exercises" element={<ExercisesPage />} />
                     <Route path="/exercises/:id" element={<ExerciseDetailPage />} />
+                    <Route path="/exercises/:id/progress" element={<ExerciseProgressPage />} />
                     <Route path="/routine" element={<RoutinePage />} />
                     <Route path="/routine/:dayId" element={<RoutineDayDetailPage />} />
                     <Route path="/calendar" element={<CalendarPage />} />
@@ -61,10 +63,8 @@ export const AppRouter = () => {
                         path="/calendar/:date/session/:historyEntryId"
                         element={<CalendarSessionDetailRoute />}
                     />
-                    <Route path="/exercises/:id" element={<ExerciseDetailPage />} />
-                    <Route path="/exercises/:id/progress" element={<ExerciseProgressPage />} />
                     <Route path="/*" element={<Navigate to="/" />} />
-                </>
+                </Route>
             )}
         </Routes>
     );
