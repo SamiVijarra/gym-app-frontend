@@ -6,6 +6,7 @@ import { useAuthStore, useExercisesStore, useForm, useRoutinesStore } from '../.
 import { Navbar } from '../../components/Navbar';
 import { Button } from '../../components/Button';
 import { ToggleGroup } from '../../components/ToggleGroup';
+import { Breadcrumb } from '../../components/Breadcrumb';
 
 export const ExerciseDetailPage = () => {
     const { id } = useParams();
@@ -139,10 +140,13 @@ export const ExerciseDetailPage = () => {
             <Navbar />
             <main className="exercise-detail-page">
                 <div className="exercise-detail-container">
-                    <Link to="/exercises" className="exercise-detail-back-link">
-                        <span>←</span>
-                        Return to exercises
-                    </Link>
+                    <Breadcrumb
+                        items={[
+                            { label: 'Home', to: '/' },
+                            { label: 'Exercises', to: '/exercises' },
+                            { label: selectedExercise.name },
+                        ]}
+                    />
 
                     <header className="exercise-detail-header">
                         <span className="exercise-detail-eyebrow">EXERCISE</span>
