@@ -4123,3 +4123,13 @@ body {
         display: flex;
     }
 }
+@media (max-width: 480px) {
+    .calendar-choice-card .add-set-form-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .calendar-choice-card .add-set-form-row .form-field-grow {
+        width: 100%;
+    }
+}

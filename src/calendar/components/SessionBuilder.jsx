@@ -338,6 +338,12 @@ export const SessionBuilder = ({
 
             {errorMessage && <p className="field-error-text mt-2">{errorMessage}</p>}
 
+            {!canSubmit && rows.length > 0 && (
+                <p className="field-error-text mt-2">
+                    Add weight and reps to at least one set before saving.
+                </p>
+            )}
+
             <Button
                 type="submit"
                 variant="primary"
