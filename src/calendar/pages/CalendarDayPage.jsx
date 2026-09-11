@@ -5,6 +5,7 @@ import { useCalendarStore, useRoutinesStore } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
 import { DoneSessionCard, PlannedSessionCard, SessionBuilder, PlanDayForm } from '../components';
 import { Button } from '../../components/Button';
+import { Breadcrumb } from '../../components/Breadcrumb';
 
 export const CalendarDayPage = () => {
     const { date } = useParams();
@@ -54,10 +55,13 @@ export const CalendarDayPage = () => {
             <Navbar />
             <main className="routine-detail-page">
                 <div className="routine-detail-container">
-                    <Link to="/calendar" className="routine-back-link">
-                        <span>←</span>
-                        Back to calendar
-                    </Link>
+                    <Breadcrumb
+                        items={[
+                            { label: 'Home', to: '/' },
+                            { label: 'Calendar', to: '/calendar' },
+                            { label: date },
+                        ]}
+                    />
 
                     <header className="routine-detail-header">
                         <div className="routine-detail-eyebrow">{date}</div>

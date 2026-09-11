@@ -294,40 +294,6 @@ body {
 }
 
 /* =========================================================
-   BACK
-   ========================================================= */
-
-.routine-back-link {
-    display: inline-flex;
-    align-items: center;
-
-    gap: 8px;
-
-    margin-bottom: 34px;
-
-    color: var(--app-text-secondary);
-
-    font-size: 13px;
-    font-weight: 500;
-
-    text-decoration: none;
-
-    transition:
-        color 0.2s ease,
-        transform 0.2s ease;
-}
-
-.routine-back-link:hover {
-    color: var(--app-text);
-
-    transform: translateX(-2px);
-}
-
-.routine-back-link span {
-    font-size: 17px;
-}
-
-/* =========================================================
    HEADER
    ========================================================= */
 
@@ -2923,33 +2889,6 @@ body {
 .exercise-detail-container {
     width: min(1050px, 100%);
     margin: 0 auto;
-}
-
-/* =========================================================
-   BACK
-   ========================================================= */
-
-.exercise-detail-back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 34px;
-    color: var(--app-text-secondary);
-    font-size: 13px;
-    font-weight: 500;
-    text-decoration: none;
-    transition:
-        color 0.2s ease,
-        transform 0.2s ease;
-}
-
-.exercise-detail-back-link:hover {
-    color: var(--app-text);
-    transform: translateX(-2px);
-}
-
-.exercise-detail-back-link span {
-    font-size: 17px;
 }
 
 /* =========================================================

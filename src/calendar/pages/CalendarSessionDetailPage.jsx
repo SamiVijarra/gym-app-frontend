@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useCalendarStore } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
 import { HistorySessionView } from '../components/HistorySessionView';
+import { Breadcrumb } from '../../components/Breadcrumb';
 
 export const CalendarSessionDetailPage = () => {
     const { date, historyEntryId } = useParams();
@@ -18,10 +19,20 @@ export const CalendarSessionDetailPage = () => {
             <Navbar />
             <main className="routine-detail-page">
                 <div className="routine-detail-container">
-                    <Link to={`/calendar/${date}`} className="routine-back-link">
-                        <span>←</span>
-                        Back to {date}
-                    </Link>
+                    <Breadcrumb
+                        items={[
+                            { label: 'Home', to: '/' },
+                            { label: 'Calendar', to: '/calendar' },
+                            { label: date, to: `/calendar/${date}` },
+                            {
+                                label: historyEntry
+                                    ? historyEntry.routineDay
+                                        ? historyEntry.routineDay.description
+                                        : 'Free session'
+                                    : 'Session',
+                            },
+                        ]}
+                    />
 
                     <header className="routine-detail-header">
                         <div className="routine-detail-eyebrow">{date}</div>

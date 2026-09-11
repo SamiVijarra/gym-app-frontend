@@ -14,6 +14,7 @@ import { useCalendarStore, useExercisesStore } from '../../hooks';
 import { Navbar } from '../../components/Navbar';
 import { Button } from '../../components/Button';
 import { ToggleGroup } from '../../components/ToggleGroup';
+import { Breadcrumb } from '../../components/Breadcrumb';
 
 const METRICS = {
     maxWeight: {
@@ -53,10 +54,14 @@ export const ExerciseProgressPage = () => {
             <Navbar />
             <main className="exercise-detail-page">
                 <div className="exercise-detail-container">
-                    <Button as={Link} to={`/exercises/${id}`} variant="secondary">
-                        <span>←</span>
-                        Return to exercise
-                    </Button>
+                    <Breadcrumb
+                        items={[
+                            { label: 'Home', to: '/' },
+                            { label: 'Exercises', to: '/exercises' },
+                            { label: selectedExercise?.name ?? 'Exercise', to: `/exercises/${id}` },
+                            { label: 'Progress' },
+                        ]}
+                    />
 
                     <header className="exercise-detail-header">
                         <span className="exercise-detail-eyebrow">PROGRESS</span>

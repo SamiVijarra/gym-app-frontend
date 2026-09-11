@@ -6,6 +6,7 @@ import { AddExerciseForm } from '../components/AddExerciseForm';
 import { AddSetForm } from '../components/AddSetForm';
 import { SetRow } from '../components/SetRow';
 import { Button } from '../../components/Button';
+import { Breadcrumb } from '../../components/Breadcrumb';
 
 export const RoutineDayDetailPage = () => {
     const { dayId } = useParams();
@@ -59,10 +60,13 @@ export const RoutineDayDetailPage = () => {
             <Navbar />
             <main className="routine-detail-page">
                 <div className="routine-detail-container">
-                    <Link to="/routine" className="routine-back-link">
-                        <span>←</span>
-                        Back to routine
-                    </Link>
+                    <Breadcrumb
+                        items={[
+                            { label: 'Home', to: '/' },
+                            { label: 'Routine', to: '/routine' },
+                            { label: day.description },
+                        ]}
+                    />
 
                     <header className="routine-detail-header">
                         <div className="routine-detail-eyebrow">DAY {day.dayNumber}</div>
