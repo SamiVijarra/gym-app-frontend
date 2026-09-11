@@ -27,7 +27,16 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
             <SidebarOverlay $isOpen={isOpen} onClick={onClose} />
             <SidebarAside $isOpen={isOpen}>
                 <SidebarBrand>
-                    <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <Link
+                        to="/"
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 8,
+                            textDecoration: 'none',
+                            color: 'inherit',
+                        }}
+                    >
                         <SidebarBrandIcon>
                             <i className="fas fa-calendar-alt"></i>
                         </SidebarBrandIcon>
