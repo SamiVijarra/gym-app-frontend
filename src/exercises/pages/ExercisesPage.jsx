@@ -177,26 +177,32 @@ export const ExercisesPage = () => {
                         </Button>
                     </form>
                 </section>
-                <section className="exercises-search">
-                    <div className="exercises-search-icon">
-                        <i className="fas fa-search"></i>
+                <section className="exercises-search-section">
+                    <div className="exercises-search-header">
+                        <span>SEARCH</span>
                     </div>
-                    <input
-                        type="text"
-                        placeholder="Search exercises..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                    {searchTerm && (
-                        <Button
-                            variant="secondary"
-                            size="icon"
-                            onClick={() => setSearchTerm('')}
-                            aria-label="Clear search"
-                        >
-                            <i className="fas fa-times"></i>
-                        </Button>
-                    )}
+
+                    <div className="exercises-search">
+                        <div className="exercises-search-icon">
+                            <i className="fas fa-search"></i>
+                        </div>
+                        <input
+                            type="text"
+                            placeholder="Search exercises..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                        {searchTerm && (
+                            <Button
+                                variant="secondary"
+                                size="icon"
+                                onClick={() => setSearchTerm('')}
+                                aria-label="Clear search"
+                            >
+                                <i className="fas fa-times"></i>
+                            </Button>
+                        )}
+                    </div>
                 </section>
 
                 {isLoading && (

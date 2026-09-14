@@ -29,12 +29,12 @@ export const Navbar = ({ onOpenSidebar }: NavbarProps) => {
                         <i className="fas fa-bars"></i>
                     </button>
 
-                    <ThemeToggle />
+                    <span className="gym-navbar-avatar" title={user.name}>
+                        {getInitials(user.name)}
+                    </span>
                 </div>
 
-                <span className="gym-navbar-avatar" title={user.name}>
-                    {getInitials(user.name)}
-                </span>
+                <ThemeToggle />
             </div>
         </nav>
     );

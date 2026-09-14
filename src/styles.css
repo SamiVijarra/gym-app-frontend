@@ -2145,8 +2145,6 @@ body {
 
     margin-bottom: 36px;
 
-    margin-top: 42px
-
     padding: 0 14px;
 
     background: var(--app-surface);
@@ -2160,6 +2158,21 @@ body {
     transition:
         border-color 0.15s ease,
         box-shadow 0.15s ease;
+}
+
+.exercises-search-section {
+    margin-top: 42px;
+}
+
+.exercises-search-header {
+    margin-bottom: 14px;
+}
+
+.exercises-search-header span {
+    color: var(--app-text-muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
 }
 
 .exercises-search:focus-within {
@@ -3753,7 +3766,6 @@ body {
     .calendar-day-number {
         font-size: 11px;
     }
-}
 }
 
 /* =========================================================
