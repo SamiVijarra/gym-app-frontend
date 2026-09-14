@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useForm, useUsersStore } from '../../hooks';
+import { useAuthStore, useForm, useUsersStore } from '../../hooks';
 import { Button } from '../../components/Button';
 
 const profileFormFields = {
@@ -11,6 +11,7 @@ const profileFormFields = {
 
 export const ProfilePage = () => {
     const { profile, isLoading, startLoadingProfile, startUpdatingProfile } = useUsersStore();
+    const { startLogout } = useAuthStore();
 
     const { name, weight, height, birthDate, onInputChange } = useForm(
         profile ?? profileFormFields
@@ -145,6 +146,23 @@ export const ProfilePage = () => {
                             </Button>
                         </div>
                     </form>
+                </section>
+                <section className="profile-card">
+                    <div className="profile-card-header">
+                        <div className="profile-card-icon profile-card-icon-danger">
+                            <i className="fas fa-sign-out-alt" />
+                        </div>
+
+                        <div>
+                            <h2>Session</h2>
+                            <p>Sign out of your account on this device.</p>
+                        </div>
+                    </div>
+
+                    <Button variant="danger" onClick={startLogout}>
+                        <i className="fas fa-sign-out-alt"></i>
+                        Log out
+                    </Button>
                 </section>
             </div>
         </main>
