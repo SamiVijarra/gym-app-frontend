@@ -1003,52 +1003,8 @@ body {
     gap: 24px;
 }
 
-.gym-navbar-left {
-    display: flex;
-    align-items: center;
-
-    gap: 28px;
-
-    min-width: 0;
-}
-
-.gym-navbar-brand {
-    display: flex;
-    align-items: center;
-
-    gap: 9px;
-
-    color: var(--app-text);
-
-    font-size: 17px;
-    font-weight: 700;
-
-    text-decoration: none;
-
-    letter-spacing: -0.02em;
-
-    white-space: nowrap;
-}
-
 .gym-navbar-brand:hover {
     color: var(--app-text);
-}
-
-.gym-navbar-brand-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 30px;
-    height: 30px;
-
-    color: var(--app-primary-light);
-
-    background: rgba(139, 92, 246, 0.1);
-
-    border-radius: 8px;
-
-    font-size: 13px;
 }
 
 .gym-navbar-actions {
@@ -1056,38 +1012,6 @@ body {
     align-items: center;
 
     gap: 8px;
-}
-
-.gym-navbar-logout {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 7px;
-
-    min-height: 36px;
-
-    padding: 0 12px;
-
-    color: var(--app-danger);
-
-    background: transparent;
-
-    border: 1px solid color-mix(in srgb, var(--app-danger) 45%, transparent);
-
-    border-radius: 8px;
-
-    font-family: inherit;
-
-    font-size: 12px;
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition:
-        color 0.15s ease,
-        background-color 0.15s ease,
-        border-color 0.15s ease;
 }
 
 .gym-navbar-logout:hover {
@@ -4132,4 +4056,17 @@ body {
     .calendar-choice-card .add-set-form-row .form-field-grow {
         width: 100%;
     }
+}
+
+.gym-navbar-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    color: var(--app-on-primary);
+    background: var(--app-primary);
+    border-radius: var(--app-radius-full);
+    font-size: 13px;
+    font-weight: 700;
 }
