@@ -14,16 +14,18 @@ export const SidebarOverlay = styled.div<{ $isOpen: boolean }>`
     }
 `;
 
-export const SidebarAside = styled.aside<{ $isOpen: boolean }>`
+export const SidebarAside = styled.aside<{ $isOpen: boolean; $isCollapsed: boolean }>`
     display: flex;
     flex-direction: column;
-    width: 220px;
+    width: ${({ $isCollapsed }) => ($isCollapsed ? '72px' : '220px')};
     flex-shrink: 0;
-    padding: ${spacing[5]} ${spacing[4]};
+    padding: ${spacing[5]} ${spacing[3]};
     background: var(--app-surface);
     border-right: 1px solid var(--app-border);
+    transition: width 0.2s ease;
 
     @media (max-width: 768px) {
+        width: 220px;
         position: fixed;
         top: 0;
         bottom: 0;
@@ -38,7 +40,6 @@ export const SidebarAside = styled.aside<{ $isOpen: boolean }>`
 export const SidebarBrand = styled.div`
     display: flex;
     align-items: center;
-    gap: ${spacing[2]};
     margin-bottom: ${spacing[6]};
     padding: 0 ${spacing[2]};
     color: var(--app-text);
@@ -51,6 +52,7 @@ export const SidebarBrandIcon = styled.span`
     justify-content: center;
     width: 32px;
     height: 32px;
+    flex-shrink: 0;
     color: var(--app-on-primary);
     background: var(--app-primary);
     border-radius: var(--app-radius-md);
@@ -74,6 +76,24 @@ export const SidebarCloseButton = styled.button`
     }
 `;
 
+export const SidebarCollapseButton = styled.button`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    margin-left: auto;
+    color: var(--app-text-secondary);
+    background: transparent;
+    border: 1px solid var(--app-border);
+    border-radius: var(--app-radius-sm);
+    cursor: pointer;
+
+    @media (max-width: 768px) {
+        display: none;
+    }
+`;
+
 export const SidebarNav = styled.nav`
     display: flex;
     flex-direction: column;
@@ -85,11 +105,13 @@ export const SidebarLink = styled(NavLink)`
     align-items: center;
     gap: ${spacing[3]};
     padding: 10px ${spacing[3]};
+    overflow: hidden;
     color: var(--app-text-secondary);
     border-radius: var(--app-radius-md);
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
+    white-space: nowrap;
     transition:
         color 0.15s ease,
         background 0.15s ease;
