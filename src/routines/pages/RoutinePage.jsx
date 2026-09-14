@@ -93,11 +93,15 @@ export const RoutinePage = () => {
                                     onChange={onInputChange}
                                     onBlur={() => onFieldBlur('dayNumber')}
                                 />
-                                {dayNumberError && (
-                                    <span className="field-error-text">
-                                        Day number is required.
-                                    </span>
-                                )}
+                                <span
+                                    className={
+                                        dayNumberError
+                                            ? 'field-error-text'
+                                            : 'field-error-text field-error-text-hidden'
+                                    }
+                                >
+                                    Day number is required.
+                                </span>
                             </div>
 
                             <div className="routine-form-field">
@@ -117,11 +121,15 @@ export const RoutinePage = () => {
                                     onChange={onInputChange}
                                     onBlur={() => onFieldBlur('description')}
                                 />
-                                {descriptionError && (
-                                    <span className="field-error-text">
-                                        Description is required.
-                                    </span>
-                                )}
+                                <span
+                                    className={
+                                        descriptionError
+                                            ? 'field-error-text'
+                                            : 'field-error-text field-error-text-hidden'
+                                    }
+                                >
+                                    Description is required.
+                                </span>
                             </div>
 
                             <Button

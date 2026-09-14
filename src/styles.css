@@ -4070,3 +4070,7 @@ body {
     font-size: 13px;
     font-weight: 700;
 }
+
+.field-error-text-hidden {
+    visibility: hidden;
+}
