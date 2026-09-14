@@ -11,7 +11,6 @@ import {
     YAxis,
 } from 'recharts';
 import { useCalendarStore, useExercisesStore } from '../../hooks';
-import { Navbar } from '../../components/Navbar';
 import { Button } from '../../components/Button';
 import { ToggleGroup } from '../../components/ToggleGroup';
 import { Breadcrumb } from '../../components/Breadcrumb';
@@ -50,79 +49,76 @@ export const ExerciseProgressPage = () => {
         }));
 
     return (
-        <>
-            <Navbar />
-            <main className="exercise-detail-page">
-                <div className="exercise-detail-container">
-                    <Breadcrumb
-                        items={[
-                            { label: 'Home', to: '/' },
-                            { label: 'Exercises', to: '/exercises' },
-                            { label: selectedExercise?.name ?? 'Exercise', to: `/exercises/${id}` },
-                            { label: 'Progress' },
-                        ]}
+        <main className="exercise-detail-page">
+            <div className="exercise-detail-container">
+                <Breadcrumb
+                    items={[
+                        { label: 'Home', to: '/' },
+                        { label: 'Exercises', to: '/exercises' },
+                        { label: selectedExercise?.name ?? 'Exercise', to: `/exercises/${id}` },
+                        { label: 'Progress' },
+                    ]}
+                />
+
+                <header className="exercise-detail-header">
+                    <span className="exercise-detail-eyebrow">PROGRESS</span>
+                    <h1 className="exercise-detail-title">
+                        {selectedExercise?.name ?? 'Exercise'}
+                    </h1>
+                </header>
+
+                <section className="routine-create-card">
+                    <ToggleGroup
+                        options={Object.entries(METRICS).map(([key, { label }]) => ({
+                            value: key,
+                            label,
+                        }))}
+                        value={metric}
+                        onChange={setMetric}
                     />
 
-                    <header className="exercise-detail-header">
-                        <span className="exercise-detail-eyebrow">PROGRESS</span>
-                        <h1 className="exercise-detail-title">
-                            {selectedExercise?.name ?? 'Exercise'}
-                        </h1>
-                    </header>
-
-                    <section className="routine-create-card">
-                        <ToggleGroup
-                            options={Object.entries(METRICS).map(([key, { label }]) => ({
-                                value: key,
-                                label,
-                            }))}
-                            value={metric}
-                            onChange={setMetric}
-                        />
-
-                        {isLoading ? (
-                            <div className="exercise-detail-loading">
-                                <div className="exercise-detail-loading-spinner" />
-                                <span>Loading history...</span>
-                            </div>
-                        ) : chartData.length === 0 ? (
-                            <p style={{ padding: '1.5rem 0' }}>
-                                No completed sessions yet for this exercise. Log a session from the
-                                calendar to start tracking progress.
-                            </p>
-                        ) : (
-                            <div style={{ width: '100%', height: 320, marginTop: '1.5rem' }}>
-                                <ResponsiveContainer>
-                                    <LineChart data={chartData}>
-                                        <CartesianGrid
-                                            strokeDasharray="3 3"
-                                            stroke="var(--app-border)"
-                                        />
-                                        <XAxis dataKey="date" stroke="var(--app-text-muted)" />
-                                        <YAxis
-                                            stroke="var(--app-text-muted)"
-                                            unit={` ${METRICS[metric].unit}`}
-                                        />
-                                        <Tooltip
-                                            formatter={(value) => [
-                                                `${value} ${METRICS[metric].unit}`,
-                                                METRICS[metric].label,
-                                            ]}
-                                        />
-                                        <Line
-                                            type="monotone"
-                                            dataKey="value"
-                                            stroke="var(--app-primary)"
-                                            strokeWidth={2}
-                                            dot={{ r: 4 }}
-                                        />
-                                    </LineChart>
-                                </ResponsiveContainer>
-                            </div>
-                        )}
-                    </section>
-                </div>
-            </main>
-        </>
+                    {isLoading ? (
+                        <div className="exercise-detail-loading">
+                            <div className="exercise-detail-loading-spinner" />
+                            <span>Loading history...</span>
+                        </div>
+                    ) : chartData.length === 0 ? (
+                        <p style={{ padding: '1.5rem 0' }}>
+                            No completed sessions yet for this exercise. Log a session from the
+                            calendar to start tracking progress.
+                        </p>
+                    ) : (
+                        <div style={{ width: '100%', height: 320, marginTop: '1.5rem' }}>
+                            <ResponsiveContainer>
+                                <LineChart data={chartData}>
+                                    <CartesianGrid
+                                        strokeDasharray="3 3"
+                                        stroke="var(--app-border)"
+                                    />
+                                    <XAxis dataKey="date" stroke="var(--app-text-muted)" />
+                                    <YAxis
+                                        stroke="var(--app-text-muted)"
+                                        unit={` ${METRICS[metric].unit}`}
+                                    />
+                                    <Tooltip
+                                        formatter={(value) => [
+                                            `${value} ${METRICS[metric].unit}`,
+                                            METRICS[metric].label,
+                                        ]}
+                                    />
+                                    <Line
+                                        type="monotone"
+                                        dataKey="value"
+                                        stroke="var(--app-primary)"
+                                        strokeWidth={2}
+                                        dot={{ r: 4 }}
+                                    />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </div>
+                    )}
+                </section>
+            </div>
+        </main>
     );
 };

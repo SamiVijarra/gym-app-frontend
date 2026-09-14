@@ -19,21 +19,22 @@ export const Navbar = ({ onOpenSidebar }: NavbarProps) => {
     return (
         <nav className="gym-navbar">
             <div className="gym-navbar-inner">
-                <button
-                    type="button"
-                    className="gym-navbar-hamburger"
-                    onClick={onOpenSidebar}
-                    aria-label="Open menu"
-                >
-                    <i className="fas fa-bars"></i>
-                </button>
+                <div className="gym-navbar-left">
+                    <button
+                        type="button"
+                        className="gym-navbar-hamburger"
+                        onClick={onOpenSidebar}
+                        aria-label="Open menu"
+                    >
+                        <i className="fas fa-bars"></i>
+                    </button>
 
-                <div className="gym-navbar-actions">
                     <ThemeToggle />
-                    <span className="gym-navbar-avatar" title={user.name}>
-                        {getInitials(user.name)}
-                    </span>
                 </div>
+
+                <span className="gym-navbar-avatar" title={user.name}>
+                    {getInitials(user.name)}
+                </span>
             </div>
         </nav>
     );

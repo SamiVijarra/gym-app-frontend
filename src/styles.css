@@ -3912,6 +3912,9 @@ body {
     margin-top: 6px;
     color: var(--app-danger);
     font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    height: 15px;
 }
 
 .routine-set-actions {
@@ -4113,3 +4116,4 @@ body {
 .routine-exercise-detail {
     border-top: 1px solid var(--app-border);
 }
+
