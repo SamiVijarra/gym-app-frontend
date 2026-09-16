@@ -1,8 +1,14 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuthStore } from '../../hooks';
+import { useAuthStore, useCalendarStore } from '../../hooks';
 
 export const HomePage = () => {
     const { user } = useAuthStore();
+    const { stats, startLoadingStats } = useCalendarStore();
+
+    useEffect(() => {
+        startLoadingStats();
+    }, []);
 
     return (
         <main className="app-page home-page">
@@ -31,6 +37,54 @@ export const HomePage = () => {
 
                     <div className="home-featured-icon">
                         <i className="fas fa-dumbbell"></i>
+                    </div>
+                </section>
+
+                <section className="home-section">
+                    <div className="home-section-header">
+                        <span>YOUR PROGRESS</span>
+                    </div>
+
+                    <div className="home-stats-grid">
+                        <div className="home-stat-card">
+                            <div className="home-stat-icon">
+                                <i className="fas fa-calendar-check"></i>
+                            </div>
+                            <div>
+                                <strong>{stats ? stats.monthSessionsCompleted : '–'}</strong>
+                                <span>Sessions this month</span>
+                                {stats && (
+                                    <p className="home-stat-sub">
+                                        {stats.monthActiveDays}{' '}
+                                        {stats.monthActiveDays === 1 ? 'active day' : 'active days'}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="home-stat-card">
+                            <div className="home-stat-icon home-stat-icon-accent">
+                                <i className="fas fa-fire"></i>
+                            </div>
+                            <div>
+                                <strong>{stats ? stats.currentStreakDays : '–'}</strong>
+                                <span>
+                                    {stats?.currentStreakDays === 1 ? 'Day streak' : 'Day streak'}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="home-stat-card">
+                            <div className="home-stat-icon home-stat-icon-success">
+                                <i className="fas fa-weight-hanging"></i>
+                            </div>
+                            <div>
+                                <strong>
+                                    {stats ? Math.round(stats.totalVolumeKg).toLocaleString() : '–'}
+                                </strong>
+                                <span>Total kg lifted</span>
+                            </div>
+                        </div>
                     </div>
                 </section>
 
