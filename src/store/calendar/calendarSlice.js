@@ -9,6 +9,7 @@ export const calendarSlice = createSlice({
         historyEntries: {},
         exerciseHistory: {},
         errorMessage: undefined,
+        stats: null,
     },
     reducers: {
         onLoadingCalendar: (state) => {
@@ -39,6 +40,11 @@ export const calendarSlice = createSlice({
             state.isLoading = false;
             state.errorMessage = payload;
         },
+        onSetStats: (state, { payload }) => {
+            state.isLoading = false;
+            state.stats = payload;
+            state.errorMessage = undefined;
+        },
     },
 });
 
@@ -49,4 +55,5 @@ export const {
     onSetHistoryEntry,
     onSetExerciseHistory,
     onCalendarError,
+    onSetStats,
 } = calendarSlice.actions;
