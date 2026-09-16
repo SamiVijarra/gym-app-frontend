@@ -6,6 +6,7 @@ import {
     onSetSessionPrefill,
     onSetCalendarEntries,
     onCalendarError,
+    onSetStats,
 } from '../store/calendar/calendarSlice';
 import calendarApi from '../api/calendarApi';
 
@@ -16,8 +17,15 @@ const parseYearMonth = (date) => {
 
 export const useCalendarStore = () => {
     const dispatch = useDispatch();
-    const { isLoading, entries, sessionPrefill, historyEntries, exerciseHistory, errorMessage } =
-        useSelector((state) => state.calendar);
+    const {
+        isLoading,
+        entries,
+        sessionPrefill,
+        historyEntries,
+        exerciseHistory,
+        errorMessage,
+        stats,
+    } = useSelector((state) => state.calendar);
 
     const startLoadingMonth = async (year, month) => {
         dispatch(onLoadingCalendar());
@@ -143,6 +151,19 @@ export const useCalendarStore = () => {
             return false;
         }
     };
+
+    const startLoadingStats = async () => {
+        dispatch(onLoadingCalendar());
+        try {
+            const { data } = await calendarApi.get('/calendar/stats');
+            dispatch(onSetStats(data));
+        } catch (error) {
+            dispatch(
+                onCalendarError(error.response?.data?.message || 'The stats could not be loaded')
+            );
+        }
+    };
+
     return {
         isLoading,
         entries,
@@ -150,6 +171,7 @@ export const useCalendarStore = () => {
         historyEntries,
         exerciseHistory,
         errorMessage,
+        stats,
 
         startLoadingMonth,
         startPlanningDay,
@@ -160,5 +182,6 @@ export const useCalendarStore = () => {
         startLoadingExerciseHistory,
         startUpdatingHistoryExerciseNotes,
         startUpdatingHistorySetNotes,
+        startLoadingStats,
     };
 };
