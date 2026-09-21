@@ -147,6 +147,11 @@ export const ProfilePage = () => {
                         </div>
                     </form>
                 </section>
+
+                <div className="profile-section-header">
+                    <span>ACCOUNT</span>
+                </div>
+
                 <section className="profile-card">
                     <div className="profile-card-header">
                         <div className="profile-card-icon profile-card-icon-danger">

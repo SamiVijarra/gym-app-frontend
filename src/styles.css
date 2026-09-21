@@ -721,89 +721,6 @@ body {
     letter-spacing: 0.07em;
 }
 
-/* Form */
-
-.routine-add-set form {
-    display: flex;
-
-    gap: 10px;
-
-    margin: 0 !important;
-}
-
-.routine-add-set form > div {
-    flex: 1;
-
-    min-width: 100px;
-}
-
-.routine-add-set .form-label {
-    display: block;
-
-    margin-bottom: 5px !important;
-
-    color: var(--app-text-muted) !important;
-
-    font-size: 10px !important;
-    font-weight: 600;
-
-    text-transform: uppercase;
-
-    letter-spacing: 0.05em;
-}
-
-.routine-add-set .form-control {
-    min-height: 38px;
-
-    color: var(--app-text) !important;
-
-    background: var(--app-bg) !important;
-
-    border: 1px solid var(--app-border-strong) !important;
-
-    border-radius: 8px !important;
-
-    font-size: 13px;
-}
-
-.routine-add-set .form-control::placeholder {
-    color: var(--app-text-muted);
-}
-
-.routine-add-set .form-control:focus {
-    color: var(--app-text) !important;
-
-    background: var(--app-bg) !important;
-
-    border-color: color-mix(in srgb, var(--app-primary) 60%, transparent) !important;
-
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--app-primary) 10%, transparent) !important;
-}
-
-.routine-add-set .btn {
-    min-height: 38px;
-
-    padding: 0 14px !important;
-
-    color: #c4b5fd !important;
-
-    background: rgba(139, 92, 246, 0.1) !important;
-
-    border: 1px solid rgba(139, 92, 246, 0.22) !important;
-
-    border-radius: 8px !important;
-
-    font-size: 12px;
-
-    font-weight: 600;
-}
-
-.routine-add-set .btn:hover {
-    color: #ffffff !important;
-
-    background: rgba(139, 92, 246, 0.18) !important;
-}
-
 /* =========================================================
    ADD EXERCISE
    ========================================================= */
@@ -835,44 +752,6 @@ body {
     color: var(--app-text-secondary);
 
     font-size: 12px;
-}
-
-/* AddExerciseForm */
-
-.routine-add-exercise > div:last-child {
-    margin-top: 0 !important;
-
-    padding: 0 !important;
-
-    border: 0 !important;
-}
-
-/* Search input */
-
-.routine-add-exercise .form-control {
-    min-height: 42px;
-
-    color: var(--app-text) !important;
-
-    background: var(--app-bg) !important;
-
-    border: 1px solid var(--app-border-strong) !important;
-
-    border-radius: 10px !important;
-}
-
-.routine-add-exercise .form-control::placeholder {
-    color: var(--app-text-muted);
-}
-
-.routine-add-exercise .form-control:focus {
-    color: var(--app-text) !important;
-
-    background: var(--app-bg) !important;
-
-    border-color: color-mix(in srgb, var(--app-primary) 55%, transparent) !important;
-
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--app-primary) 10%, transparent) !important;
 }
 
 /* Search results */
@@ -1003,25 +882,6 @@ body {
     gap: 24px;
 }
 
-.gym-navbar-brand:hover {
-    color: var(--app-text);
-}
-
-.gym-navbar-actions {
-    display: flex;
-    align-items: center;
-
-    gap: 8px;
-}
-
-.gym-navbar-logout:hover {
-    color: #ffffff;
-
-    background: var(--app-danger);
-
-    border-color: var(--app-danger);
-}
-
 /* =========================================================
    RESPONSIVE
    ========================================================= */
@@ -1043,20 +903,6 @@ body {
         padding: 0 18px 18px;
     }
 
-    .routine-add-set form {
-        flex-direction: column;
-
-        align-items: stretch !important;
-    }
-
-    .routine-add-set form > div {
-        width: 100%;
-    }
-
-    .routine-add-set form > button {
-        width: 100%;
-    }
-
     .routine-table-wrapper {
         margin: 0 -2px;
     }
@@ -1075,24 +921,6 @@ body {
         width: min(100% - 24px, 1200px);
 
         min-height: 62px;
-    }
-
-    .gym-navbar-links {
-        display: none;
-    }
-
-    .gym-navbar-brand {
-        font-size: 15px;
-    }
-
-    .gym-navbar-logout span {
-        display: none;
-    }
-
-    .gym-navbar-logout {
-        width: 36px;
-
-        padding: 0;
     }
 }
 
@@ -1707,52 +1535,6 @@ body {
 }
 
 /* =========================================================
-   CREATE BUTTON
-   ========================================================= */
-
-.routine-create-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 7px;
-
-    min-height: 40px;
-
-    padding: 0 15px;
-
-    flex-shrink: 0;
-
-    color: #ffffff;
-
-    background: var(--app-primary);
-
-    border: 1px solid var(--app-primary);
-
-    border-radius: 9px;
-
-    font-family: inherit;
-
-    font-size: 12px;
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition:
-        background-color 0.15s ease,
-        border-color 0.15s ease,
-        transform 0.15s ease;
-}
-
-.routine-create-button:hover {
-    background: var(--app-primary-light);
-
-    border-color: var(--app-primary-light);
-
-    transform: translateY(-1px);
-}
-
-/* =========================================================
    DAYS SECTION
    ========================================================= */
 
@@ -2092,10 +1874,6 @@ body {
         flex: initial;
     }
 
-    .routine-create-button {
-        width: 100%;
-    }
-
     .routine-day-card {
         min-height: 92px;
 
@@ -2216,37 +1994,6 @@ body {
 
 .exercises-search input::placeholder {
     color: var(--app-text-muted);
-}
-
-.exercises-search-clear {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 28px;
-    height: 28px;
-
-    flex-shrink: 0;
-
-    color: var(--app-text-muted);
-
-    background: transparent;
-
-    border: 0;
-
-    border-radius: 7px;
-
-    cursor: pointer;
-
-    transition:
-        color 0.15s ease,
-        background-color 0.15s ease;
-}
-
-.exercises-search-clear:hover {
-    color: var(--app-text);
-
-    background: var(--app-surface-2);
 }
 
 /* =========================================================
@@ -2767,10 +2514,6 @@ body {
     .profile-form-actions {
         margin-top: 2px;
     }
-
-    .profile-save-button {
-        width: 100%;
-    }
 }
 
 /* =========================================================
@@ -3036,46 +2779,6 @@ body {
 }
 
 /* =========================================================
-   MODE SWITCH
-   ========================================================= */
-
-.exercise-mode-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    min-height: 36px;
-    padding: 0 12px;
-    color: var(--app-text-secondary);
-    background: var(--app-surface);
-    border: 1px solid var(--app-border-strong);
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 11px;
-    font-weight: 600;
-    cursor: pointer;
-    transition:
-        color 0.15s ease,
-        background-color 0.15s ease,
-        border-color 0.15s ease;
-}
-
-.exercise-mode-button:hover {
-    color: var(--app-text);
-    background: var(--app-surface-hover);
-}
-
-.exercise-mode-button.active {
-    color: #ffffff;
-    background: var(--app-primary);
-    border-color: var(--app-primary);
-}
-
-.exercise-mode-button i {
-    font-size: 10px;
-}
-
-/* =========================================================
    ADD ROW
    ========================================================= */
 
@@ -3087,40 +2790,6 @@ body {
 
 .exercise-add-row > .exercise-add-input {
     flex: 1;
-}
-
-.exercise-add-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    min-height: 42px;
-    padding: 0 15px;
-    flex-shrink: 0;
-    color: #ffffff;
-    background: var(--app-primary);
-    border: 1px solid var(--app-primary);
-    border-radius: 9px;
-    font-family: inherit;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition:
-        background-color 0.15s ease,
-        border-color 0.15s ease,
-        transform 0.15s ease,
-        opacity 0.15s ease;
-}
-
-.exercise-add-button:hover:not(:disabled) {
-    background: var(--app-primary-light);
-    border-color: var(--app-primary-light);
-    transform: translateY(-1px);
-}
-
-.exercise-add-button:disabled {
-    cursor: not-allowed;
-    opacity: 0.45;
 }
 
 /* =========================================================
@@ -3202,11 +2871,6 @@ body {
     .exercise-day-number-field {
         flex: initial;
     }
-
-    .exercise-add-button {
-        width: 100%;
-    }
-}
 
     .exercise-detail-instructions {
         padding: 18px;
@@ -3877,40 +3541,6 @@ body {
 }
 
 /* =========================================================
-   ROUTINE DAY — DELETE BUTTON
-   ========================================================= */
-
-.routine-day-delete {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    margin-left: 8px;
-    color: var(--app-text-muted);
-    background: transparent;
-    border: 1px solid var(--app-border);
-    border-radius: 8px;
-    cursor: pointer;
-    transition:
-        color 0.15s ease,
-        border-color 0.15s ease,
-        background 0.15s ease;
-}
-
-.routine-day-delete:hover {
-    color: var(--app-danger);
-    background: color-mix(in srgb, var(--app-danger) 12%, transparent);
-    border-color: color-mix(in srgb, var(--app-danger) 30%, transparent);
-}
-
-.routine-day-delete.routine-icon-button-progress:hover {
-    color: var(--app-primary);
-    background: color-mix(in srgb, var(--app-primary) 12%, transparent);
-    border-color: color-mix(in srgb, var(--app-primary) 30%, transparent);
-}
-
-/* =========================================================
    FIELD VALIDATION
    ========================================================= */
 
@@ -4235,4 +3865,17 @@ body {
 
 .weekly-goal-form .routine-form-input {
     width: 140px;
+}
+
+.profile-section-header {
+    margin-top: 32px;
+    margin-bottom: 14px;
+}
+
+.profile-section-header span {
+    color: var(--app-text-muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
 }
