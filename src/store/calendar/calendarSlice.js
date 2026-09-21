@@ -10,6 +10,7 @@ export const calendarSlice = createSlice({
         exerciseHistory: {},
         errorMessage: undefined,
         stats: null,
+        weeklyGoal: null,
     },
     reducers: {
         onLoadingCalendar: (state) => {
@@ -43,6 +44,11 @@ export const calendarSlice = createSlice({
         onSetStats: (state, { payload }) => {
             state.isLoading = false;
             state.stats = payload;
+            state.errorMessage = undefined;
+        },
+        onSetWeeklyGoal: (state, { payload }) => {
+            state.isLoading = false;
+            state.weeklyGoal = payload;
             state.errorMessage = undefined;
         },
     },
