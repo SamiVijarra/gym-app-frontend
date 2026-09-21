@@ -4198,3 +4198,41 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+.weekly-goal-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding: 18px 20px;
+    background: var(--app-surface);
+    border: 1px solid var(--app-border);
+    border-radius: var(--app-radius-lg);
+    box-shadow: var(--app-shadow);
+}
+
+.weekly-goal-label {
+    display: block;
+    color: var(--app-text-muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+.weekly-goal-progress {
+    margin: 4px 0 0;
+    color: var(--app-text);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.weekly-goal-form {
+    display: flex;
+    gap: 8px;
+}
+
+.weekly-goal-form .routine-form-input {
+    width: 140px;
+}

@@ -13,6 +13,7 @@ import {
     subMonths,
 } from 'date-fns';
 import { useCalendarStore } from '../../hooks';
+import { WeeklyGoalCard } from '../components/WeeklyGoalCard';
 
 const WEEKDAY_LABELS = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
@@ -64,6 +65,7 @@ export const CalendarPage = () => {
                         Plan your sessions and keep track of your training.
                     </p>
                 </header>
+                <WeeklyGoalCard />
                 <section className="calendar-card">
                     <div className="calendar-nav">
                         <button

@@ -67,10 +67,8 @@ export const HomePage = () => {
                                 <i className="fas fa-fire"></i>
                             </div>
                             <div>
-                                <strong>{stats ? stats.currentStreakDays : '–'}</strong>
-                                <span>
-                                    {stats?.currentStreakDays === 1 ? 'Day streak' : 'Day streak'}
-                                </span>
+                                <strong>{stats ? stats.currentStreakWeeks : '–'}</strong>
+                                <span>Week streak</span>
                             </div>
                         </div>
 
