@@ -7,6 +7,7 @@ import { AddSetForm } from '../components/AddSetForm';
 import { SetRow } from '../components/SetRow';
 import { Button } from '../../components/Button';
 import { Breadcrumb } from '../../components/Breadcrumb';
+import { Card } from '../../components/Card';
 
 export const RoutineDayDetailPage = () => {
     const { dayId } = useParams();
@@ -87,6 +88,17 @@ export const RoutineDayDetailPage = () => {
                     </div>
                 </header>
 
+                <Card variant="accent" className="routine-add-exercise-spacing">
+                    <div className="routine-add-exercise-header">
+                        <div>
+                            <span className="routine-section-label">EXERCISES</span>
+                            <h2>Add Exercise</h2>
+                            <p>Search and add exercises</p>
+                        </div>
+                    </div>
+                    <AddExerciseForm dayId={day.id} />
+                </Card>
+
                 {day.exercises.length === 0 && (
                     <section className="routine-empty-state">
                         <div className="routine-empty-icon">+</div>
@@ -96,6 +108,7 @@ export const RoutineDayDetailPage = () => {
                         <p>Add the first exercise to start building this day.</p>
                     </section>
                 )}
+
                 <div className="routine-exercises">
                     {day.exercises.map((routineExercise, index) => {
                         const isSelected = selectedExerciseId === routineExercise.id;
@@ -251,16 +264,6 @@ export const RoutineDayDetailPage = () => {
                         );
                     })}
                 </div>
-                <section className="routine-add-exercise">
-                    <div className="routine-add-exercise-header">
-                        <div>
-                            <span className="routine-section-label">EXERCISES</span>
-                            <h2>Add Exercise</h2>
-                            <p>Search and add exercises</p>
-                        </div>
-                    </div>
-                    <AddExerciseForm dayId={day.id} />
-                </section>
             </div>
         </main>
     );

@@ -3879,3 +3879,7 @@ body {
     letter-spacing: 0.12em;
     text-transform: uppercase;
 }
+
+.routine-add-exercise-spacing {
+    margin-bottom: var(--app-space-6);
+}
