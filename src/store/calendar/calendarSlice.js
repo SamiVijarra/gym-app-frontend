@@ -62,4 +62,5 @@ export const {
     onSetExerciseHistory,
     onCalendarError,
     onSetStats,
+    onSetWeeklyGoal,
 } = calendarSlice.actions;
