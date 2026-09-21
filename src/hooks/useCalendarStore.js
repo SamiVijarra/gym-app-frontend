@@ -7,6 +7,7 @@ import {
     onSetCalendarEntries,
     onCalendarError,
     onSetStats,
+    onSetWeeklyGoal,
 } from '../store/calendar/calendarSlice';
 import calendarApi from '../api/calendarApi';
 
@@ -25,6 +26,7 @@ export const useCalendarStore = () => {
         exerciseHistory,
         errorMessage,
         stats,
+        weeklyGoal,
     } = useSelector((state) => state.calendar);
 
     const startLoadingMonth = async (year, month) => {
@@ -164,6 +166,36 @@ export const useCalendarStore = () => {
         }
     };
 
+    const startLoadingWeeklyGoal = async (weekStart) => {
+        try {
+            const { data } = await calendarApi.get('/calendar/weekly-goal', {
+                params: { weekStart },
+            });
+            dispatch(onSetWeeklyGoal(data));
+        } catch (error) {
+            dispatch(
+                onCalendarError(
+                    error.response?.data?.message || 'The weekly goal could not be loaded'
+                )
+            );
+        }
+    };
+
+    const startSettingWeeklyGoal = async (weekStart, targetDays) => {
+        try {
+            await calendarApi.post('/calendar/weekly-goal', { weekStart, targetDays });
+            await startLoadingWeeklyGoal(weekStart);
+            return true;
+        } catch (error) {
+            dispatch(
+                onCalendarError(
+                    error.response?.data?.message || 'The weekly goal could not be saved'
+                )
+            );
+            return false;
+        }
+    };
+
     return {
         isLoading,
         entries,
@@ -172,6 +204,7 @@ export const useCalendarStore = () => {
         exerciseHistory,
         errorMessage,
         stats,
+        weeklyGoal,
 
         startLoadingMonth,
         startPlanningDay,
@@ -183,5 +216,7 @@ export const useCalendarStore = () => {
         startUpdatingHistoryExerciseNotes,
         startUpdatingHistorySetNotes,
         startLoadingStats,
+        startLoadingWeeklyGoal,
+        startSettingWeeklyGoal,
     };
 };
