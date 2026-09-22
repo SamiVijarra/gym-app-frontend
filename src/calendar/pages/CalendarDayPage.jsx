@@ -7,6 +7,7 @@ import { Button } from '../../components/Button';
 import { Breadcrumb } from '../../components/Breadcrumb';
 import { Card } from '../../components/Card';
 import { FormField } from '../../components/FormField';
+import { PageHeader } from '../../components/PageHeader';
 
 export const CalendarDayPage = () => {
     const { date } = useParams();
@@ -62,14 +63,14 @@ export const CalendarDayPage = () => {
                     ]}
                 />
 
-                <header className="routine-detail-header">
-                    <div className="routine-detail-eyebrow">{date}</div>
-                    <h1 className="routine-detail-title">
-                        {dayEntries.length === 0
+                <PageHeader
+                    eyebrow={`${date}`}
+                    title={
+                        dayEntries.length === 0
                             ? 'Empty day'
-                            : `${dayEntries.length} session${dayEntries.length > 1 ? 's' : ''}`}
-                    </h1>
-                </header>
+                            : `${dayEntries.length} session${dayEntries.length > 1 ? 's' : ''}`
+                    }
+                />
 
                 {isLoading && <p className="routine-detail-loading">Loading...</p>}
 

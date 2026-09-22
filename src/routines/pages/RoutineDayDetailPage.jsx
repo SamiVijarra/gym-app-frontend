@@ -8,6 +8,7 @@ import { SetRow } from '../components/SetRow';
 import { Button } from '../../components/Button';
 import { Breadcrumb } from '../../components/Breadcrumb';
 import { Card } from '../../components/Card';
+import { PageHeader } from '../../components/PageHeader';
 
 export const RoutineDayDetailPage = () => {
     const { dayId } = useParams();
@@ -71,22 +72,14 @@ export const RoutineDayDetailPage = () => {
                     ]}
                 />
 
-                <header className="routine-detail-header">
-                    <div className="routine-detail-eyebrow">DAY {day.dayNumber}</div>
-
-                    <h1 className="routine-detail-title">{day.description}</h1>
-
-                    <div className="routine-detail-meta">
-                        <span>
-                            {day.exercises.length}{' '}
-                            {day.exercises.length === 1 ? 'exercise' : 'exercises'}
-                        </span>
-
-                        <span className="routine-detail-meta-dot">•</span>
-
-                        <span>Programmed routine</span>
-                    </div>
-                </header>
+                <PageHeader
+                    eyebrow={`DAY ${day.dayNumber}`}
+                    title={day.description}
+                    meta={[
+                        `${day.exercises.length} ${day.exercises.length === 1 ? 'exercise' : 'exercises'}`,
+                        'Programmed routine',
+                    ]}
+                />
 
                 <Card variant="accent" className="routine-add-exercise-spacing">
                     <div className="routine-add-exercise-header">

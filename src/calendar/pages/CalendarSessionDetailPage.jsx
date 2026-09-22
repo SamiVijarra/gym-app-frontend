@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useCalendarStore } from '../../hooks';
 import { HistorySessionView } from '../components/HistorySessionView';
 import { Breadcrumb } from '../../components/Breadcrumb';
+import { PageHeader } from '../../components/PageHeader';
 
 export const CalendarSessionDetailPage = () => {
     const { date, historyEntryId } = useParams();
@@ -32,23 +33,21 @@ export const CalendarSessionDetailPage = () => {
                     ]}
                 />
 
-                <header className="routine-detail-header">
-                    <div className="routine-detail-eyebrow">{date}</div>
-
-                    <h1 className="routine-detail-title">
-                        {historyEntry
+                <PageHeader
+                    eyebrow={date}
+                    title={
+                        historyEntry
                             ? historyEntry.routineDay
                                 ? historyEntry.routineDay.description
                                 : 'Free session'
-                            : 'Session'}
-                    </h1>
-
-                    <div className="routine-detail-meta">
+                            : 'Session'
+                    }
+                    meta={[
                         <span className="calendar-status-badge calendar-status-badge-done">
                             Done
-                        </span>
-                    </div>
-                </header>
+                        </span>,
+                    ]}
+                />
 
                 {!historyEntry ? (
                     <p className="routine-detail-loading">Loading...</p>

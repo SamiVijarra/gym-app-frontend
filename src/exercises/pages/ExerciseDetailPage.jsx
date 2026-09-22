@@ -8,6 +8,7 @@ import { ToggleGroup } from '../../components/ToggleGroup';
 import { Breadcrumb } from '../../components/Breadcrumb';
 import { Card } from '../../components/Card';
 import { FormField } from '../../components/FormField';
+import { PageHeader } from '../../components/PageHeader';
 
 export const ExerciseDetailPage = () => {
     const { id } = useParams();
@@ -143,45 +144,36 @@ export const ExerciseDetailPage = () => {
                     ]}
                 />
 
-                <header className="exercise-detail-header">
-                    <span className="exercise-detail-eyebrow">EXERCISE</span>
+                <PageHeader
+                    eyebrow="EXERCISE"
+                    title={selectedExercise.name}
+                    meta={[
+                        selectedExercise.primaryMuscles?.length > 0
+                            ? selectedExercise.primaryMuscles.join(', ')
+                            : null,
+                        selectedExercise.equipment || null,
+                    ].filter(Boolean)}
+                />
 
-                    <h1 className="exercise-detail-title">{selectedExercise.name}</h1>
+                {canEdit && (
+                    <div className="d-flex gap-2 mt-2">
+                        <Button
+                            variant="secondary"
+                            type="button"
+                            onClick={() => setIsEditing((current) => !current)}
+                        >
+                            <i className="fas fa-pen"></i> {isEditing ? 'Cancel' : 'Edit exercise'}
+                        </Button>
 
-                    <div className="exercise-detail-meta">
-                        {selectedExercise.primaryMuscles?.length > 0 && (
-                            <span>{selectedExercise.primaryMuscles.join(', ')}</span>
-                        )}
-
-                        {selectedExercise.equipment && (
-                            <>
-                                <span className="exercise-detail-meta-dot">•</span>
-
-                                <span>{selectedExercise.equipment}</span>
-                            </>
-                        )}
+                        <Button variant="danger" type="button" onClick={onDeleteExercise}>
+                            <i className="fas fa-trash"></i> Delete exercise
+                        </Button>
                     </div>
+                )}
 
-                    {canEdit && (
-                        <div className="d-flex gap-2 mt-2">
-                            <Button
-                                variant="secondary"
-                                type="button"
-                                onClick={() => setIsEditing((current) => !current)}
-                            >
-                                <i className="fas fa-pen"></i>{' '}
-                                {isEditing ? 'Cancel' : 'Edit exercise'}
-                            </Button>
-                            <Button variant="danger" type="button" onClick={onDeleteExercise}>
-                                <i className="fas fa-trash"></i> Delete exercise
-                            </Button>
-                        </div>
-                    )}
-
-                    <Button as={Link} to={`/exercises/${id}/progress`} variant="secondary">
-                        <i className="fas fa-chart-line"></i> View progress
-                    </Button>
-                </header>
+                <Button as={Link} to={`/exercises/${id}/progress`} variant="secondary">
+                    <i className="fas fa-chart-line"></i> View progress
+                </Button>
 
                 {isEditing ? (
                     <section className="routine-create-card">
