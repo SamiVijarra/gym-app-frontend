@@ -176,12 +176,11 @@ export const ExerciseDetailPage = () => {
                 </Button>
 
                 {isEditing ? (
-                    <section className="routine-create-card">
+                    <Card variant="surface">
                         <div className="routine-create-header">
                             <div className="routine-create-icon">
                                 <i className="fas fa-pen"></i>
                             </div>
-
                             <div>
                                 <h2>Edit exercise</h2>
                                 <p>Add or update the image and instructions any time.</p>
@@ -196,10 +195,8 @@ export const ExerciseDetailPage = () => {
                                 value={editName}
                                 onChange={onEditInputChange}
                                 onBlur={() => onFieldBlur('name')}
+                                error={editNameError ? 'Name is required.' : undefined}
                             />
-                            {editNameError && (
-                                <span className="field-error-text">Name is required.</span>
-                            )}
 
                             <FormField
                                 id="edit-primaryMuscles"
@@ -208,12 +205,12 @@ export const ExerciseDetailPage = () => {
                                 value={editPrimaryMuscles}
                                 onChange={onEditInputChange}
                                 onBlur={() => onFieldBlur('primaryMuscles')}
+                                error={
+                                    editPrimaryMusclesError
+                                        ? 'Primary muscles is required.'
+                                        : undefined
+                                }
                             />
-                            {editPrimaryMusclesError && (
-                                <span className="field-error-text">
-                                    Primary muscles is required.
-                                </span>
-                            )}
 
                             <FormField
                                 id="edit-equipment"
@@ -257,7 +254,7 @@ export const ExerciseDetailPage = () => {
                                 {isSavingEdit ? 'Saving...' : 'Save changes'}
                             </Button>
                         </form>
-                    </section>
+                    </Card>
                 ) : (
                     <section className="exercise-detail-main">
                         <div className="exercise-detail-image">
@@ -309,7 +306,6 @@ export const ExerciseDetailPage = () => {
                     <FormField
                         id="exercise-notes"
                         label="Notes"
-                        className="exercise-add-input"
                         placeholder="Optional notes for this exercise..."
                         value={notes}
                         onChange={(e) => setNotes(e.target.value)}
@@ -364,7 +360,6 @@ export const ExerciseDetailPage = () => {
                             <FormField
                                 id="new-day-number"
                                 label="Day"
-                                className="exercise-add-input"
                                 placeholder="N°"
                                 value={newDayNumber}
                                 onChange={(e) => setNewDayNumber(e.target.value)}
@@ -373,7 +368,6 @@ export const ExerciseDetailPage = () => {
                             <FormField
                                 id="new-day-description"
                                 label="Description"
-                                className="exercise-add-input"
                                 placeholder="legs, chest, back..."
                                 value={newDayDescription}
                                 onChange={(e) => setNewDayDescription(e.target.value)}
