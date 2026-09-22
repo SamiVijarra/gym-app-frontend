@@ -14,6 +14,7 @@ import {
 } from 'date-fns';
 import { useCalendarStore } from '../../hooks';
 import { WeeklyGoalCard } from '../components/WeeklyGoalCard';
+import { PageHeader } from '../../components/PageHeader';
 
 const WEEKDAY_LABELS = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
@@ -58,13 +59,12 @@ export const CalendarPage = () => {
     return (
         <main className="app-page calendar-page">
             <div className="app-page-container calendar-page-container">
-                <header className="app-page-header calendar-page-header">
-                    <span className="app-page-eyebrow">TRAINING</span>
-                    <h1 className="app-page-title">Calendar</h1>
-                    <p className="app-page-subtitle">
-                        Plan your sessions and keep track of your training.
-                    </p>
-                </header>
+                <PageHeader
+                    eyebrow="TRAINING"
+                    title="Calendar"
+                    subtitle="Plan your sessions and keep track of your training."
+                />
+
                 <WeeklyGoalCard />
                 <section className="calendar-card">
                     <div className="calendar-nav">

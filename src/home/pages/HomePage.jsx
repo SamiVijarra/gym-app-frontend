@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuthStore, useCalendarStore } from '../../hooks';
+import { PageHeader } from '../../components/PageHeader';
 
 export const HomePage = () => {
     const { user } = useAuthStore();
@@ -13,13 +14,11 @@ export const HomePage = () => {
     return (
         <main className="app-page home-page">
             <div className="app-page-container home-container">
-                <header className="app-page-header home-header">
-                    <span className="app-page-eyebrow home-eyebrow">GYM TRACKER</span>
-
-                    <h1 className="app-page-title">Hi, {user.name}!</h1>
-
-                    <p className="app-page-subtitle">All set to track your progress.</p>
-                </header>
+                <PageHeader
+                    eyebrow="GYM TRACKER"
+                    title={`Hi, ${user.name}!`}
+                    subtitle="All set to track your progress."
+                />
 
                 <section className="home-featured">
                     <div className="home-featured-content">

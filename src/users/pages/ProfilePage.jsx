@@ -3,6 +3,7 @@ import { useAuthStore, useForm, useUsersStore } from '../../hooks';
 import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
 import { FormField } from '../../components/FormField';
+import { PageHeader } from '../../components/PageHeader';
 
 const profileFormFields = {
     name: '',
@@ -56,15 +57,11 @@ export const ProfilePage = () => {
     return (
         <main className="app-page profile-page">
             <div className="app-page-container profile-page-container">
-                <header className="app-page-header profile-page-header">
-                    <span className="app-page-eyebrow profile-page-eyebrow">PROFILE</span>
-
-                    <h1 className="app-page-title">My profile</h1>
-
-                    <p className="app-page-subtitle">
-                        Manage your personal information and keep your data up to date.
-                    </p>
-                </header>
+                <PageHeader
+                    eyebrow="PROFILE"
+                    title="My profile"
+                    subtitle="Manage your personal information and keep your data up to date."
+                />
 
                 <Card variant="surface">
                     <div className="profile-card-header">

@@ -5,6 +5,7 @@ import { useForm, useRoutinesStore } from '../../hooks';
 import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
 import { FormField } from '../../components/FormField';
+import { PageHeader } from '../../components/PageHeader';
 
 const newDayFields = { dayNumber: '', description: '' };
 
@@ -51,15 +52,12 @@ export const RoutinePage = () => {
     return (
         <main className="app-page routine-page">
             <div className="app-page-container routine-page-container">
-                <header className="app-page-header routine-page-header">
-                    <span className="app-page-eyebrow routine-page-eyebrow">TRAINING</span>
+                <PageHeader
+                    eyebrow="TRAINING"
+                    title="My routine"
+                    subtitle="Organize your training days and keep all your progress in one place."
+                />
 
-                    <h1 className="app-page-title">My routine</h1>
-
-                    <p className="app-page-subtitle">
-                        Organize your training days and keep all your progress in one place.
-                    </p>
-                </header>
                 <Card variant="surface">
                     <div className="routine-create-header">
                         <div className="routine-create-icon">

@@ -5,6 +5,7 @@ import { useExercisesStore, useForm } from '../../hooks';
 import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
 import { FormField } from '../../components/FormField';
+import { PageHeader } from '../../components/PageHeader';
 
 const newExerciseFields = {
     name: '',
@@ -70,15 +71,11 @@ export const ExercisesPage = () => {
     return (
         <main className="app-page exercises-page">
             <div className="app-page-container exercises-page-container">
-                <header className="app-page-header exercises-page-header">
-                    <span className="app-page-eyebrow exercises-page-eyebrow">EXERCISES</span>
-
-                    <h1 className="app-page-title">Exercises Catalog</h1>
-
-                    <p className="app-page-subtitle">
-                        Search for exercises and view their information to complete your workout.
-                    </p>
-                </header>
+                <PageHeader
+                    eyebrow="EXERCISES"
+                    title="Exercises Catalog"
+                    subtitle="Search for exercises and view their information to complete your workout."
+                />
                 <Card variant="surface">
                     <div className="routine-create-header">
                         <div className="routine-create-icon">
