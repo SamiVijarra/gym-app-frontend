@@ -27,22 +27,20 @@ export const PlanDayForm = ({ date, onPlanned }) => {
 
     return (
         <form onSubmit={onSubmit} className="add-set-form-row mt-2">
-            <div className="routine-form-field" style={{ minWidth: '220px' }}>
-                <FormField
-                    id="plan-day-routine"
-                    label="Routine day"
-                    as="select"
-                    value={routineDayId}
-                    onChange={(e) => setRoutineDayId(e.target.value)}
-                >
-                    <option value="">Select a day...</option>
-                    {days.map((day) => (
-                        <option key={day.id} value={day.id}>
-                            Day {day.dayNumber} — {day.description}
-                        </option>
-                    ))}
-                </FormField>
-            </div>
+            <FormField
+                id="plan-day-routine"
+                label="Routine day"
+                as="select"
+                value={routineDayId}
+                onChange={(e) => setRoutineDayId(e.target.value)}
+            >
+                <option value="">Select a day...</option>
+                {days.map((day) => (
+                    <option key={day.id} value={day.id}>
+                        Day {day.dayNumber} — {day.description}
+                    </option>
+                ))}
+            </FormField>
 
             <Button
                 type="submit"

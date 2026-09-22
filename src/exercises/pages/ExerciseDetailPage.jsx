@@ -7,6 +7,7 @@ import { Button } from '../../components/Button';
 import { ToggleGroup } from '../../components/ToggleGroup';
 import { Breadcrumb } from '../../components/Breadcrumb';
 import { Card } from '../../components/Card';
+import { FormField } from '../../components/FormField';
 
 export const ExerciseDetailPage = () => {
     const { id } = useParams();
@@ -196,85 +197,58 @@ export const ExerciseDetailPage = () => {
                         </div>
 
                         <form onSubmit={onSaveEdit} className="routine-create-form">
-                            <div className="routine-form-field">
-                                <label htmlFor="edit-name">Name</label>
-                                <input
-                                    id="edit-name"
-                                    type="text"
-                                    className={
-                                        editNameError
-                                            ? 'routine-form-input input-invalid'
-                                            : 'routine-form-input'
-                                    }
-                                    name="name"
-                                    value={editName}
-                                    onChange={onEditInputChange}
-                                    onBlur={() => onFieldBlur('name')}
-                                />
-                                {editNameError && (
-                                    <span className="field-error-text">Name is required.</span>
-                                )}
-                            </div>
+                            <FormField
+                                id="edit-name"
+                                label="Name"
+                                name="name"
+                                value={editName}
+                                onChange={onEditInputChange}
+                                onBlur={() => onFieldBlur('name')}
+                            />
+                            {editNameError && (
+                                <span className="field-error-text">Name is required.</span>
+                            )}
 
-                            <div className="routine-form-field">
-                                <label htmlFor="edit-primaryMuscles">Primary Muscles</label>
-                                <input
-                                    id="edit-primaryMuscles"
-                                    type="text"
-                                    className={
-                                        editPrimaryMusclesError
-                                            ? 'routine-form-input input-invalid'
-                                            : 'routine-form-input'
-                                    }
-                                    name="primaryMuscles"
-                                    value={editPrimaryMuscles}
-                                    onChange={onEditInputChange}
-                                    onBlur={() => onFieldBlur('primaryMuscles')}
-                                />
-                                {editPrimaryMusclesError && (
-                                    <span className="field-error-text">
-                                        Primary muscles is required.
-                                    </span>
-                                )}
-                            </div>
+                            <FormField
+                                id="edit-primaryMuscles"
+                                label="Primary Muscles"
+                                name="primaryMuscles"
+                                value={editPrimaryMuscles}
+                                onChange={onEditInputChange}
+                                onBlur={() => onFieldBlur('primaryMuscles')}
+                            />
+                            {editPrimaryMusclesError && (
+                                <span className="field-error-text">
+                                    Primary muscles is required.
+                                </span>
+                            )}
 
-                            <div className="routine-form-field">
-                                <label htmlFor="edit-equipment">Equipment (optional)</label>
-                                <input
-                                    id="edit-equipment"
-                                    type="text"
-                                    className="routine-form-input"
-                                    name="equipment"
-                                    value={editEquipment}
-                                    onChange={onEditInputChange}
-                                />
-                            </div>
+                            <FormField
+                                id="edit-equipment"
+                                label="Equipment (optional)"
+                                name="equipment"
+                                value={editEquipment}
+                                onChange={onEditInputChange}
+                            />
 
-                            <div className="routine-form-field">
-                                <label htmlFor="edit-imageUrl">Image URL (optional)</label>
-                                <input
-                                    id="edit-imageUrl"
-                                    type="text"
-                                    className="routine-form-input"
-                                    placeholder="https://example.com/image.jpg"
-                                    name="imageUrl"
-                                    value={editImageUrl}
-                                    onChange={onEditInputChange}
-                                />
-                            </div>
+                            <FormField
+                                id="edit-imageUrl"
+                                label="Image URL (optional)"
+                                placeholder="https://example.com/image.jpg"
+                                name="imageUrl"
+                                value={editImageUrl}
+                                onChange={onEditInputChange}
+                            />
 
-                            <div className="routine-form-field" style={{ gridColumn: '1 / -1' }}>
-                                <label htmlFor="edit-instructions">Instructions (optional)</label>
-                                <textarea
-                                    id="edit-instructions"
-                                    className="routine-form-input"
-                                    placeholder="Describe the exercise..."
-                                    name="instructions"
-                                    rows={3}
-                                    value={editInstructions}
-                                    onChange={onEditInputChange}
-                                />
-                            </div>
+                            <FormField
+                                id="edit-instructions"
+                                label="Instructions (optional)"
+                                placeholder="Describe the exercise..."
+                                name="instructions"
+                                rows={3}
+                                value={editInstructions}
+                                onChange={onEditInputChange}
+                            />
 
                             {errorMessage && (
                                 <p className="text-danger" style={{ gridColumn: '1 / -1' }}>
@@ -340,18 +314,14 @@ export const ExerciseDetailPage = () => {
                         </div>
                     </div>
 
-                    <div className="exercise-add-field">
-                        <label htmlFor="exercise-notes">Notes</label>
-
-                        <input
-                            id="exercise-notes"
-                            type="text"
-                            className="exercise-add-input"
-                            placeholder="Optional notes for this exercise..."
-                            value={notes}
-                            onChange={(e) => setNotes(e.target.value)}
-                        />
-                    </div>
+                    <FormField
+                        id="exercise-notes"
+                        label="Notes"
+                        className="exercise-add-input"
+                        placeholder="Optional notes for this exercise..."
+                        value={notes}
+                        onChange={(e) => setNotes(e.target.value)}
+                    />
 
                     <ToggleGroup
                         options={[
@@ -399,31 +369,23 @@ export const ExerciseDetailPage = () => {
 
                     {mode === 'new' && (
                         <div className="exercise-add-row exercise-add-new-row">
-                            <div className="exercise-day-number-field">
-                                <label htmlFor="new-day-number">Day</label>
+                            <FormField
+                                id="new-day-number"
+                                label="Day"
+                                className="exercise-add-input"
+                                placeholder="N°"
+                                value={newDayNumber}
+                                onChange={(e) => setNewDayNumber(e.target.value)}
+                            />
 
-                                <input
-                                    id="new-day-number"
-                                    type="number"
-                                    className="exercise-add-input"
-                                    placeholder="N°"
-                                    value={newDayNumber}
-                                    onChange={(e) => setNewDayNumber(e.target.value)}
-                                />
-                            </div>
-
-                            <div className="exercise-day-description-field">
-                                <label htmlFor="new-day-description">Description</label>
-
-                                <input
-                                    id="new-day-description"
-                                    type="text"
-                                    className="exercise-add-input"
-                                    placeholder="legs, chest, back..."
-                                    value={newDayDescription}
-                                    onChange={(e) => setNewDayDescription(e.target.value)}
-                                />
-                            </div>
+                            <FormField
+                                id="new-day-description"
+                                label="Description"
+                                className="exercise-add-input"
+                                placeholder="legs, chest, back..."
+                                value={newDayDescription}
+                                onChange={(e) => setNewDayDescription(e.target.value)}
+                            />
 
                             <Button
                                 variant="primary"

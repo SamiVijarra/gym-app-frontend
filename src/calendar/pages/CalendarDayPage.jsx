@@ -6,6 +6,7 @@ import { DoneSessionCard, PlannedSessionCard, SessionBuilder, PlanDayForm } from
 import { Button } from '../../components/Button';
 import { Breadcrumb } from '../../components/Breadcrumb';
 import { Card } from '../../components/Card';
+import { FormField } from '../../components/FormField';
 
 export const CalendarDayPage = () => {
     const { date } = useParams();
@@ -124,24 +125,19 @@ export const CalendarDayPage = () => {
                                 <p>Record a session you already did.</p>
 
                                 <div className="add-set-form-row mt-2">
-                                    <div className="routine-form-field form-field-grow">
-                                        <label htmlFor="log-session-routine">Routine day</label>
-                                        <select
-                                            id="log-session-routine"
-                                            className="routine-form-input"
-                                            value={logPickerRoutineDayId}
-                                            onChange={(e) =>
-                                                setLogPickerRoutineDayId(e.target.value)
-                                            }
-                                        >
-                                            <option value="">Free session (no routine)</option>
-                                            {routineDays.map((day) => (
-                                                <option key={day.id} value={day.id}>
-                                                    Day {day.dayNumber} — {day.description}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
+                                    <FormField
+                                        id="log-session-routine"
+                                        label="Routine Day"
+                                        value={logPickerRoutineDayId}
+                                        onChange={(e) => setLogPickerRoutineDayId(e.target.value)}
+                                    >
+                                        <option value="">Free session (no routine)</option>
+                                        {routineDays.map((day) => (
+                                            <option key={day.id} value={day.id}>
+                                                Day {day.dayNumber} — {day.description}
+                                            </option>
+                                        ))}
+                                    </FormField>
 
                                     <Button
                                         variant="primary"
