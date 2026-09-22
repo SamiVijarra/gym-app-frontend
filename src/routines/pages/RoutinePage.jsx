@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { useForm, useRoutinesStore } from '../../hooks';
 import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
+import { FormField } from '../../components/FormField';
 
 const newDayFields = { dayNumber: '', description: '' };
 
@@ -73,62 +74,44 @@ export const RoutinePage = () => {
                     </div>
 
                     <form onSubmit={onCreateDay} className="routine-create-form">
-                        <div className="routine-form-field routine-form-day">
-                            <label htmlFor="dayNumber">Day</label>
+                        <FormField
+                            id="dayNumber"
+                            label="Day"
+                            min="1"
+                            placeholder="01"
+                            name="dayNumber"
+                            value={dayNumber}
+                            onChange={onInputChange}
+                            onBlur={() => onFieldBlur('dayNumber')}
+                        />
+                        <span
+                            className={
+                                dayNumberError
+                                    ? 'field-error-text'
+                                    : 'field-error-text field-error-text-hidden'
+                            }
+                        >
+                            Required.
+                        </span>
 
-                            <input
-                                id="dayNumber"
-                                type="number"
-                                min="1"
-                                className={
-                                    dayNumberError
-                                        ? 'routine-form-input input-invalid'
-                                        : 'routine-form-input'
-                                }
-                                placeholder="01"
-                                name="dayNumber"
-                                value={dayNumber}
-                                onChange={onInputChange}
-                                onBlur={() => onFieldBlur('dayNumber')}
-                            />
-                            <span
-                                className={
-                                    dayNumberError
-                                        ? 'field-error-text'
-                                        : 'field-error-text field-error-text-hidden'
-                                }
-                            >
-                                Required.
-                            </span>
-                        </div>
-
-                        <div className="routine-form-field">
-                            <label htmlFor="description">Description</label>
-
-                            <input
-                                id="description"
-                                type="text"
-                                className={
-                                    descriptionError
-                                        ? 'routine-form-input input-invalid'
-                                        : 'routine-form-input'
-                                }
-                                placeholder="Chest, shoulders and triceps"
-                                name="description"
-                                value={description}
-                                onChange={onInputChange}
-                                onBlur={() => onFieldBlur('description')}
-                            />
-                            <span
-                                className={
-                                    descriptionError
-                                        ? 'field-error-text'
-                                        : 'field-error-text field-error-text-hidden'
-                                }
-                            >
-                                Description is required.
-                            </span>
-                        </div>
+                        <FormField
+                            id="description"
+                            label="Description"
+                            placeholder="Chest, shoulders and triceps"
+                            name="description"
+                            value={description}
+                            onChange={onInputChange}
+                            onBlur={() => onFieldBlur('description')}
+                        />
+                        <span
+                            className={
+                                descriptionError
+                                    ? 'field-error-text'
+                                    : 'field-error-text field-error-text-hidden'
+                            }
+                        >
+                            Description is required.
+                        </span>
 
                         <Button
                             type="submit"

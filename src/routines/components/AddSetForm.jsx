@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRoutinesStore } from '../../hooks';
 import { Button } from '../../components/Button';
+import { FormField } from '../../components/FormField';
 
 export const AddSetForm = ({ routineExerciseId }) => {
     const [weight, setWeight] = useState('');
@@ -33,60 +34,44 @@ export const AddSetForm = ({ routineExerciseId }) => {
     return (
         <form onSubmit={onSubmit} className="add-set-form">
             <div className="add-set-form-row">
-                <div className="routine-form-field">
-                    <label htmlFor="add-set-weight">Weight (kg)</label>
-                    <input
-                        id="add-set-weight"
-                        type="number"
-                        step="0.5"
-                        className={
-                            weightError ? 'routine-form-input input-invalid' : 'routine-form-input'
-                        }
-                        value={weight}
-                        onChange={(e) => setWeight(e.target.value)}
-                        onBlur={() => onFieldBlur('weight')}
-                    />
-                    {weightError && <span className="field-error-text">Weight is required.</span>}
-                </div>
-                <div className="routine-form-field">
-                    <label htmlFor="add-set-reps">Reps</label>
-                    <input
-                        id="add-set-reps"
-                        type="number"
-                        className={
-                            repsError ? 'routine-form-input input-invalid' : 'routine-form-input'
-                        }
-                        value={reps}
-                        onChange={(e) => setReps(e.target.value)}
-                        onBlur={() => onFieldBlur('reps')}
-                    />
-                    {repsError && <span className="field-error-text">Reps is required.</span>}
-                </div>
-                <div className="routine-form-field">
-                    <label htmlFor="add-set-rest">Rest (seg)</label>
-                    <input
-                        id="add-set-rest"
-                        type="number"
-                        className="routine-form-input"
-                        value={restSeconds}
-                        onChange={(e) => setRestSeconds(e.target.value)}
-                    />
-                </div>
+                <FormField
+                    id="add-set-weight"
+                    label="Weight (kg)"
+                    step="0.5"
+                    value={weight}
+                    onChange={(e) => setWeight(e.target.value)}
+                    onBlur={() => onFieldBlur('weight')}
+                />
+                {weightError && <span className="field-error-text">Weight is required.</span>}
+
+                <FormField
+                    id="add-set-reps"
+                    label="Reps"
+                    value={reps}
+                    onChange={(e) => setReps(e.target.value)}
+                    onBlur={() => onFieldBlur('reps')}
+                />
+                {repsError && <span className="field-error-text">Reps is required.</span>}
+
+                <FormField
+                    id="add-set-rest"
+                    label="Rest (seg)"
+                    value={restSeconds}
+                    onChange={(e) => setRestSeconds(e.target.value)}
+                />
+
                 <Button type="submit" variant="primary" size="sm" disabled={!weight || !reps}>
                     + Set
                 </Button>
             </div>
 
-            <div className="routine-form-field">
-                <label htmlFor="add-set-notes">Notes</label>
-                <input
-                    id="add-set-notes"
-                    type="text"
-                    className="routine-form-input"
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                />
-            </div>
+            <FormField
+                id="add-set-notes"
+                label="Notes"
+                className="routine-form-input"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+            />
         </form>
     );
 };

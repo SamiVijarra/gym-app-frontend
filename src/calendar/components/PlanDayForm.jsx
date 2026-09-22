@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useCalendarStore, useRoutinesStore } from '../../hooks';
 import { Button } from '../../components/Button';
+import { FormField } from '../../components/FormField';
 
 export const PlanDayForm = ({ date, onPlanned }) => {
     const { days, startLoadingRoutine } = useRoutinesStore();
@@ -27,10 +28,10 @@ export const PlanDayForm = ({ date, onPlanned }) => {
     return (
         <form onSubmit={onSubmit} className="add-set-form-row mt-2">
             <div className="routine-form-field" style={{ minWidth: '220px' }}>
-                <label htmlFor="plan-day-routine">Routine day</label>
-                <select
+                <FormField
                     id="plan-day-routine"
-                    className="routine-form-input"
+                    label="Routine day"
+                    as="select"
                     value={routineDayId}
                     onChange={(e) => setRoutineDayId(e.target.value)}
                 >
@@ -40,7 +41,7 @@ export const PlanDayForm = ({ date, onPlanned }) => {
                             Day {day.dayNumber} — {day.description}
                         </option>
                     ))}
-                </select>
+                </FormField>
             </div>
 
             <Button

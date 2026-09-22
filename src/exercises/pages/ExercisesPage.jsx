@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useExercisesStore, useForm } from '../../hooks';
 import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
+import { FormField } from '../../components/FormField';
 
 const newExerciseFields = {
     name: '',
@@ -89,85 +90,56 @@ export const ExercisesPage = () => {
                         </div>
                     </div>
                     <form onSubmit={onCreateExercise} className="routine-create-form">
-                        <div className="routine-form-field">
-                            <label htmlFor="name">Name</label>
-                            <input
-                                id="name"
-                                type="text"
-                                className={
-                                    nameError
-                                        ? 'routine-form-input input-invalid'
-                                        : 'routine-form-input'
-                                }
-                                placeholder="Hip Thrust"
-                                name="name"
-                                value={name}
-                                onChange={onInputChange}
-                                onBlur={() => onFieldBlur('name')}
-                            />
-                            {nameError && (
-                                <span className="field-error-text">Name is required.</span>
-                            )}
-                        </div>
+                        <FormField
+                            id="name"
+                            label="Name"
+                            placeholder="Hip Thrust"
+                            name="name"
+                            value={name}
+                            onChange={onInputChange}
+                            onBlur={() => onFieldBlur('name')}
+                            error={nameError ? 'Name is required.' : undefined}
+                        />
 
-                        <div className="routine-form-field">
-                            <label htmlFor="primaryMuscles">Primary Muscles</label>
-                            <input
-                                id="primaryMuscles"
-                                type="text"
-                                className={
-                                    primaryMusclesError
-                                        ? 'routine-form-input input-invalid'
-                                        : 'routine-form-input'
-                                }
-                                placeholder="Glutes, Hamstrings"
-                                name="primaryMuscles"
-                                value={primaryMuscles}
-                                onChange={onInputChange}
-                                onBlur={() => onFieldBlur('primaryMuscles')}
-                            />
-                            {primaryMusclesError && (
-                                <span className="field-error-text">
-                                    Primary muscles are required.
-                                </span>
-                            )}
-                        </div>
-                        <div className="routine-form-field">
-                            <label htmlFor="equipment">Equipment (optional)</label>
-                            <input
-                                id="equipment"
-                                type="text"
-                                className="routine-form-input"
-                                placeholder="Smith Machine, Barbell, Dumbbell"
-                                name="equipment"
-                                value={equipment}
-                                onChange={onInputChange}
-                            />
-                        </div>
-                        <div className="routine-form-field">
-                            <label htmlFor="imageUrl">Image URL (optional)</label>
-                            <input
-                                id="imageUrl"
-                                type="text"
-                                className="routine-form-input"
-                                placeholder="https://example.com/image.jpg"
-                                name="imageUrl"
-                                value={imageUrl}
-                                onChange={onInputChange}
-                            />
-                        </div>
-                        <div className="routine-form-field" style={{ gridColumn: '1 / -1' }}>
-                            <label htmlFor="instructions">Instructions (optional)</label>
-                            <textarea
-                                id="instructions"
-                                className="routine-form-input"
-                                placeholder="Describe the exercise..."
-                                name="instructions"
-                                rows={3}
-                                value={instructions}
-                                onChange={onInputChange}
-                            />
-                        </div>
+                        <FormField
+                            id="primaryMuscles"
+                            label="Primary Muscles"
+                            placeholder="Glutes, Hamstrings"
+                            name="primaryMuscles"
+                            value={primaryMuscles}
+                            onChange={onInputChange}
+                            onBlur={() => onFieldBlur('primaryMuscles')}
+                            error={primaryMusclesError ? 'Primary muscles is required.' : undefined}
+                        />
+
+                        <FormField
+                            id="equipment"
+                            label="Equipment"
+                            placeholder="Smith Machine, Barbell, Dumbbell"
+                            name="equipment"
+                            value={equipment}
+                            onChange={onInputChange}
+                        />
+
+                        <FormField
+                            id="imageUrl"
+                            label="ImageUrl"
+                            placeholder="https://example.com/image.jpg"
+                            name="imageUrl"
+                            value={imageUrl}
+                            onChange={onInputChange}
+                        />
+
+                        <FormField
+                            id="instructions"
+                            label="Instructions"
+                            placeholder="Describe the exercise..."
+                            name="instructions"
+                            rows={3}
+                            value={instructions}
+                            onChange={onInputChange}
+                        />
+
                         <Button
                             variant="primary"
                             type="submit"
