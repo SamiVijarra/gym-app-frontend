@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuthStore, useForm, useUsersStore } from '../../hooks';
 import { Button } from '../../components/Button';
+import { Card } from '../../components/Card';
 
 const profileFormFields = {
     name: '',
@@ -23,6 +24,15 @@ export const ProfilePage = () => {
     useEffect(() => {
         startLoadingProfile();
     }, []);
+
+    const currentBirthDate = birthDate?.split('T')[0] ?? '';
+    const originalBirthDate = profile?.birthDate?.split('T')[0] ?? '';
+
+    const hasChanges =
+        name !== (profile?.name ?? '') ||
+        Number(weight) !== Number(profile?.weight ?? 0) ||
+        Number(height) !== Number(profile?.height ?? 0) ||
+        currentBirthDate !== originalBirthDate;
 
     const onSubmit = (event) => {
         event.preventDefault();
@@ -55,7 +65,7 @@ export const ProfilePage = () => {
                     </p>
                 </header>
 
-                <section className="profile-card">
+                <Card variant="surface">
                     <div className="profile-card-header">
                         <div className="profile-card-icon">
                             <i className="fas fa-user" />
@@ -125,13 +135,17 @@ export const ProfilePage = () => {
                                 className="profile-form-input"
                                 type="date"
                                 name="birthDate"
-                                value={birthDate?.split('T')[0] ?? ''}
+                                value={currentBirthDate}
                                 onChange={onInputChange}
                             />
                         </div>
 
                         <div className="profile-form-actions">
-                            <Button type="submit" variant="primary" disabled={isLoading || !name}>
+                            <Button
+                                type="submit"
+                                variant="primary"
+                                disabled={isLoading || !name || !hasChanges}
+                            >
                                 {isLoading ? (
                                     <>
                                         <span className="profile-button-spinner" />
@@ -146,7 +160,7 @@ export const ProfilePage = () => {
                             </Button>
                         </div>
                     </form>
-                </section>
+                </Card>
 
                 <div className="profile-section-header">
                     <span>ACCOUNT</span>

@@ -5,6 +5,7 @@ import { useCalendarStore, useRoutinesStore } from '../../hooks';
 import { DoneSessionCard, PlannedSessionCard, SessionBuilder, PlanDayForm } from '../components';
 import { Button } from '../../components/Button';
 import { Breadcrumb } from '../../components/Breadcrumb';
+import { Card } from '../../components/Card';
 
 export const CalendarDayPage = () => {
     const { date } = useParams();
@@ -111,14 +112,14 @@ export const CalendarDayPage = () => {
 
                         <div className="calendar-choice-grid">
                             {!isPastDate && (
-                                <section className="calendar-choice-card">
+                                <Card variant="surface">
                                     <h3>Plan this day</h3>
                                     <p>Assign a routine day for later.</p>
                                     <PlanDayForm date={date} onPlanned={() => {}} />
-                                </section>
+                                </Card>
                             )}
 
-                            <section className="calendar-choice-card">
+                            <Card variant="surface">
                                 <h3>Log a session now</h3>
                                 <p>Record a session you already did.</p>
 
@@ -156,7 +157,7 @@ export const CalendarDayPage = () => {
                                         Start
                                     </Button>
                                 </div>
-                            </section>
+                            </Card>
                         </div>
                     </>
                 )}

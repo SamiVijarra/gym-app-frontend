@@ -6,6 +6,7 @@ import { useAuthStore, useExercisesStore, useForm, useRoutinesStore } from '../.
 import { Button } from '../../components/Button';
 import { ToggleGroup } from '../../components/ToggleGroup';
 import { Breadcrumb } from '../../components/Breadcrumb';
+import { Card } from '../../components/Card';
 
 export const ExerciseDetailPage = () => {
     const { id } = useParams();
@@ -327,7 +328,7 @@ export const ExerciseDetailPage = () => {
                     </section>
                 )}
 
-                <section className="exercise-add-card">
+                <Card variant="accent">
                     <div className="exercise-add-header">
                         <div className="exercise-add-icon">
                             <i className="fas fa-calendar-plus" />
@@ -434,7 +435,7 @@ export const ExerciseDetailPage = () => {
                             </Button>
                         </div>
                     )}
-                </section>
+                </Card>
             </div>
         </main>
     );

@@ -139,6 +139,55 @@ export const SessionBuilder = ({
                 </section>
             )}
 
+            <Button
+                type="submit"
+                variant="primary"
+                className="mt-3"
+                disabled={isSubmitting || !canSubmit}
+            >
+                {isSubmitting ? 'Saving...' : 'Save session'}
+            </Button>
+
+            <section className="routine-add-exercise routine-add-exercise-spacing">
+                <div className="routine-add-exercise-header">
+                    <div>
+                        <span className="routine-section-label">EXERCISES</span>
+                        <h2>Add exercise</h2>
+                        <p>Search and add exercises to this session</p>
+                    </div>
+                </div>
+
+                <div className="routine-form-field">
+                    <label htmlFor="session-builder-search">Search exercise</label>
+                    <input
+                        id="session-builder-search"
+                        type="text"
+                        className="routine-form-input"
+                        placeholder="Search exercise to add..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
+
+                {searchTerm.trim().length > 0 && (
+                    <ul className="list-group mt-2">
+                        {searchResults.map((exercise) => (
+                            <li
+                                key={exercise.id}
+                                className="list-group-item list-group-item-action"
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => addExerciseRow(exercise)}
+                            >
+                                <strong>{exercise.name}</strong>
+                                <div className="text-muted small">
+                                    {exercise.primaryMuscles?.join(', ')} — {exercise.equipment}
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </section>
+
             <div className="routine-exercises">
                 {rows.map((row) => (
                     <article key={row.key} className="routine-exercise-card">
@@ -296,46 +345,6 @@ export const SessionBuilder = ({
                 ))}
             </div>
 
-            <section className="routine-add-exercise">
-                <div className="routine-add-exercise-header">
-                    <div>
-                        <span className="routine-section-label">EXERCISES</span>
-                        <h2>Add exercise</h2>
-                        <p>Search and add exercises to this session</p>
-                    </div>
-                </div>
-
-                <div className="routine-form-field">
-                    <label htmlFor="session-builder-search">Search exercise</label>
-                    <input
-                        id="session-builder-search"
-                        type="text"
-                        className="routine-form-input"
-                        placeholder="Search exercise to add..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
-
-                {searchTerm.trim().length > 0 && (
-                    <ul className="list-group mt-2">
-                        {searchResults.map((exercise) => (
-                            <li
-                                key={exercise.id}
-                                className="list-group-item list-group-item-action"
-                                style={{ cursor: 'pointer' }}
-                                onClick={() => addExerciseRow(exercise)}
-                            >
-                                <strong>{exercise.name}</strong>
-                                <div className="text-muted small">
-                                    {exercise.primaryMuscles?.join(', ')} — {exercise.equipment}
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                )}
-            </section>
-
             {errorMessage && <p className="field-error-text mt-2">{errorMessage}</p>}
 
             {!canSubmit && rows.length > 0 && (
@@ -343,15 +352,6 @@ export const SessionBuilder = ({
                     Add weight and reps to at least one set before saving.
                 </p>
             )}
-
-            <Button
-                type="submit"
-                variant="primary"
-                className="mt-3"
-                disabled={isSubmitting || !canSubmit}
-            >
-                {isSubmitting ? 'Saving...' : 'Save session'}
-            </Button>
         </form>
     );
 };

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { useExercisesStore, useForm } from '../../hooks';
 import { Button } from '../../components/Button';
+import { Card } from '../../components/Card';
 
 const newExerciseFields = {
     name: '',
@@ -77,7 +78,7 @@ export const ExercisesPage = () => {
                         Search for exercises and view their information to complete your workout.
                     </p>
                 </header>
-                <section className="routine-create-card">
+                <Card variant="surface">
                     <div className="routine-create-header">
                         <div className="routine-create-icon">
                             <i className="fas fa-plus"></i>
@@ -176,7 +177,7 @@ export const ExercisesPage = () => {
                             {isCreating ? 'Creating...' : 'Create Exercise'}
                         </Button>
                     </form>
-                </section>
+                </Card>
                 <section className="exercises-search-section">
                     <div className="exercises-search-header">
                         <span>SEARCH</span>

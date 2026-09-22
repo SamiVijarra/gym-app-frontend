@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useForm, useRoutinesStore } from '../../hooks';
 import { Button } from '../../components/Button';
+import { Card } from '../../components/Card';
 
 const newDayFields = { dayNumber: '', description: '' };
 
@@ -58,7 +59,7 @@ export const RoutinePage = () => {
                         Organize your training days and keep all your progress in one place.
                     </p>
                 </header>
-                <section className="routine-create-card">
+                <Card variant="surface">
                     <div className="routine-create-header">
                         <div className="routine-create-icon">
                             <i className="fas fa-plus"></i>
@@ -138,7 +139,7 @@ export const RoutinePage = () => {
                             Create day
                         </Button>
                     </form>
-                </section>
+                </Card>
 
                 <section className="routine-days-section">
                     <div className="routine-days-header">
