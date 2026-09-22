@@ -86,6 +86,7 @@ export const ExercisesPage = () => {
                         </div>
                         <div>
                             <h2>New exercise</h2>
+
                             <p>Can't find an exercise? Add it to the catalog.</p>
                         </div>
                     </div>

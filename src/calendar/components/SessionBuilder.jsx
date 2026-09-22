@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useCalendarStore, useExercisesStore } from '../../hooks';
 import { Button } from '../../components/Button';
+import { FormField } from '../../components/FormField';
 
 let rowKeySeed = 0;
 const nextRowKey = () => `row-${++rowKeySeed}`;
@@ -157,17 +158,13 @@ export const SessionBuilder = ({
                     </div>
                 </div>
 
-                <div className="routine-form-field">
-                    <label htmlFor="session-builder-search">Search exercise</label>
-                    <input
-                        id="session-builder-search"
-                        type="text"
-                        className="routine-form-input"
-                        placeholder="Search exercise to add..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
+                <FormField
+                    id="session-builder-search"
+                    label="Search exercise"
+                    placeholder="Search exercise to add..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
 
                 {searchTerm.trim().length > 0 && (
                     <ul className="list-group mt-2">
@@ -223,18 +220,13 @@ export const SessionBuilder = ({
                             </Button>
                         </div>
 
-                        <div className="routine-form-field mt-2 mb-2">
-                            <label htmlFor={`notes-${row.key}`}>
-                                Notes for this exercise (optional)
-                            </label>
-                            <input
-                                id={`notes-${row.key}`}
-                                type="text"
-                                className="routine-form-input"
-                                value={row.notes}
-                                onChange={(e) => updateRowNotes(row.key, e.target.value)}
-                            />
-                        </div>
+                        <FormField
+                            id={`notes-${row.key}`}
+                            label="Notes for this exercise (optional)"
+                            className="routine-form-input"
+                            value={row.notes}
+                            onChange={(e) => updateRowNotes(row.key, e.target.value)}
+                        />
 
                         <div className="routine-table-wrapper">
                             <table className="routine-sets-table">
