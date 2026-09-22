@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuthStore, useForm, useUsersStore } from '../../hooks';
 import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
+import { FormField } from '../../components/FormField';
 
 const profileFormFields = {
     name: '',
@@ -78,67 +79,43 @@ export const ProfilePage = () => {
                     </div>
 
                     <form className="profile-form" onSubmit={onSubmit}>
-                        <div className="profile-form-field profile-form-field-full">
-                            <label htmlFor="name">Name</label>
-
-                            <input
-                                id="name"
-                                className={
-                                    nameError
-                                        ? 'profile-form-input input-invalid'
-                                        : 'profile-form-input'
-                                }
-                                name="name"
-                                value={name}
-                                onChange={onInputChange}
-                                onBlur={() => setNameTouched(true)}
-                            />
-                            {nameError && (
-                                <span className="field-error-text">Name is required.</span>
-                            )}
-                        </div>
+                        <FormField
+                            id="name"
+                            label="Name"
+                            value={name}
+                            onChange={onInputChange}
+                            onBlur={() => setNameTouched(true)}
+                        />
+                        {nameError && <span className="field-error-text">Name is required.</span>}
 
                         <div className="profile-form-row">
-                            <div className="profile-form-field">
-                                <label htmlFor="weight">Weight (kg)</label>
+                            <FormField
+                                id="weight"
+                                label="Weight (kg)"
+                                name="weight"
+                                value={weight}
+                                onChange={onInputChange}
+                            />
 
-                                <input
-                                    id="weight"
-                                    className="profile-form-input"
-                                    type="number"
-                                    name="weight"
-                                    value={weight}
-                                    onChange={onInputChange}
-                                />
-                            </div>
-
-                            <div className="profile-form-field">
-                                <label htmlFor="height">Height (m)</label>
-
-                                <input
-                                    id="height"
-                                    className="profile-form-input"
-                                    type="number"
-                                    step="0.01"
-                                    name="height"
-                                    value={height}
-                                    onChange={onInputChange}
-                                />
-                            </div>
-                        </div>
-
-                        <div className="profile-form-field profile-form-field-full">
-                            <label htmlFor="birthDate">Birth date</label>
-
-                            <input
-                                id="birthDate"
-                                className="profile-form-input"
-                                type="date"
-                                name="birthDate"
-                                value={currentBirthDate}
+                            <FormField
+                                id="height"
+                                label="Height (m)"
+                                type="number"
+                                step="0.01"
+                                name="height"
+                                value={height}
                                 onChange={onInputChange}
                             />
                         </div>
+
+                        <FormField
+                            id="birthDate"
+                            label="Birth date"
+                            type="date"
+                            name="birthDate"
+                            value={currentBirthDate}
+                            onChange={onInputChange}
+                        />
 
                         <div className="profile-form-actions">
                             <Button

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useExercisesStore, useRoutinesStore } from '../../hooks';
 import { Button } from '../../components/Button';
+import { FormField } from '../../components/FormField';
 
 export const AddExerciseForm = ({ dayId }) => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -40,17 +41,13 @@ export const AddExerciseForm = ({ dayId }) => {
         <div className="add-exercise-form">
             {!selectedExercise && (
                 <>
-                    <div className="routine-form-field">
-                        <label htmlFor="add-exercise-search">Search exercise</label>
-                        <input
-                            id="add-exercise-search"
-                            type="text"
-                            className="routine-form-input"
-                            placeholder="Search an exercise to add..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
+                    <FormField
+                        id="add-exercise-search"
+                        label="Search Exercise"
+                        placeholder="Search an exercise to add..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
 
                     {searchTerm.trim().length > 0 && (
                         <ul className="list-group mt-2">
@@ -90,17 +87,13 @@ export const AddExerciseForm = ({ dayId }) => {
                         )}
                     </div>
 
-                    <div className="routine-form-field">
-                        <label htmlFor="add-exercise-notes">Notes (optional)</label>
-                        <input
-                            id="add-exercise-notes"
-                            type="text"
-                            className="routine-form-input"
-                            placeholder="e.g. with dumbbells"
-                            value={notes}
-                            onChange={(e) => setNotes(e.target.value)}
-                        />
-                    </div>
+                    <FormField
+                        id="add-exercise-notes"
+                        label="Notes (optional)"
+                        placeholder="ex. with dumbbells"
+                        value={notes}
+                        onChange={(e) => setNotes(e.target.value)}
+                    />
 
                     <div className="add-exercise-form-actions">
                         <Button variant="primary" size="sm" onClick={onConfirmAdd}>
