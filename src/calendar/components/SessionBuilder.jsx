@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useCalendarStore, useExercisesStore } from '../../hooks';
 import { Button } from '../../components/Button';
 import { FormField } from '../../components/FormField';
+import { EmptyState } from '../../components/EmptyState';
 
 let rowKeySeed = 0;
 const nextRowKey = () => `row-${++rowKeySeed}`;
@@ -133,11 +134,11 @@ export const SessionBuilder = ({
     return (
         <form onSubmit={onSubmit}>
             {rows.length === 0 && (
-                <section className="routine-empty-state">
-                    <div className="routine-empty-icon">+</div>
-                    <h2>No exercises yet</h2>
-                    <p>Search and add exercises below to log this session.</p>
-                </section>
+                <EmptyState
+                    icon="fa-calendar-plus"
+                    title="No exercises yet"
+                    description="Search and add exercises below to log this session."
+                />
             )}
 
             <Button
