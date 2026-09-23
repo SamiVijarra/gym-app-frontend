@@ -4,6 +4,7 @@ import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
 import { FormField } from '../../components/FormField';
 import { PageHeader } from '../../components/PageHeader';
+import { SectionLabel } from '../../components/SectionLabel';
 
 const profileFormFields = {
     name: '',
@@ -136,9 +137,7 @@ export const ProfilePage = () => {
                     </form>
                 </Card>
 
-                <div className="profile-section-header">
-                    <span>ACCOUNT</span>
-                </div>
+                <SectionLabel>ACCOUNT</SectionLabel>
 
                 <section className="profile-card">
                     <div className="profile-card-header">

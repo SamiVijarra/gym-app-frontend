@@ -9,6 +9,7 @@ import { Button } from '../../components/Button';
 import { Breadcrumb } from '../../components/Breadcrumb';
 import { Card } from '../../components/Card';
 import { PageHeader } from '../../components/PageHeader';
+import { SectionLabel } from '../../components/SectionLabel';
 
 export const RoutineDayDetailPage = () => {
     const { dayId } = useParams();
@@ -82,12 +83,10 @@ export const RoutineDayDetailPage = () => {
                 />
 
                 <Card variant="accent" className="routine-add-exercise-spacing">
-                    <div className="routine-add-exercise-header">
-                        <div>
-                            <span className="routine-section-label">EXERCISES</span>
-                            <h2>Add Exercise</h2>
-                            <p>Search and add exercises</p>
-                        </div>
+                    <div>
+                        <SectionLabel className="routine-section-label">EXERCISES</SectionLabel>
+                        <h2>Add Exercise</h2>
+                        <p>Search and add exercises</p>
                     </div>
                     <AddExerciseForm dayId={day.id} />
                 </Card>

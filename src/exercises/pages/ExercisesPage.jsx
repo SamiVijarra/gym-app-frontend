@@ -6,6 +6,7 @@ import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
 import { FormField } from '../../components/FormField';
 import { PageHeader } from '../../components/PageHeader';
+import { SectionLabel } from '../../components/SectionLabel';
 
 const newExerciseFields = {
     name: '',
@@ -149,9 +150,7 @@ export const ExercisesPage = () => {
                     </form>
                 </Card>
                 <section className="exercises-search-section">
-                    <div className="exercises-search-header">
-                        <span>SEARCH</span>
-                    </div>
+                    <SectionLabel>SEARCH</SectionLabel>
 
                     <div className="exercises-search">
                         <div className="exercises-search-icon">
@@ -208,13 +207,7 @@ export const ExercisesPage = () => {
                 )}
                 {!isLoading && exercises.length > 0 && (
                     <section className="exercises-results">
-                        <div className="exercises-results-header">
-                            <span>RESULTS</span>
-                            <p>
-                                {exercises.length}{' '}
-                                {exercises.length === 1 ? 'exercise' : 'exercises'}
-                            </p>
-                        </div>
+                        <SectionLabel meta={`${exercises.length} exercises`}>RESULTS</SectionLabel>
                         <div className="exercises-grid">
                             {exercises.map((exercise) => (
                                 <Link

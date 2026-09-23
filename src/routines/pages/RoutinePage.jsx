@@ -6,6 +6,7 @@ import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
 import { FormField } from '../../components/FormField';
 import { PageHeader } from '../../components/PageHeader';
+import { SectionLabel } from '../../components/SectionLabel';
 
 const newDayFields = { dayNumber: '', description: '' };
 
@@ -123,15 +124,9 @@ export const RoutinePage = () => {
                 </Card>
 
                 <section className="routine-days-section">
-                    <div className="routine-days-header">
-                        <div>
-                            <span>MY ROUTINE</span>
-
-                            <p>
-                                {days.length} {days.length === 1 ? 'day' : 'days'}
-                            </p>
-                        </div>
-                    </div>
+                    <SectionLabel meta={`${days.length} ${days.length === 1 ? 'day' : 'days'}`}>
+                        MY ROUTINE
+                    </SectionLabel>
 
                     {isLoading && (
                         <div className="routine-page-loading">

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuthStore, useCalendarStore } from '../../hooks';
 import { PageHeader } from '../../components/PageHeader';
+import { SectionLabel } from '../../components/SectionLabel';
 
 export const HomePage = () => {
     const { user } = useAuthStore();
@@ -40,9 +41,7 @@ export const HomePage = () => {
                 </section>
 
                 <section className="home-section">
-                    <div className="home-section-header">
-                        <span>YOUR PROGRESS</span>
-                    </div>
+                    <SectionLabel>YOUR PROGRESS</SectionLabel>
 
                     <div className="home-stats-grid">
                         <div className="home-stat-card">
@@ -86,9 +85,7 @@ export const HomePage = () => {
                 </section>
 
                 <section className="home-section">
-                    <div className="home-section-header">
-                        <span>QUICK ACCESS</span>
-                    </div>
+                    <SectionLabel>QUICK ACCESS</SectionLabel>
 
                     <div className="home-quick-grid">
                         <Link to="/routine" className="home-quick-card">
