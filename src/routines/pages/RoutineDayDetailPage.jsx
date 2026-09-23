@@ -84,7 +84,7 @@ export const RoutineDayDetailPage = () => {
 
                 <Card variant="accent" className="routine-add-exercise-spacing">
                     <div>
-                        <SectionLabel className="routine-section-label">EXERCISES</SectionLabel>
+                        <span className="routine-section-label">EXERCISES</span>
                         <h2>Add Exercise</h2>
                         <p>Search and add exercises</p>
                     </div>
