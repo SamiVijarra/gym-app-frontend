@@ -14,6 +14,7 @@ import { useCalendarStore, useExercisesStore } from '../../hooks';
 import { Button } from '../../components/Button';
 import { ToggleGroup } from '../../components/ToggleGroup';
 import { Breadcrumb } from '../../components/Breadcrumb';
+import { LoadingState } from '../../components/LoadingState';
 
 const METRICS = {
     maxWeight: {
@@ -78,10 +79,7 @@ export const ExerciseProgressPage = () => {
                     />
 
                     {isLoading ? (
-                        <div className="exercise-detail-loading">
-                            <div className="exercise-detail-loading-spinner" />
-                            <span>Loading history...</span>
-                        </div>
+                        <LoadingState label="Loading history..." />
                     ) : chartData.length === 0 ? (
                         <p style={{ padding: '1.5rem 0' }}>
                             No completed sessions yet for this exercise. Log a session from the

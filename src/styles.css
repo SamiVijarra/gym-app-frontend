@@ -732,18 +732,6 @@ body {
 }
 
 /* =========================================================
-   LOADING
-   ========================================================= */
-
-.routine-detail-loading {
-    padding-top: 50px;
-
-    color: var(--app-text-secondary);
-
-    text-align: center;
-}
-
-/* =========================================================
    NAVBAR
    ========================================================= */
 
@@ -1564,44 +1552,6 @@ body {
 }
 
 /* =========================================================
-   LOADING
-   ========================================================= */
-
-.routine-page-loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    gap: 12px;
-
-    min-height: 180px;
-
-    color: var(--app-text-secondary);
-
-    font-size: 12px;
-}
-
-.routine-loading-spinner {
-    width: 24px;
-    height: 24px;
-
-    border: 2px solid rgba(139, 92, 246, 0.15);
-
-    border-top-color: var(--app-primary);
-
-    border-radius: 50%;
-
-    animation: routine-spinner 0.7s linear infinite;
-}
-
-@keyframes routine-spinner {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* =========================================================
    RESPONSIVE
    ========================================================= */
 
@@ -1963,44 +1913,6 @@ body {
 }
 
 /* =========================================================
-   LOADING
-   ========================================================= */
-
-.exercises-page-loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    gap: 12px;
-
-    min-height: 180px;
-
-    color: var(--app-text-secondary);
-
-    font-size: 12px;
-}
-
-.exercises-loading-spinner {
-    width: 24px;
-    height: 24px;
-
-    border: 2px solid rgba(139, 92, 246, 0.15);
-
-    border-top-color: var(--app-primary);
-
-    border-radius: 50%;
-
-    animation: exercises-spinner 0.7s linear infinite;
-}
-
-@keyframes exercises-spinner {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* =========================================================
    RESPONSIVE
    ========================================================= */
 
@@ -2105,29 +2017,12 @@ body {
    LOADING
    ========================================================= */
 
-.profile-page-loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    min-height: 240px;
-    color: var(--app-text-secondary);
-    font-size: 12px;
-}
-
-.profile-loading-spinner,
 .profile-button-spinner {
     display: inline-block;
     border: 2px solid rgba(139, 92, 246, 0.15);
     border-top-color: var(--app-primary);
     border-radius: 50%;
     animation: profile-spinner 0.7s linear infinite;
-}
-
-.profile-loading-spinner {
-    width: 24px;
-    height: 24px;
 }
 
 .profile-button-spinner {
@@ -2360,36 +2255,6 @@ body {
 
 .exercise-day-description-field {
     flex: 1;
-}
-
-/* =========================================================
-   LOADING
-   ========================================================= */
-
-.exercise-detail-loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    min-height: 240px;
-    color: var(--app-text-secondary);
-    font-size: 12px;
-}
-
-.exercise-detail-loading-spinner {
-    width: 24px;
-    height: 24px;
-    border: 2px solid rgba(139, 92, 246, 0.15);
-    border-top-color: var(--app-primary);
-    border-radius: 50%;
-    animation: exercise-detail-spinner 0.7s linear infinite;
-}
-
-@keyframes exercise-detail-spinner {
-    to {
-        transform: rotate(360deg);
-    }
 }
 
 /* =========================================================

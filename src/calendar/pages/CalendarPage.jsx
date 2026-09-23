@@ -15,6 +15,7 @@ import {
 import { useCalendarStore } from '../../hooks';
 import { WeeklyGoalCard } from '../components/WeeklyGoalCard';
 import { PageHeader } from '../../components/PageHeader';
+import { LoadingState } from '../../components/LoadingState';
 
 const WEEKDAY_LABELS = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
@@ -101,10 +102,7 @@ export const CalendarPage = () => {
                         ))}
                     </div>
                     {isLoading ? (
-                        <div className="routine-page-loading calendar-loading">
-                            <div className="routine-loading-spinner"></div>
-                            <span>Loading calendar...</span>
-                        </div>
+                        <LoadingState label="Loading calendar..." />
                     ) : (
                         <div className="calendar-grid">
                             {gridDays.map((day) => {

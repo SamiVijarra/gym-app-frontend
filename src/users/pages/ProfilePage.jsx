@@ -5,6 +5,7 @@ import { Card } from '../../components/Card';
 import { FormField } from '../../components/FormField';
 import { PageHeader } from '../../components/PageHeader';
 import { SectionLabel } from '../../components/SectionLabel';
+import { LoadingState } from '../../components/LoadingState';
 
 const profileFormFields = {
     name: '',
@@ -46,10 +47,7 @@ export const ProfilePage = () => {
         return (
             <main className="app-page profile-page">
                 <div className="app-page-container profile-page-container">
-                    <div className="profile-page-loading">
-                        <div className="profile-loading-spinner" />
-                        <span>Loading profile...</span>
-                    </div>
+                    <LoadingState label="Loading profile..." />
                 </div>
             </main>
         );
@@ -122,10 +120,7 @@ export const ProfilePage = () => {
                                 disabled={isLoading || !name || !hasChanges}
                             >
                                 {isLoading ? (
-                                    <>
-                                        <span className="profile-button-spinner" />
-                                        Saving...
-                                    </>
+                                    <LoadingState label="Saving..-" />
                                 ) : (
                                     <>
                                         <i className="fas fa-check" />

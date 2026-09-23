@@ -8,6 +8,7 @@ import { FormField } from '../../components/FormField';
 import { PageHeader } from '../../components/PageHeader';
 import { SectionLabel } from '../../components/SectionLabel';
 import { EmptyState } from '../../components/EmptyState';
+import { LoadingState } from '../../components/LoadingState';
 
 const newDayFields = { dayNumber: '', description: '' };
 
@@ -113,13 +114,7 @@ export const RoutinePage = () => {
                         MY ROUTINE
                     </SectionLabel>
 
-                    {isLoading && (
-                        <div className="routine-page-loading">
-                            <div className="routine-loading-spinner"></div>
-
-                            <span>Loading routine...</span>
-                        </div>
-                    )}
+                    {isLoading && <LoadingState label="Loading routine..." />}
 
                     {!isLoading && days.length === 0 && (
                         <EmptyState

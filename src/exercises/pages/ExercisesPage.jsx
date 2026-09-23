@@ -8,6 +8,7 @@ import { FormField } from '../../components/FormField';
 import { PageHeader } from '../../components/PageHeader';
 import { SectionLabel } from '../../components/SectionLabel';
 import { EmptyState } from '../../components/EmptyState';
+import { LoadingState } from '../../components/LoadingState';
 
 const newExerciseFields = {
     name: '',
@@ -176,13 +177,7 @@ export const ExercisesPage = () => {
                     </div>
                 </section>
 
-                {isLoading && (
-                    <div className="exercises-page-loading">
-                        <div className="exercises-loading-spinner"></div>
-
-                        <span>Searching for exercises...</span>
-                    </div>
-                )}
+                {isLoading && <LoadingState label="Searching for exercises..." />}
 
                 {!isLoading && searchTerm.trim().length === 0 && (
                     <EmptyState

@@ -9,6 +9,7 @@ import { Breadcrumb } from '../../components/Breadcrumb';
 import { Card } from '../../components/Card';
 import { FormField } from '../../components/FormField';
 import { PageHeader } from '../../components/PageHeader';
+import { LoadingState } from '../../components/LoadingState';
 
 export const ExerciseDetailPage = () => {
     const { id } = useParams();
@@ -121,16 +122,7 @@ export const ExerciseDetailPage = () => {
     };
 
     if (!selectedExercise) {
-        return (
-            <main className="exercise-detail-page">
-                <div className="exercise-detail-container">
-                    <div className="exercise-detail-loading">
-                        <div className="exercise-detail-loading-spinner" />
-                        <span>Loading exercise...</span>
-                    </div>
-                </div>
-            </main>
-        );
+        return <LoadingState label="Loading exercise..." />;
     }
 
     return (

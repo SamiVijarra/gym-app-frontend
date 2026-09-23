@@ -8,6 +8,7 @@ import { Breadcrumb } from '../../components/Breadcrumb';
 import { Card } from '../../components/Card';
 import { FormField } from '../../components/FormField';
 import { PageHeader } from '../../components/PageHeader';
+import { LoadingState } from '../../components/LoadingState';
 
 export const CalendarDayPage = () => {
     const { date } = useParams();
@@ -72,7 +73,7 @@ export const CalendarDayPage = () => {
                     }
                 />
 
-                {isLoading && <p className="routine-detail-loading">Loading...</p>}
+                {isLoading && <LoadingState label="Loading..." />}
 
                 {!isLoading && logMode === 'log-active' && sessionPrefill && (
                     <SessionBuilder

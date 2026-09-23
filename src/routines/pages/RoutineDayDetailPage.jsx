@@ -11,6 +11,7 @@ import { Card } from '../../components/Card';
 import { PageHeader } from '../../components/PageHeader';
 import { SectionLabel } from '../../components/SectionLabel';
 import { EmptyState } from '../../components/EmptyState';
+import { LoadingState } from '../../components/LoadingState';
 
 export const RoutineDayDetailPage = () => {
     const { dayId } = useParams();
@@ -44,23 +45,11 @@ export const RoutineDayDetailPage = () => {
     };
 
     if (isLoading) {
-        return (
-            <main className="routine-detail-page">
-                <div className="routine-detail-container">
-                    <p className="routine-detail-loading">Loading...</p>
-                </div>
-            </main>
-        );
+        return <LoadingState label="Loading..." />;
     }
 
     if (!day) {
-        return (
-            <main className="routine-detail-page">
-                <div className="routine-detail-container">
-                    <p className="routine-detail-loading">Day not found</p>
-                </div>
-            </main>
-        );
+        return <LoadingState label="Day not found" />;
     }
 
     return (

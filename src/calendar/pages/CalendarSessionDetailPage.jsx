@@ -5,6 +5,7 @@ import { useCalendarStore } from '../../hooks';
 import { HistorySessionView } from '../components/HistorySessionView';
 import { Breadcrumb } from '../../components/Breadcrumb';
 import { PageHeader } from '../../components/PageHeader';
+import { LoadingState } from '../../components/LoadingState';
 
 export const CalendarSessionDetailPage = () => {
     const { date, historyEntryId } = useParams();
@@ -50,7 +51,7 @@ export const CalendarSessionDetailPage = () => {
                 />
 
                 {!historyEntry ? (
-                    <p className="routine-detail-loading">Loading...</p>
+                    <LoadingState label="Loading..." />
                 ) : (
                     <HistorySessionView historyEntry={historyEntry} />
                 )}
