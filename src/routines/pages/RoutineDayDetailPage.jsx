@@ -10,6 +10,7 @@ import { Breadcrumb } from '../../components/Breadcrumb';
 import { Card } from '../../components/Card';
 import { PageHeader } from '../../components/PageHeader';
 import { SectionLabel } from '../../components/SectionLabel';
+import { EmptyState } from '../../components/EmptyState';
 
 export const RoutineDayDetailPage = () => {
     const { dayId } = useParams();
@@ -92,13 +93,11 @@ export const RoutineDayDetailPage = () => {
                 </Card>
 
                 {day.exercises.length === 0 && (
-                    <section className="routine-empty-state">
-                        <div className="routine-empty-icon">+</div>
-
-                        <h2>There are no exercises yet</h2>
-
-                        <p>Add the first exercise to start building this day.</p>
-                    </section>
+                    <EmptyState
+                        icon="fa-plus"
+                        title="There are no exercises yet"
+                        description="Add the first exercise to start building this day."
+                    />
                 )}
 
                 <div className="routine-exercises">
@@ -163,9 +162,7 @@ export const RoutineDayDetailPage = () => {
                                         <Button
                                             variant="danger"
                                             size="icon"
-                                            onClick={(event) =>
-                                                onDeleteExercise(event, routineExercise)
-                                            }
+                                            onClick={() => onDeleteExercise(routineExercise)}
                                             aria-label="Delete exercise"
                                         >
                                             <i className="fas fa-trash"></i>

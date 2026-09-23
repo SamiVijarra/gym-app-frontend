@@ -7,6 +7,7 @@ import { Card } from '../../components/Card';
 import { FormField } from '../../components/FormField';
 import { PageHeader } from '../../components/PageHeader';
 import { SectionLabel } from '../../components/SectionLabel';
+import { EmptyState } from '../../components/EmptyState';
 
 const newDayFields = { dayNumber: '', description: '' };
 
@@ -121,15 +122,11 @@ export const RoutinePage = () => {
                     )}
 
                     {!isLoading && days.length === 0 && (
-                        <div className="routine-page-empty">
-                            <div className="routine-page-empty-icon">
-                                <i className="fas fa-calendar-plus"></i>
-                            </div>
-
-                            <h2>You don't have any days yet</h2>
-
-                            <p>Create your first training day using the form above.</p>
-                        </div>
+                        <EmptyState
+                            icon="fa-calendar-plus"
+                            title="You don't have any days yet"
+                            description="Create your first training day using the form above."
+                        />
                     )}
 
                     {!isLoading && days.length > 0 && (

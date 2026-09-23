@@ -7,6 +7,7 @@ import { Card } from '../../components/Card';
 import { FormField } from '../../components/FormField';
 import { PageHeader } from '../../components/PageHeader';
 import { SectionLabel } from '../../components/SectionLabel';
+import { EmptyState } from '../../components/EmptyState';
 
 const newExerciseFields = {
     name: '',
@@ -184,26 +185,19 @@ export const ExercisesPage = () => {
                 )}
 
                 {!isLoading && searchTerm.trim().length === 0 && (
-                    <div className="exercises-page-empty">
-                        <div className="exercises-empty-icon">
-                            <i className="fas fa-dumbbell"></i>
-                        </div>
-
-                        <h2>Search for an exercise</h2>
-
-                        <p>Enter the name of an exercise to start exploring the catalog.</p>
-                    </div>
+                    <EmptyState
+                        icon="fa-calendar-plus"
+                        title="Search for an exercise"
+                        description="Enter the name of an exercise to start exploring the catalog."
+                    />
                 )}
 
                 {!isLoading && searchTerm.trim().length > 0 && exercises.length === 0 && (
-                    <div className="exercises-page-empty">
-                        <div className="exercises-empty-icon">
-                            <i className="fas fa-search"></i>
-                        </div>
-                        <h2>Exercises not found</h2>
-
-                        <p>Try searching with a different name or search term.</p>
-                    </div>
+                    <EmptyState
+                        icon="fa-calendar-plus"
+                        title="Exercises not found"
+                        description="Try searching with a different name or search term."
+                    />
                 )}
                 {!isLoading && exercises.length > 0 && (
                     <section className="exercises-results">
