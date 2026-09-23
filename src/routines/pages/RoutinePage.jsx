@@ -82,16 +82,8 @@ export const RoutinePage = () => {
                             value={dayNumber}
                             onChange={onInputChange}
                             onBlur={() => onFieldBlur('dayNumber')}
+                            error={dayNumberError ? 'Day number is required.' : undefined}
                         />
-                        <span
-                            className={
-                                dayNumberError
-                                    ? 'field-error-text'
-                                    : 'field-error-text field-error-text-hidden'
-                            }
-                        >
-                            Required.
-                        </span>
 
                         <FormField
                             id="description"
@@ -101,16 +93,8 @@ export const RoutinePage = () => {
                             value={description}
                             onChange={onInputChange}
                             onBlur={() => onFieldBlur('description')}
+                            error={descriptionError ? 'Description is required.' : undefined}
                         />
-                        <span
-                            className={
-                                descriptionError
-                                    ? 'field-error-text'
-                                    : 'field-error-text field-error-text-hidden'
-                            }
-                        >
-                            Description is required.
-                        </span>
 
                         <Button
                             type="submit"
