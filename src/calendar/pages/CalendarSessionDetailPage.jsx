@@ -6,6 +6,7 @@ import { HistorySessionView } from '../components/HistorySessionView';
 import { Breadcrumb } from '../../components/Breadcrumb';
 import { PageHeader } from '../../components/PageHeader';
 import { LoadingState } from '../../components/LoadingState';
+import { Badge } from '../../components/Badge';
 
 export const CalendarSessionDetailPage = () => {
     const { date, historyEntryId } = useParams();
@@ -43,11 +44,7 @@ export const CalendarSessionDetailPage = () => {
                                 : 'Free session'
                             : 'Session'
                     }
-                    meta={[
-                        <span className="calendar-status-badge calendar-status-badge-done">
-                            Done
-                        </span>,
-                    ]}
+                    meta={[<Badge status="done">Done</Badge>]}
                 />
 
                 {!historyEntry ? (
