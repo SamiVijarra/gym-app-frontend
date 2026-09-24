@@ -4,6 +4,7 @@ import { Button } from '../../components/Button';
 import { FormField } from '../../components/FormField';
 import { EmptyState } from '../../components/EmptyState';
 import { ExerciseCard } from '../../components/ExerciseCard';
+import { SetsTable } from '../../components/SetsTable';
 
 let rowKeySeed = 0;
 const nextRowKey = () => `row-${++rowKeySeed}`;
@@ -209,107 +210,92 @@ export const SessionBuilder = ({
                             <FormField
                                 id={`notes-${row.key}`}
                                 label="Notes for this exercise (optional)"
-                                className="routine-form-input"
                                 value={row.notes}
                                 onChange={(e) => updateRowNotes(row.key, e.target.value)}
                             />
 
-                            <div className="routine-table-wrapper">
-                                <table className="routine-sets-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Set</th>
-                                            <th>Weight</th>
-                                            <th>Reps</th>
-                                            <th>Rest</th>
-                                            <th>Notes</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {row.sets.map((set, index) => (
-                                            <tr key={index}>
-                                                <td>{index + 1}</td>
-                                                <td>
-                                                    <input
-                                                        type="number"
-                                                        step="0.5"
-                                                        className="routine-form-input"
-                                                        value={set.weight}
-                                                        aria-label="Weight (kg)"
-                                                        onChange={(e) =>
-                                                            updateSet(
-                                                                row.key,
-                                                                index,
-                                                                'weight',
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                    />
-                                                </td>
-                                                <td>
-                                                    <input
-                                                        type="number"
-                                                        className="routine-form-input"
-                                                        value={set.reps}
-                                                        aria-label="Reps"
-                                                        onChange={(e) =>
-                                                            updateSet(
-                                                                row.key,
-                                                                index,
-                                                                'reps',
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                    />
-                                                </td>
-                                                <td>
-                                                    <input
-                                                        type="number"
-                                                        className="routine-form-input"
-                                                        value={set.restSeconds}
-                                                        aria-label="Rest (seconds)"
-                                                        onChange={(e) =>
-                                                            updateSet(
-                                                                row.key,
-                                                                index,
-                                                                'restSeconds',
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                    />
-                                                </td>
-                                                <td>
-                                                    <input
-                                                        type="text"
-                                                        className="routine-form-input"
-                                                        value={set.notes}
-                                                        aria-label="Notes"
-                                                        onChange={(e) =>
-                                                            updateSet(
-                                                                row.key,
-                                                                index,
-                                                                'notes',
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                    />
-                                                </td>
-                                                <td>
-                                                    <Button
-                                                        variant="danger"
-                                                        size="icon"
-                                                        onClick={() => removeSet(row.key, index)}
-                                                        aria-label="Remove set"
-                                                    >
-                                                        <i className="fas fa-xmark"></i>
-                                                    </Button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                            <SetsTable columns={['Set', 'Weight', 'Reps', 'Rest', 'Notes', '']}>
+                                {row.sets.map((set, index) => (
+                                    <tr key={index}>
+                                        <td>{index + 1}</td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                step="0.5"
+                                                className="routine-form-input"
+                                                value={set.weight}
+                                                aria-label="Weight (kg)"
+                                                onChange={(e) =>
+                                                    updateSet(
+                                                        row.key,
+                                                        index,
+                                                        'weight',
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                className="routine-form-input"
+                                                value={set.reps}
+                                                aria-label="Reps"
+                                                onChange={(e) =>
+                                                    updateSet(
+                                                        row.key,
+                                                        index,
+                                                        'reps',
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                className="routine-form-input"
+                                                value={set.restSeconds}
+                                                aria-label="Rest (seconds)"
+                                                onChange={(e) =>
+                                                    updateSet(
+                                                        row.key,
+                                                        index,
+                                                        'restSeconds',
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="text"
+                                                className="routine-form-input"
+                                                value={set.notes}
+                                                aria-label="Notes"
+                                                onChange={(e) =>
+                                                    updateSet(
+                                                        row.key,
+                                                        index,
+                                                        'notes',
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                        </td>
+                                        <td>
+                                            <Button
+                                                variant="danger"
+                                                size="icon"
+                                                onClick={() => removeSet(row.key, index)}
+                                                aria-label="Remove set"
+                                            >
+                                                <i className="fas fa-xmark"></i>
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </SetsTable>
 
                             <Button
                                 variant="primary"

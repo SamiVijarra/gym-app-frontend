@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useCalendarStore } from '../../hooks';
 import { Button } from '../../components/Button';
 import { ExerciseCard } from '../../components/ExerciseCard';
+import { SetsTable } from '../../components/SetsTable';
 
 const InlineNotesEditor = ({ id, initialNotes, onSave }) => {
     const [notes, setNotes] = useState(initialNotes ?? '');
@@ -76,42 +77,26 @@ export const HistorySessionView = ({ historyEntry }) => {
                             }}
                         />
 
-                        <div className="routine-table-wrapper mt-2">
-                            <table className="routine-sets-table">
-                                <thead>
-                                    <tr>
-                                        <th>Set</th>
-                                        <th>Weight</th>
-                                        <th>Reps</th>
-                                        <th>Rest</th>
-                                        <th>Notes</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {historyExercise.sets.map((set) => (
-                                        <tr key={set.id}>
-                                            <td>{set.order}</td>
-                                            <td>{set.weight} kg</td>
-                                            <td>{set.reps}</td>
-                                            <td>{set.restSeconds ? `${set.restSeconds}s` : '-'}</td>
-                                            <td>
-                                                <InlineNotesEditor
-                                                    id={`set-notes-${set.id}`}
-                                                    initialNotes={set.notes}
-                                                    onSave={async (notes) => {
-                                                        await startUpdatingHistorySetNotes(
-                                                            set.id,
-                                                            notes
-                                                        );
-                                                        await refresh();
-                                                    }}
-                                                />
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                        <SetsTable columns={['Set', 'Weight', 'Reps', 'Rest', 'Notes']}>
+                            {historyExercise.sets.map((set) => (
+                                <tr key={set.id}>
+                                    <td>{set.order}</td>
+                                    <td>{set.weight} kg</td>
+                                    <td>{set.reps}</td>
+                                    <td>{set.restSeconds ? `${set.restSeconds}s` : '-'}</td>
+                                    <td>
+                                        <InlineNotesEditor
+                                            id={`set-notes-${set.id}`}
+                                            initialNotes={set.notes}
+                                            onSave={async (notes) => {
+                                                await startUpdatingHistorySetNotes(set.id, notes);
+                                                await refresh();
+                                            }}
+                                        />
+                                    </td>
+                                </tr>
+                            ))}
+                        </SetsTable>
                     </div>
                 </ExerciseCard>
             ))}

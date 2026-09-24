@@ -13,6 +13,7 @@ import { SectionLabel } from '../../components/SectionLabel';
 import { EmptyState } from '../../components/EmptyState';
 import { LoadingState } from '../../components/LoadingState';
 import { ExerciseCard } from '../../components/ExerciseCard';
+import { SetsTable } from '../../components/SetsTable';
 
 export const RoutineDayDetailPage = () => {
     const { dayId } = useParams();
@@ -156,25 +157,11 @@ export const RoutineDayDetailPage = () => {
                                         {routineExercise.sets.length === 1 ? 'set' : 'sets'}
                                     </span>
                                 </div>
-                                <div className="routine-table-wrapper">
-                                    <table className="routine-sets-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Set</th>
-                                                <th>Weight</th>
-                                                <th>Reps</th>
-                                                <th>Rest</th>
-                                                <th>Notes</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {routineExercise.sets.map((set) => (
-                                                <SetRow key={set.id} set={set} />
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <SetsTable columns={['Set', 'Weight', 'Reps', 'Rest', 'Notes', '']}>
+                                    {routineExercise.sets.map((set) => (
+                                        <SetRow key={set.id} set={set} />
+                                    ))}
+                                </SetsTable>
                                 <div className="routine-add-set">
                                     <div className="routine-add-set-title">Add Set</div>
                                     <AddSetForm routineExerciseId={routineExercise.id} />
