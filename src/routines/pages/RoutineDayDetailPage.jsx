@@ -12,6 +12,7 @@ import { PageHeader } from '../../components/PageHeader';
 import { SectionLabel } from '../../components/SectionLabel';
 import { EmptyState } from '../../components/EmptyState';
 import { LoadingState } from '../../components/LoadingState';
+import { ExerciseCard } from '../../components/ExerciseCard';
 
 export const RoutineDayDetailPage = () => {
     const { dayId } = useParams();
@@ -90,157 +91,99 @@ export const RoutineDayDetailPage = () => {
                 )}
 
                 <div className="routine-exercises">
-                    {day.exercises.map((routineExercise, index) => {
-                        const isSelected = selectedExerciseId === routineExercise.id;
-
-                        return (
-                            <article key={routineExercise.id} className="routine-exercise-card">
-                                <div
-                                    className="routine-exercise-header routine-exercise-header-clickable"
-                                    onClick={() => onToggleExercise(routineExercise.id)}
-                                    role="button"
-                                    tabIndex={0}
-                                    aria-expanded={isSelected}
-                                    onKeyDown={(event) => {
-                                        if (event.key === 'Enter' || event.key === ' ') {
-                                            event.preventDefault();
-                                            onToggleExercise(routineExercise.id);
-                                        }
-                                    }}
-                                >
-                                    <div className="routine-exercise-number">
-                                        {String(index + 1).padStart(2, '0')}
-                                    </div>
-                                    {routineExercise.exercise.images?.[0] && (
-                                        <img
-                                            src={routineExercise.exercise.images[0].url}
-                                            alt={routineExercise.exercise.name}
-                                            className="routine-exercise-image"
-                                        />
-                                    )}
-                                    <div className="routine-exercise-info">
-                                        <h2 className="routine-exercise-name">
-                                            {routineExercise.exercise.name}
-                                        </h2>
-                                        {routineExercise.notes && (
-                                            <p className="routine-exercise-notes">
-                                                {routineExercise.notes}
-                                            </p>
-                                        )}
-                                        <div className="routine-exercise-tag">
-                                            {routineExercise.exercise.primaryMuscles?.map(
-                                                (muscle) => (
-                                                    <span key={muscle} className="routine-tag">
-                                                        {muscle}
-                                                    </span>
-                                                )
-                                            )}
-
-                                            {routineExercise.exercise.equipment && (
-                                                <span className="routine-tag routine-tag-muted">
-                                                    {routineExercise.exercise.equipment}
-                                                </span>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    <div
-                                        className="routine-exercise-actions"
-                                        onClick={(event) => event.stopPropagation()}
+                    {day.exercises.map((routineExercise, index) => (
+                        <ExerciseCard
+                            key={routineExercise.id}
+                            number={index + 1}
+                            image={routineExercise.exercise.images?.[0]?.url}
+                            name={routineExercise.exercise.name}
+                            notes={routineExercise.notes}
+                            tags={[
+                                ...(routineExercise.exercise.primaryMuscles ?? []).map((m) => ({
+                                    label: m,
+                                })),
+                                ...(routineExercise.exercise.equipment
+                                    ? [{ label: routineExercise.exercise.equipment, muted: true }]
+                                    : []),
+                            ]}
+                            collapsible
+                            isOpen={selectedExerciseId === routineExercise.id}
+                            onToggleOpen={() => onToggleExercise(routineExercise.id)}
+                            actions={
+                                <>
+                                    <Button
+                                        variant="danger"
+                                        size="icon"
+                                        onClick={() => onDeleteExercise(routineExercise)}
+                                        aria-label="Delete exercise"
                                     >
-                                        <Button
-                                            variant="danger"
-                                            size="icon"
-                                            onClick={() => onDeleteExercise(routineExercise)}
-                                            aria-label="Delete exercise"
-                                        >
-                                            <i className="fas fa-trash"></i>
-                                        </Button>
-
-                                        <Button
-                                            as={Link}
-                                            to={`/exercises/${routineExercise.exercise.id}/progress`}
-                                            variant="ghost"
-                                            size="icon"
-                                            aria-label="View progress"
-                                            title="View progress"
-                                        >
-                                            <i className="fas fa-chart-line"></i>
-                                        </Button>
-                                    </div>
-
-                                    <i
-                                        className={
-                                            isSelected
-                                                ? 'fas fa-chevron-down routine-exercise-chevron routine-exercise-chevron-open'
-                                                : 'fas fa-chevron-down routine-exercise-chevron'
-                                        }
-                                    ></i>
-                                </div>
-
-                                {isSelected && (
-                                    <div className="routine-exercise-detail">
-                                        {routineExercise.exercise.instructions?.length > 0 && (
-                                            <details className="routine-instructions">
-                                                <summary>View instructions</summary>
-                                                <ol>
-                                                    {routineExercise.exercise.instructions.map(
-                                                        (step, stepIndex) => (
-                                                            <li key={stepIndex}>{step}</li>
-                                                        )
-                                                    )}
-                                                </ol>
-                                            </details>
+                                        <i className="fas fa-trash"></i>
+                                    </Button>
+                                    <Button
+                                        as={Link}
+                                        to={`/exercises/${routineExercise.exercise.id}/progress`}
+                                        variant="ghost"
+                                        size="icon"
+                                        aria-label="View progress"
+                                        title="View progress"
+                                    >
+                                        <i className="fas fa-chart-line"></i>
+                                    </Button>
+                                </>
+                            }
+                        >
+                            {routineExercise.exercise.instructions?.length > 0 && (
+                                <details className="routine-instructions">
+                                    <summary>View instructions</summary>
+                                    <ol>
+                                        {routineExercise.exercise.instructions.map(
+                                            (step, stepIndex) => (
+                                                <li key={stepIndex}>{step}</li>
+                                            )
                                         )}
-                                        <div className="routine-sets-section">
-                                            <div className="routine-sets-header">
-                                                <div>
-                                                    <span className="routine-section-label">
-                                                        Series
-                                                    </span>
-                                                    <span className="routine-section-description">
-                                                        Register your performance
-                                                    </span>
-                                                </div>
-                                                <span className="routine-set-count">
-                                                    {routineExercise.sets.length}
-                                                    {''}
-                                                    {routineExercise.sets.length === 1
-                                                        ? 'set'
-                                                        : 'sets'}
-                                                </span>
-                                            </div>
-                                            <div className="routine-table-wrapper">
-                                                <table className="routine-sets-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Set</th>
-                                                            <th>Weight</th>
-                                                            <th>Reps</th>
-                                                            <th>Rest</th>
-                                                            <th>Notes</th>
-                                                            <th></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {routineExercise.sets.map((set) => (
-                                                            <SetRow key={set.id} set={set} />
-                                                        ))}
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <div className="routine-add-set">
-                                                <div className="routine-add-set-title">Add Set</div>
-                                                <AddSetForm
-                                                    routineExerciseId={routineExercise.id}
-                                                />
-                                            </div>
-                                        </div>
+                                    </ol>
+                                </details>
+                            )}
+                            <div className="routine-sets-section">
+                                <div className="routine-sets-header">
+                                    <div>
+                                        <span className="routine-section-label">Series</span>
+                                        <span className="routine-section-description">
+                                            Register your performance
+                                        </span>
                                     </div>
-                                )}
-                            </article>
-                        );
-                    })}
+                                    <span className="routine-set-count">
+                                        {routineExercise.sets.length}
+                                        {''}
+                                        {routineExercise.sets.length === 1 ? 'set' : 'sets'}
+                                    </span>
+                                </div>
+                                <div className="routine-table-wrapper">
+                                    <table className="routine-sets-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Set</th>
+                                                <th>Weight</th>
+                                                <th>Reps</th>
+                                                <th>Rest</th>
+                                                <th>Notes</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {routineExercise.sets.map((set) => (
+                                                <SetRow key={set.id} set={set} />
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div className="routine-add-set">
+                                    <div className="routine-add-set-title">Add Set</div>
+                                    <AddSetForm routineExerciseId={routineExercise.id} />
+                                </div>
+                            </div>
+                        </ExerciseCard>
+                    ))}
                 </div>
             </div>
         </main>
