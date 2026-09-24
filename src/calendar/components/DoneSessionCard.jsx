@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Badge } from '../../components/Badge';
 
 export const DoneSessionCard = ({ entry }) => {
     return (
@@ -13,9 +14,7 @@ export const DoneSessionCard = ({ entry }) => {
             <div className="routine-day-info">
                 <h2>{entry.routineDay ? entry.routineDay.description : 'Free session'}</h2>
 
-                <div className="routine-day-meta">
-                    <span className="calendar-status-badge calendar-status-badge-done">Done</span>
-                </div>
+                <Badge status="done">Done</Badge>
             </div>
 
             <div className="routine-day-arrow">→</div>

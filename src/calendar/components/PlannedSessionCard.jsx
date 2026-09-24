@@ -1,6 +1,7 @@
 import Swal from 'sweetalert2';
 import { useCalendarStore } from '../../hooks';
 import { Button } from '../../components/Button';
+import { Badge } from '../../components/Badge';
 
 export const PlannedSessionCard = ({ entry, onComplete }) => {
     const { startCancelingPlan } = useCalendarStore();
@@ -23,7 +24,7 @@ export const PlannedSessionCard = ({ entry, onComplete }) => {
     return (
         <section className="calendar-session-block">
             <div className="calendar-session-block-header">
-                <span className="calendar-status-badge calendar-status-badge-planned">Planned</span>
+                <Badge status="planned">Planned</Badge>
                 <h3>{entry.routineDay.description}</h3>
             </div>
 
