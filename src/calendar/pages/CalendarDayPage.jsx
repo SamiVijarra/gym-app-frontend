@@ -130,6 +130,7 @@ export const CalendarDayPage = () => {
                                     <FormField
                                         id="log-session-routine"
                                         label="Routine Day"
+                                        as="select"
                                         value={logPickerRoutineDayId}
                                         onChange={(e) => setLogPickerRoutineDayId(e.target.value)}
                                     >
