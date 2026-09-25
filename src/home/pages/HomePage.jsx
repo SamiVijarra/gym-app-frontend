@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuthStore, useCalendarStore } from '../../hooks';
 import { PageHeader } from '../../components/PageHeader';
 import { SectionLabel } from '../../components/SectionLabel';
+import { IconMedia, ListCard } from '../../components/ListCard';
 
 export const HomePage = () => {
     const { user } = useAuthStore();
@@ -88,56 +89,48 @@ export const HomePage = () => {
                     <SectionLabel>QUICK ACCESS</SectionLabel>
 
                     <div className="home-quick-grid">
-                        <Link to="/routine" className="home-quick-card">
-                            <div className="home-quick-icon">
-                                <i className="fas fa-calendar-alt"></i>
-                            </div>
+                        <ListCard
+                            to="/routine"
+                            media={
+                                <IconMedia>
+                                    <i className="fas fa-calendar-alt"></i>
+                                </IconMedia>
+                            }
+                            title="Routines"
+                            subtitle="View your workouts"
+                        />
 
-                            <div>
-                                <h3>Routines</h3>
-                                <p>View your workouts</p>
-                            </div>
+                        <ListCard
+                            to="/exercises"
+                            media={
+                                <IconMedia>
+                                    <i className="fas fa-dumbbell"></i>
+                                </IconMedia>
+                            }
+                            title="Exercises"
+                            subtitle="Explore exercises"
+                        />
 
-                            <span className="home-quick-arrow">→</span>
-                        </Link>
-
-                        <Link to="/exercises" className="home-quick-card">
-                            <div className="home-quick-icon">
-                                <i className="fas fa-dumbbell"></i>
-                            </div>
-
-                            <div>
-                                <h3>Exercises</h3>
-                                <p>Explore exercises</p>
-                            </div>
-
-                            <span className="home-quick-arrow">→</span>
-                        </Link>
-
-                        <Link to="/profile" className="home-quick-card">
-                            <div className="home-quick-icon">
-                                <i className="fas fa-user"></i>
-                            </div>
-
-                            <div>
-                                <h3>My profile</h3>
-                                <p>View your information</p>
-                            </div>
-
-                            <span className="home-quick-arrow">→</span>
-                        </Link>
-                        <Link to="/calendar" className="home-quick-card">
-                            <div className="home-quick-icon">
-                                <i className="fas fa-calendar-check"></i>
-                            </div>
-
-                            <div>
-                                <h3>Calendar</h3>
-                                <p>Plan & view history</p>
-                            </div>
-
-                            <span className="home-quick-arrow">→</span>
-                        </Link>
+                        <ListCard
+                            to="/profile"
+                            media={
+                                <IconMedia>
+                                    <i className="fas fa-user"></i>
+                                </IconMedia>
+                            }
+                            title="My profile"
+                            subtitle="View your information"
+                        />
+                        <ListCard
+                            to="/calendar"
+                            media={
+                                <IconMedia>
+                                    <i className="fas fa-calendar-check"></i>
+                                </IconMedia>
+                            }
+                            title="Calendar"
+                            subtitle="Plan & view history"
+                        />
                     </div>
                 </section>
             </div>
