@@ -181,7 +181,7 @@ export const ExercisesPage = () => {
 
                 {!isLoading && searchTerm.trim().length === 0 && (
                     <EmptyState
-                        icon="fa-calendar-plus"
+                        icon="fa-dumbbell"
                         title="Search for an exercise"
                         description="Enter the name of an exercise to start exploring the catalog."
                     />
@@ -189,7 +189,7 @@ export const ExercisesPage = () => {
 
                 {!isLoading && searchTerm.trim().length > 0 && exercises.length === 0 && (
                     <EmptyState
-                        icon="fa-calendar-plus"
+                        icon="fa-search"
                         title="Exercises not found"
                         description="Try searching with a different name or search term."
                     />

@@ -122,7 +122,13 @@ export const ExerciseDetailPage = () => {
     };
 
     if (!selectedExercise) {
-        return <LoadingState label="Loading exercise..." />;
+        return (
+            <main className="exercise-detail-page">
+                <div className="exercise-detail-container">
+                    <LoadingState label="Loading exercise..." />
+                </div>
+            </main>
+        );
     }
 
     return (
@@ -322,8 +328,10 @@ export const ExerciseDetailPage = () => {
 
                     {mode === 'existing' && (
                         <div className="exercise-add-row">
-                            <select
-                                className="exercise-add-input"
+                            <FormField
+                                id="exercise-day"
+                                label="Existing Day"
+                                as="select"
                                 value={selectedDayId}
                                 onChange={(e) => setSelectedDayId(e.target.value)}
                             >
@@ -334,7 +342,7 @@ export const ExerciseDetailPage = () => {
                                         Day {day.dayNumber} — {day.description}
                                     </option>
                                 ))}
-                            </select>
+                            </FormField>
 
                             <Button
                                 variant="primary"

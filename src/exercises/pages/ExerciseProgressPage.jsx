@@ -15,6 +15,8 @@ import { Button } from '../../components/Button';
 import { ToggleGroup } from '../../components/ToggleGroup';
 import { Breadcrumb } from '../../components/Breadcrumb';
 import { LoadingState } from '../../components/LoadingState';
+import { PageHeader } from '../../components/PageHeader';
+import { Card } from '../../components/Card';
 
 const METRICS = {
     maxWeight: {
@@ -61,14 +63,9 @@ export const ExerciseProgressPage = () => {
                     ]}
                 />
 
-                <header className="exercise-detail-header">
-                    <span className="exercise-detail-eyebrow">PROGRESS</span>
-                    <h1 className="exercise-detail-title">
-                        {selectedExercise?.name ?? 'Exercise'}
-                    </h1>
-                </header>
+                <PageHeader eyebrow="PROGRESS" title={selectedExercise?.name ?? 'Exercise'} />
 
-                <section className="routine-create-card">
+                <Card variant="surface">
                     <ToggleGroup
                         options={Object.entries(METRICS).map(([key, { label }]) => ({
                             value: key,
@@ -115,7 +112,7 @@ export const ExerciseProgressPage = () => {
                             </ResponsiveContainer>
                         </div>
                     )}
-                </section>
+                </Card>
             </div>
         </main>
     );
