@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { startOfWeek, format } from 'date-fns';
 import { useCalendarStore } from '../../hooks';
 import { Button } from '../../components/Button';
+import { Card } from '../../components/Card';
+import { FormField } from '../../components/FormField';
+import { Form } from 'react-router-dom';
 
 export const WeeklyGoalCard = () => {
     const weekStart = format(startOfWeek(new Date(), { weekStartsOn: 1 }), 'yyyy-MM-dd');
@@ -24,7 +27,7 @@ export const WeeklyGoalCard = () => {
     if (!weeklyGoal) return null;
 
     return (
-        <section className="weekly-goal-card">
+        <Card variant="surface" className="weekly-goal-card">
             <div>
                 <span className="weekly-goal-label">THIS WEEK'S GOAL</span>
 
@@ -38,8 +41,10 @@ export const WeeklyGoalCard = () => {
             </div>
 
             <form onSubmit={onSave} className="weekly-goal-form">
-                <select
-                    className="routine-form-input"
+                <FormField
+                    id="weekly-goal-days"
+                    label="Target days"
+                    as="select"
                     value={targetDays}
                     onChange={(e) => setTargetDays(e.target.value)}
                 >
@@ -51,7 +56,7 @@ export const WeeklyGoalCard = () => {
                             {n} {n === 1 ? 'day' : 'days'}
                         </option>
                     ))}
-                </select>
+                </FormField>
 
                 <Button
                     type="submit"
@@ -62,6 +67,6 @@ export const WeeklyGoalCard = () => {
                     {isSaving ? 'Saving...' : 'Save'}
                 </Button>
             </form>
-        </section>
+        </Card>
     );
 };

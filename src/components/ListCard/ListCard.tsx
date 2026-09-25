@@ -29,15 +29,12 @@ export const ListCard = ({ to, media, title, subtitle, meta, action }: ListCardP
     return (
         <StyledLink to={to}>
             {media}
-
             <Info>
                 <Title>{title}</Title>
                 {subtitle && <Subtitle>{subtitle}</Subtitle>}
                 {meta && <Meta>{meta}</Meta>}
             </Info>
-
             {action && <ActionSlot onClick={onActionClick}>{action}</ActionSlot>}
-
             <Arrow>→</Arrow>
         </StyledLink>
     );

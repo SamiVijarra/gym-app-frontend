@@ -118,7 +118,7 @@ export const HomePage = () => {
                                     <i className="fas fa-user"></i>
                                 </IconMedia>
                             }
-                            title="My profile"
+                            title="My Profile"
                             subtitle="View your information"
                         />
                         <ListCard
