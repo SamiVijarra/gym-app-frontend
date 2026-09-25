@@ -28,7 +28,7 @@ export const RoutineDayDetailPage = () => {
         );
     };
 
-    const onDeleteExercise = async (event, routineExercise) => {
+    const onDeleteExercise = async (routineExercise) => {
         const result = await Swal.fire({
             title: 'Delete exercise?',
             text: `"${routineExercise.exercise.name}" and all its sets will be permanently deleted from this day.`,
