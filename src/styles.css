@@ -2128,14 +2128,6 @@ body {
    CALENDAR PAGE
    ========================================================= */
 
-.calendar-card {
-    padding: 24px;
-    background: var(--app-surface);
-    border: 1px solid var(--app-border);
-    border-radius: 20px;
-    box-shadow: var(--app-shadow);
-}
-
 .calendar-nav {
     display: flex;
     align-items: center;
@@ -2368,13 +2360,6 @@ body {
     flex-direction: column;
     gap: 16px;
     margin-bottom: 20px;
-}
-
-.calendar-session-block {
-    padding: 20px;
-    background: var(--app-surface);
-    border: 1px solid var(--app-border);
-    border-radius: 16px;
 }
 
 .calendar-session-block-header {

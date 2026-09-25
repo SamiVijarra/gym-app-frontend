@@ -5,6 +5,7 @@ import { FormField } from '../../components/FormField';
 import { EmptyState } from '../../components/EmptyState';
 import { ExerciseCard } from '../../components/ExerciseCard';
 import { SetsTable } from '../../components/SetsTable';
+import { Card } from '../../components/Card';
 
 let rowKeySeed = 0;
 const nextRowKey = () => `row-${++rowKeySeed}`;
@@ -152,7 +153,7 @@ export const SessionBuilder = ({
                 {isSubmitting ? 'Saving...' : 'Save session'}
             </Button>
 
-            <section className="routine-add-exercise routine-add-exercise-spacing">
+            <Card variant="accent" className="routine-add-exercise-spacing">
                 <div className="routine-add-exercise-header">
                     <div>
                         <span className="routine-section-label">EXERCISES</span>
@@ -186,7 +187,7 @@ export const SessionBuilder = ({
                         ))}
                     </ul>
                 )}
-            </section>
+            </Card>
 
             <div className="routine-exercises">
                 {rows.map((row) => (

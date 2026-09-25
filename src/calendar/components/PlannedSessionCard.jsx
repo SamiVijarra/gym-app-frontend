@@ -2,6 +2,7 @@ import Swal from 'sweetalert2';
 import { useCalendarStore } from '../../hooks';
 import { Button } from '../../components/Button';
 import { Badge } from '../../components/Badge';
+import { Card } from '../../components/Card';
 
 export const PlannedSessionCard = ({ entry, onComplete }) => {
     const { startCancelingPlan } = useCalendarStore();
@@ -22,7 +23,7 @@ export const PlannedSessionCard = ({ entry, onComplete }) => {
     };
 
     return (
-        <section className="calendar-session-block">
+        <Card variant="surface">
             <div className="calendar-session-block-header">
                 <Badge status="planned">Planned</Badge>
                 <h3>{entry.routineDay.description}</h3>
@@ -39,6 +40,6 @@ export const PlannedSessionCard = ({ entry, onComplete }) => {
                     Cancel
                 </Button>
             </div>
-        </section>
+        </Card>
     );
 };

@@ -16,6 +16,7 @@ import { useCalendarStore } from '../../hooks';
 import { WeeklyGoalCard } from '../components/WeeklyGoalCard';
 import { PageHeader } from '../../components/PageHeader';
 import { LoadingState } from '../../components/LoadingState';
+import { Card } from '../../components/Card';
 
 const WEEKDAY_LABELS = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
@@ -67,7 +68,7 @@ export const CalendarPage = () => {
                 />
 
                 <WeeklyGoalCard />
-                <section className="calendar-card">
+                <Card variant="surface">
                     <div className="calendar-nav">
                         <button
                             type="button"
@@ -148,7 +149,7 @@ export const CalendarPage = () => {
                             })}
                         </div>
                     )}
-                </section>
+                </Card>
             </div>
         </main>
     );
