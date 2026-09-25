@@ -23,7 +23,7 @@ export const useExercisesStore = () => {
         } catch (error) {
             dispatch(
                 onExercisesError(
-                    error.response?.data?.message || 'No se pudieron cargar los ejercicios'
+                    error.response?.data?.message || 'The exercises could not be loaded'
                 )
             );
         }
@@ -35,7 +35,9 @@ export const useExercisesStore = () => {
             dispatch(onSetSelectedExercise(data));
         } catch (error) {
             dispatch(
-                onExercisesError(error.response?.data?.message || 'No se pudo cargar el ejercicio')
+                onExercisesError(
+                    error.response?.data?.message || 'The exercise could not be loaded'
+                )
             );
         }
     };

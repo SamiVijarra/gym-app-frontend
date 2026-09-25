@@ -13,7 +13,7 @@ export const useRoutinesStore = () => {
             dispatch(onSetRoutine(data));
         } catch (error) {
             dispatch(
-                onRoutineError(error.response?.data?.message || 'No se pudo cargar la rutina')
+                onRoutineError(error.response?.data?.message || 'The routine could not be loaded')
             );
         }
     };
@@ -24,7 +24,9 @@ export const useRoutinesStore = () => {
             await startLoadingRoutine();
             return data;
         } catch (error) {
-            dispatch(onRoutineError(error.response?.data?.message || 'No se pudo crear el día'));
+            dispatch(
+                onRoutineError(error.response?.data?.message || 'The day could not be created')
+            );
         }
     };
 
@@ -34,7 +36,7 @@ export const useRoutinesStore = () => {
             await startLoadingRoutine();
         } catch (error) {
             dispatch(
-                onRoutineError(error.response?.data?.message || 'No se pudo agregar el ejercicio')
+                onRoutineError(error.response?.data?.message || 'The exercise could not be added')
             );
         }
     };
@@ -44,9 +46,7 @@ export const useRoutinesStore = () => {
             await calendarApi.post(`/routines/exercises/${routineExerciseId}/sets`, setData);
             await startLoadingRoutine();
         } catch (error) {
-            dispatch(
-                onRoutineError(error.response?.data?.message || 'No se pudo agregar la serie')
-            );
+            dispatch(onRoutineError(error.response?.data?.message || 'The set could not be added'));
         }
     };
 
@@ -56,7 +56,7 @@ export const useRoutinesStore = () => {
             await startLoadingRoutine();
         } catch (error) {
             dispatch(
-                onRoutineError(error.response?.data?.message || 'No se pudo actualizar la serie')
+                onRoutineError(error.response?.data?.message || 'The set could not be updated')
             );
         }
     };
