@@ -45,11 +45,23 @@ export const RoutineDayDetailPage = () => {
     };
 
     if (isLoading) {
-        return <LoadingState label="Loading..." />;
+        return (
+            <main className="routine-detail-page">
+                <div className="routine-detail-container">
+                    <LoadingState label="Loading..." />
+                </div>
+            </main>
+        );
     }
 
     if (!day) {
-        return <LoadingState label="Day not found" />;
+        return (
+            <main className="routine-detail-page">
+                <div className="routine-detail-container">
+                    <LoadingState label="Day not found" />
+                </div>
+            </main>
+        );
     }
 
     return (

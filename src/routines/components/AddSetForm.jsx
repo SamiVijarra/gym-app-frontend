@@ -42,8 +42,8 @@ export const AddSetForm = ({ routineExerciseId }) => {
                     value={weight}
                     onChange={(e) => setWeight(e.target.value)}
                     onBlur={() => onFieldBlur('weight')}
+                    error={weightError ? 'Weight is required.' : undefined}
                 />
-                {weightError && <span className="field-error-text">Weight is required.</span>}
 
                 <FormField
                     id="add-set-reps"
@@ -52,8 +52,8 @@ export const AddSetForm = ({ routineExerciseId }) => {
                     value={reps}
                     onChange={(e) => setReps(e.target.value)}
                     onBlur={() => onFieldBlur('reps')}
+                    error={repsError ? 'Reps is required.' : undefined}
                 />
-                {repsError && <span className="field-error-text">Reps is required.</span>}
 
                 <FormField
                     id="add-set-rest"

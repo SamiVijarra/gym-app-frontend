@@ -81,8 +81,8 @@ export const ProfilePage = () => {
                             value={name}
                             onChange={onInputChange}
                             onBlur={() => setNameTouched(true)}
+                            error={nameError ? 'Name is required.' : undefined}
                         />
-                        {nameError && <span className="field-error-text">Name is required.</span>}
 
                         <div className="profile-form-row">
                             <FormField
@@ -121,7 +121,10 @@ export const ProfilePage = () => {
                                 disabled={isLoading || !name || !hasChanges}
                             >
                                 {isLoading ? (
-                                    <LoadingState label="Saving..-" />
+                                    <>
+                                        <span className="profile-button-spinner" />
+                                        Saving...
+                                    </>
                                 ) : (
                                     <>
                                         <i className="fas fa-check" />
@@ -135,7 +138,7 @@ export const ProfilePage = () => {
 
                 <SectionLabel>ACCOUNT</SectionLabel>
 
-                <section className="profile-card">
+                <Card variant="surface">
                     <div className="profile-card-header">
                         <div className="profile-card-icon profile-card-icon-danger">
                             <i className="fas fa-sign-out-alt" />
@@ -151,7 +154,7 @@ export const ProfilePage = () => {
                         <i className="fas fa-sign-out-alt"></i>
                         Log out
                     </Button>
-                </section>
+                </Card>
             </div>
         </main>
     );
