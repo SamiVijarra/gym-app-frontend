@@ -374,17 +374,16 @@ export const ExerciseDetailPage = () => {
                                 value={newDayDescription}
                                 onChange={(e) => setNewDayDescription(e.target.value)}
                             />
-
-                            <Button
-                                variant="primary"
-                                disabled={!newDayNumber || !newDayDescription}
-                                onClick={onCreateDayAndAdd}
-                            >
-                                <i className="fas fa-plus" />
-                                Create and Add
-                            </Button>
                         </div>
                     )}
+                    <Button
+                        variant="primary"
+                        disabled={!newDayNumber || !newDayDescription}
+                        onClick={onCreateDayAndAdd}
+                    >
+                        <i className="fas fa-plus" />
+                        Create & Add
+                    </Button>
                 </Card>
             </div>
         </main>

@@ -92,15 +92,11 @@ export const RoutinePage = () => {
                             onBlur={() => onFieldBlur('description')}
                             error={descriptionError ? 'Description is required.' : undefined}
                         />
-                        <Button
-                            type="submit"
-                            variant="primary"
-                            disabled={!dayNumber || !description}
-                        >
-                            <i className="fas fa-plus"></i>
-                            Create day
-                        </Button>
                     </form>
+                    <Button type="submit" variant="primary" disabled={!dayNumber || !description}>
+                        <i className="fas fa-plus"></i>
+                        Create day
+                    </Button>
                 </Card>
 
                 <section className="routine-days-section">

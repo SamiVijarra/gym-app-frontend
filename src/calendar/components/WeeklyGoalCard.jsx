@@ -58,16 +58,10 @@ export const WeeklyGoalCard = () => {
                         </option>
                     ))}
                 </FormField>
-
-                <Button
-                    type="submit"
-                    variant="primary"
-                    size="sm"
-                    disabled={!targetDays || isSaving}
-                >
-                    {isSaving ? 'Saving...' : 'Save'}
-                </Button>
             </form>
+            <Button type="submit" variant="primary" size="sm" disabled={!targetDays || isSaving}>
+                {isSaving ? 'Saving...' : 'Save'}
+            </Button>
         </Card>
     );
 };

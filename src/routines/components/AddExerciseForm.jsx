@@ -94,17 +94,16 @@ export const AddExerciseForm = ({ dayId }) => {
                         value={notes}
                         onChange={(e) => setNotes(e.target.value)}
                     />
-
-                    <div className="add-exercise-form-actions">
-                        <Button variant="primary" size="sm" onClick={onConfirmAdd}>
-                            Add
-                        </Button>
-                        <Button variant="secondary" size="sm" onClick={onCancel}>
-                            Cancel
-                        </Button>
-                    </div>
                 </div>
             )}
+            <div className="add-exercise-form-actions">
+                <Button variant="primary" size="sm" onClick={onConfirmAdd}>
+                    Add
+                </Button>
+                <Button variant="secondary" size="sm" onClick={onCancel}>
+                    Cancel
+                </Button>
+            </div>
         </div>
     );
 };

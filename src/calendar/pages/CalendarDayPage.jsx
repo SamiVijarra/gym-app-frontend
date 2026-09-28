@@ -141,21 +141,20 @@ export const CalendarDayPage = () => {
                                             </option>
                                         ))}
                                     </FormField>
-
-                                    <Button
-                                        variant="primary"
-                                        size="sm"
-                                        onClick={() => {
-                                            if (logPickerRoutineDayId) {
-                                                onStartFreshRoutineSession(logPickerRoutineDayId);
-                                            } else {
-                                                setLogMode('log-free');
-                                            }
-                                        }}
-                                    >
-                                        Start
-                                    </Button>
                                 </div>
+                                <Button
+                                    variant="primary"
+                                    size="sm"
+                                    onClick={() => {
+                                        if (logPickerRoutineDayId) {
+                                            onStartFreshRoutineSession(logPickerRoutineDayId);
+                                        } else {
+                                            setLogMode('log-free');
+                                        }
+                                    }}
+                                >
+                                    Start
+                                </Button>
                             </Card>
                         </div>
                     </>

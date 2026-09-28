@@ -140,16 +140,15 @@ export const ExercisesPage = () => {
                             value={instructions}
                             onChange={onInputChange}
                         />
-
-                        <Button
-                            variant="primary"
-                            type="submit"
-                            disabled={isCreating || !name || !primaryMuscles}
-                        >
-                            <i className="fas fa-plus"></i>
-                            {isCreating ? 'Creating...' : 'Create Exercise'}
-                        </Button>
                     </form>
+                    <Button
+                        variant="primary"
+                        type="submit"
+                        disabled={isCreating || !name || !primaryMuscles}
+                    >
+                        <i className="fas fa-plus"></i>
+                        {isCreating ? 'Creating...' : 'Create Exercise'}
+                    </Button>
                 </Card>
                 <section className="exercises-search-section">
                     <SectionLabel>SEARCH</SectionLabel>
