@@ -88,6 +88,7 @@ export const ProfilePage = () => {
                             <FormField
                                 id="weight"
                                 label="Weight (kg)"
+                                type="number"
                                 name="weight"
                                 value={weight}
                                 onChange={onInputChange}

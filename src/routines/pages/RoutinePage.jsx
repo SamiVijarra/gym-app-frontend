@@ -72,6 +72,7 @@ export const RoutinePage = () => {
                         <FormField
                             id="dayNumber"
                             label="Day"
+                            type="number"
                             min="1"
                             placeholder="01"
                             name="dayNumber"
