@@ -361,6 +361,7 @@ export const ExerciseDetailPage = () => {
                                 id="new-day-number"
                                 label="Day"
                                 placeholder="N°"
+                                className="exercise-day-number-field"
                                 value={newDayNumber}
                                 onChange={(e) => setNewDayNumber(e.target.value)}
                             />
@@ -369,6 +370,7 @@ export const ExerciseDetailPage = () => {
                                 id="new-day-description"
                                 label="Description"
                                 placeholder="legs, chest, back..."
+                                className="exercise-day-number-field"
                                 value={newDayDescription}
                                 onChange={(e) => setNewDayDescription(e.target.value)}
                             />

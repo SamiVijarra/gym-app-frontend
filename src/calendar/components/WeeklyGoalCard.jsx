@@ -45,6 +45,7 @@ export const WeeklyGoalCard = () => {
                     id="weekly-goal-days"
                     label="Target days"
                     as="select"
+                    className="weekly-goal-select"
                     value={targetDays}
                     onChange={(e) => setTargetDays(e.target.value)}
                 >

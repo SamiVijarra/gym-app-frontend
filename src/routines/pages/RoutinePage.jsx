@@ -73,6 +73,7 @@ export const RoutinePage = () => {
                             id="dayNumber"
                             label="Day"
                             type="number"
+                            className="routine-form-day"
                             min="1"
                             placeholder="01"
                             name="dayNumber"

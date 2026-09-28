@@ -39,6 +39,7 @@ export const AddSetForm = ({ routineExerciseId }) => {
                     label="Weight (kg)"
                     type="number"
                     step="0.5"
+                    className="form-field-narrow"
                     value={weight}
                     onChange={(e) => setWeight(e.target.value)}
                     onBlur={() => onFieldBlur('weight')}
@@ -49,6 +50,7 @@ export const AddSetForm = ({ routineExerciseId }) => {
                     id="add-set-reps"
                     label="Reps"
                     type="number"
+                    className="form-field-narrow"
                     value={reps}
                     onChange={(e) => setReps(e.target.value)}
                     onBlur={() => onFieldBlur('reps')}
@@ -59,6 +61,7 @@ export const AddSetForm = ({ routineExerciseId }) => {
                     id="add-set-rest"
                     label="Rest (sec)"
                     type="number"
+                    className="form-field-narrow"
                     value={restSeconds}
                     onChange={(e) => setRestSeconds(e.target.value)}
                 />

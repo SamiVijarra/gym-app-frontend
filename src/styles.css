@@ -974,7 +974,7 @@ body {
     flex-wrap: wrap;
 }
 
-.add-set-form-row {
+.add-set-form-row .form-field-narrow {
     flex: 0 1 110px;
 }
 
@@ -1546,8 +1546,6 @@ body {
 }
 
 /* =========================================================
-
-/* =========================================================
    MAIN CONTENT
    ========================================================= */
 
@@ -1707,10 +1705,6 @@ body {
     display: flex;
     align-items: flex-end;
     gap: 10px;
-}
-
-.exercise-add-row {
-    flex: 1;
 }
 
 /* =========================================================
@@ -2664,7 +2658,7 @@ body {
     gap: 8px;
 }
 
-.weekly-goal-form {
+.weekly-goal-select {
     width: 140px;
 }
 

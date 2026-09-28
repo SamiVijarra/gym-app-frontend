@@ -18,6 +18,7 @@ interface BaseProps {
     label: string;
     error?: string;
     fullWidth?: boolean;
+    className?: string;
 }
 
 type InputProps = BaseProps & InputHTMLAttributes<HTMLInputElement> & { as?: 'input' };
@@ -32,11 +33,12 @@ export const FormField = ({
     label,
     error,
     fullWidth,
+    className,
     as = 'input',
     ...rest
 }: FormFieldProps) => {
     return (
-        <FieldWrapper $fullWidth={fullWidth}>
+        <FieldWrapper $fullWidth={fullWidth} className={className}>
             <FieldLabel htmlFor={id}>{label}</FieldLabel>
 
             {as === 'textarea' && (
