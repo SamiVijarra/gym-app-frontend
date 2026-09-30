@@ -5,6 +5,7 @@ import {
     SidebarBrandIcon,
     SidebarCloseButton,
     SidebarCollapseButton,
+    SidebarLabel,
     SidebarLink,
     SidebarNav,
     SidebarOverlay,
@@ -44,7 +45,7 @@ export const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }: Side
                         <SidebarBrandIcon>
                             <i className="fas fa-calendar-alt"></i>
                         </SidebarBrandIcon>
-                        {!isCollapsed && <span style={{ whiteSpace: 'nowrap' }}>Gym Tracker</span>}
+                        <SidebarLabel $isCollapsed={isCollapsed}>Gym Tracker</SidebarLabel>
                     </Link>
 
                     <SidebarCloseButton onClick={onClose} aria-label="Close menu">
@@ -71,7 +72,7 @@ export const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }: Side
                             title={link.label}
                         >
                             <i className={`fas ${link.icon}`}></i>
-                            {!isCollapsed && link.label}
+                            <SidebarLabel $isCollapsed={isCollapsed}>{link.label}</SidebarLabel>
                         </SidebarLink>
                     ))}
                 </SidebarNav>

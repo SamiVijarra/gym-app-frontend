@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Navbar } from '../Navbar';
 import { Sidebar } from '../Sidebar';
@@ -8,20 +8,27 @@ const COLLAPSE_STORAGE_KEY = 'sidebar-collapsed';
 
 export const Layout = () => {
     const location = useLocation();
+    const isHome = location.pathname === '/';
+
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [isCollapsed, setIsCollapsed] = useState(
+
+    const [preferCollapsed, setPreferCollapsed] = useState(
         () => localStorage.getItem(COLLAPSE_STORAGE_KEY) === 'true'
     );
 
-    useEffect(() => {
-        if (location.pathname === '/') {
-            setIsCollapsed(true);
-        }
-    }, [location.pathname]);
+    const [homeExpanded, setHomeExpanded] = useState(false);
 
-    useEffect(() => {
-        localStorage.setItem(COLLAPSE_STORAGE_KEY, String(isCollapsed));
-    }, [isCollapsed]);
+    const isCollapsed = isHome ? !homeExpanded : preferCollapsed;
+
+    const onToggleCollapse = () => {
+        if (isHome) {
+            setHomeExpanded((current) => !current);
+            return;
+        }
+        const next = !preferCollapsed;
+        setPreferCollapsed(next);
+        localStorage.setItem(COLLAPSE_STORAGE_KEY, String(next));
+    };
 
     return (
         <AppShell>
@@ -29,7 +36,7 @@ export const Layout = () => {
                 isOpen={isSidebarOpen}
                 onClose={() => setIsSidebarOpen(false)}
                 isCollapsed={isCollapsed}
-                onToggleCollapse={() => setIsCollapsed((current) => !current)}
+                onToggleCollapse={onToggleCollapse}
             />
             <AppShellMain>
                 <Navbar onOpenSidebar={() => setIsSidebarOpen(true)} />

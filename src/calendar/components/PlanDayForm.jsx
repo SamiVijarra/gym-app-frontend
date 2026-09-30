@@ -6,10 +6,11 @@ import { Card } from '../../components/Card';
 
 export const PlanDayForm = ({ date, onPlanned }) => {
     const { days, startLoadingRoutine } = useRoutinesStore();
-    const { startPlanningDay } = useCalendarStore();
+    const { startPlanningDay, errorMessage } = useCalendarStore();
 
     const [routineDayId, setRoutineDayId] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [hasFailed, setHasFailed] = useState(false);
 
     useEffect(() => {
         startLoadingRoutine();
@@ -20,10 +21,15 @@ export const PlanDayForm = ({ date, onPlanned }) => {
         if (!routineDayId) return;
 
         setIsSubmitting(true);
+        setHasFailed(false);
         const success = await startPlanningDay({ date, routineDayId });
         setIsSubmitting(false);
 
-        if (success) onPlanned();
+        if (success) {
+            onPlanned();
+        } else {
+            setHasFailed(true);
+        }
     };
 
     return (
@@ -43,16 +49,19 @@ export const PlanDayForm = ({ date, onPlanned }) => {
                         </option>
                     ))}
                 </FormField>
+
+                <Button
+                    type="submit"
+                    variant="primary"
+                    size="sm"
+                    className="form-field-row-button"
+                    disabled={!routineDayId || isSubmitting}
+                >
+                    {isSubmitting ? 'Planning...' : 'Plan this day'}
+                </Button>
             </form>
-            <Button
-                type="submit"
-                variant="primary"
-                size="sm"
-                className="form-field-row-button"
-                disabled={!routineDayId || isSubmitting}
-            >
-                {isSubmitting ? 'Planning...' : 'Plan this day'}
-            </Button>
+
+            {hasFailed && errorMessage && <p className="field-error-text mt-2">{errorMessage}</p>}
         </Card>
     );
 };

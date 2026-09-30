@@ -15,19 +15,19 @@ import { CalendarDayPage } from '../calendar/pages/CalendarDayPage';
 import { CalendarSessionDetailPage } from '../calendar/pages/CalendarSessionDetailPage';
 import { Layout } from '../components/Layout';
 
+const CalendarDayRoute = () => {
+    const { date } = useParams();
+    return <CalendarDayPage key={date} />;
+};
+
+const CalendarSessionDetailRoute = () => {
+    const { historyEntryId } = useParams();
+    return <CalendarSessionDetailPage key={historyEntryId} />;
+};
+
 export const AppRouter = () => {
     const { status, checkAuthToken } = useAuthStore();
     const { mode } = useThemeStore();
-
-    const CalendarDayRoute = () => {
-        const { date } = useParams();
-        return <CalendarDayPage key={date} />;
-    };
-
-    const CalendarSessionDetailRoute = () => {
-        const { historyEntryId } = useParams();
-        return <CalendarSessionDetailPage key={historyEntryId} />;
-    };
 
     useEffect(() => {
         checkAuthToken();

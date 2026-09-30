@@ -10,6 +10,7 @@ import {
     onSetWeeklyGoal,
 } from '../store/calendar/calendarSlice';
 import calendarApi from '../api/calendarApi';
+import { getErrorMessage } from '../helpers';
 
 const parseYearMonth = (date) => {
     const [year, month] = date.split('-').map(Number);
@@ -49,7 +50,7 @@ export const useCalendarStore = () => {
             await startLoadingMonth(year, month);
             return true;
         } catch (error) {
-            dispatch(onCalendarError(error.response?.data?.massage || 'Could not plan the day'));
+            dispatch(onCalendarError(getErrorMessage(error, 'Could not plan the day')));
             return false;
         }
     };
