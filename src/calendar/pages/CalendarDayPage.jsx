@@ -145,6 +145,7 @@ export const CalendarDayPage = () => {
                                 <Button
                                     variant="primary"
                                     size="sm"
+                                    className="form-field-row-button"
                                     onClick={() => {
                                         if (logPickerRoutineDayId) {
                                             onStartFreshRoutineSession(logPickerRoutineDayId);

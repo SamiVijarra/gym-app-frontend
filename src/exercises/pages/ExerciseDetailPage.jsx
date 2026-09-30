@@ -346,6 +346,7 @@ export const ExerciseDetailPage = () => {
 
                             <Button
                                 variant="primary"
+                                className="form-field-row-button"
                                 disabled={!selectedDayId}
                                 onClick={onAddToExistingDay}
                             >
@@ -370,20 +371,21 @@ export const ExerciseDetailPage = () => {
                                 id="new-day-description"
                                 label="Description"
                                 placeholder="legs, chest, back..."
-                                className="exercise-day-number-field"
+                                className="exercise-day-description-field"
                                 value={newDayDescription}
                                 onChange={(e) => setNewDayDescription(e.target.value)}
                             />
+                            <Button
+                                variant="primary"
+                                className="form-field-row-button"
+                                disabled={!newDayNumber || !newDayDescription}
+                                onClick={onCreateDayAndAdd}
+                            >
+                                <i className="fas fa-plus" />
+                                Create & Add
+                            </Button>
                         </div>
                     )}
-                    <Button
-                        variant="primary"
-                        disabled={!newDayNumber || !newDayDescription}
-                        onClick={onCreateDayAndAdd}
-                    >
-                        <i className="fas fa-plus" />
-                        Create & Add
-                    </Button>
                 </Card>
             </div>
         </main>

@@ -466,27 +466,21 @@ body {
 
 /* Search results */
 
-.routine-add-exercise .list-group {
+.routine-add-exercise-spacing .list-group {
     overflow: hidden;
-
     margin-top: 6px;
-
     border-radius: 10px;
 }
 
-.routine-add-exercise .list-group-item {
+.routine-add-exercise-spacing .list-group-item {
     padding: 12px 14px;
-
     color: var(--app-text-secondary);
-
     background: var(--app-surface);
-
     border-color: var(--app-border);
 }
 
-.routine-add-exercise .list-group-item:hover {
+.routine-add-exercise-spacing .list-group-item:hover {
     color: var(--app-text);
-
     background: var(--app-surface-hover);
 }
 
@@ -976,6 +970,10 @@ body {
 
 .add-set-form-row .form-field-narrow {
     flex: 0 1 110px;
+}
+
+.form-field-row-button {
+    margin-bottom: 21px;
 }
 
 /* =========================================================

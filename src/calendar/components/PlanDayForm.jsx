@@ -48,6 +48,7 @@ export const PlanDayForm = ({ date, onPlanned }) => {
                 type="submit"
                 variant="primary"
                 size="sm"
+                className="form-field-row-button"
                 disabled={!routineDayId || isSubmitting}
             >
                 {isSubmitting ? 'Planning...' : 'Plan this day'}
