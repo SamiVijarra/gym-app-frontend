@@ -41,7 +41,7 @@ export const RoutinePage = () => {
             text: `"${day.description}" and all its exercises will be permanently deleted.`,
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Yes, deleted',
+            confirmButtonText: 'Yes, delete',
             cancelButtonText: 'Cancel',
         });
 

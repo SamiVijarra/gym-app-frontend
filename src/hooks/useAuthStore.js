@@ -1,6 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import calendarApi from '../api/calendarApi';
 import { clearErrorMessage, onChecking, onLogin, onLogout } from '../store';
+import { getErrorMessage } from '../helpers';
+
+const clearSession = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('token-init-date');
+};
 
 export const useAuthStore = () => {
     const { status, user, errorMessage } = useSelector((state) => state.auth);
@@ -16,7 +22,7 @@ export const useAuthStore = () => {
 
             dispatch(onLogin({ id: data.id, name: data.name, email: data.email }));
         } catch (error) {
-            dispatch(onLogout(error.response?.data?.msg || 'Invalid credentials'));
+            dispatch(onLogout(getErrorMessage(error, 'Invalid credentials')));
             setTimeout(() => {
                 dispatch(clearErrorMessage());
             }, 10);
@@ -33,7 +39,7 @@ export const useAuthStore = () => {
 
             dispatch(onLogin({ id: data.id, name: data.name, email: data.email }));
         } catch (error) {
-            dispatch(onLogout(error.response?.data?.msg || 'Registration error'));
+            dispatch(onLogout(getErrorMessage(error, 'Registration error')));
             setTimeout(() => {
                 dispatch(clearErrorMessage());
             }, 10);
@@ -52,13 +58,13 @@ export const useAuthStore = () => {
             dispatch(onLogin({ id: data.id, name: data.name, email: data.email }));
             // eslint-disable-next-line no-unused-vars
         } catch (error) {
-            localStorage.clear();
+            clearSession();
             dispatch(onLogout());
         }
     };
 
     const startLogout = () => {
-        localStorage.clear();
+        clearSession();
         dispatch(onLogout());
     };
 

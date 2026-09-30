@@ -126,3 +126,11 @@ export const SidebarLink = styled(NavLink)`
         background: color-mix(in srgb, var(--app-accent) 12%, transparent);
     }
 `;
+
+export const SidebarLabel = styled.span<{ $isCollapsed: boolean }>`
+    white-space: nowrap;
+
+    @media (min-width: 769px) {
+        display: ${({ $isCollapsed }) => ($isCollapsed ? 'none' : 'inline')};
+    }
+`;
