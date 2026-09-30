@@ -116,8 +116,12 @@ export const ExerciseDetailPage = () => {
         });
 
         if (result.isConfirmed) {
-            const deleted = await startDeletingExercise(id);
-            if (deleted) navigate('/exercises');
+            const { ok, message } = await startDeletingExercise(id);
+            if (ok) {
+                navigate('/exercises');
+            } else {
+                Swal.fire('Could not delete exercise', message, 'error');
+            }
         }
     };
 

@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import calendarApi from '../api/calendarApi';
+import { getErrorMessage } from '../helpers';
 import {
     onLoadingExercises,
     onSetExercises,
@@ -74,14 +75,14 @@ export const useExercisesStore = () => {
     const startDeletingExercise = async (id) => {
         try {
             await calendarApi.delete(`/exercises/${id}`);
-            return true;
+            return { ok: true };
         } catch (error) {
-            dispatch(
-                onExercisesError(
-                    error.response?.data?.message || 'The exercise could not be deleted.'
-                )
-            );
-            return false;
+            // El mensaje se devuelve (no se guarda en el store) para que la página
+            // lo muestre en el momento, sin dejar un error viejo en el formulario de edición.
+            return {
+                ok: false,
+                message: getErrorMessage(error, 'The exercise could not be deleted.'),
+            };
         }
     };
 
