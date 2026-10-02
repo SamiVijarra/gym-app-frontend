@@ -1,0 +1,334 @@
+diff -ruN a/src/calendar/components/PlanDayForm.jsx b/src/calendar/components/PlanDayForm.jsx
+--- a/src/calendar/components/PlanDayForm.jsx	2026-10-01 03:34:40.278216529 +0000
++++ b/src/calendar/components/PlanDayForm.jsx	2026-10-01 03:37:45.894406259 +0000
+@@ -1,14 +1,24 @@
+ import { useEffect, useState } from 'react';
+-import { useCalendarStore, useRoutinesStore } from '../../hooks';
++import { useCalendarStore, useExercisesStore, useRoutinesStore } from '../../hooks';
+ import { Button } from '../../components/Button';
+ import { FormField } from '../../components/FormField';
+ import { Card } from '../../components/Card';
++import { ToggleGroup } from '../../components/ToggleGroup';
++
++const MODE_OPTIONS = [
++    { value: 'routine', label: 'Routine day' },
++    { value: 'free', label: 'Free session' },
++];
+ 
+ export const PlanDayForm = ({ date, onPlanned }) => {
+     const { days, startLoadingRoutine } = useRoutinesStore();
++    const { exercises: searchResults, startSearchingExercises } = useExercisesStore();
+     const { startPlanningDay, errorMessage } = useCalendarStore();
+ 
++    const [mode, setMode] = useState('routine');
+     const [routineDayId, setRoutineDayId] = useState('');
++    const [searchTerm, setSearchTerm] = useState('');
++    const [selectedExercises, setSelectedExercises] = useState([]);
+     const [isSubmitting, setIsSubmitting] = useState(false);
+     const [hasFailed, setHasFailed] = useState(false);
+ 
+@@ -16,49 +26,155 @@
+         startLoadingRoutine();
+     }, []);
+ 
++    useEffect(() => {
++        if (searchTerm.trim().length === 0) return;
++        const timeoutId = setTimeout(() => {
++            startSearchingExercises({ name: searchTerm });
++        }, 400);
++        return () => clearTimeout(timeoutId);
++    }, [searchTerm]);
++
++    const addExercise = (exercise) => {
++        setSelectedExercises((current) =>
++            current.some((item) => item.id === exercise.id) ? current : [...current, exercise]
++        );
++        setSearchTerm('');
++    };
++
++    const removeExercise = (id) => {
++        setSelectedExercises((current) => current.filter((item) => item.id !== id));
++    };
++
++    const onModeChange = (nextMode) => {
++        setMode(nextMode);
++        setHasFailed(false);
++    };
++
++    const canSubmit = mode === 'routine' ? !!routineDayId : selectedExercises.length > 0;
++
+     const onSubmit = async (event) => {
+         event.preventDefault();
+-        if (!routineDayId) return;
++        if (!canSubmit) return;
+ 
+         setIsSubmitting(true);
+         setHasFailed(false);
+-        const success = await startPlanningDay({ date, routineDayId });
++
++        const planDayDto =
++            mode === 'routine'
++                ? { date, routineDayId }
++                : { date, exerciseIds: selectedExercises.map((exercise) => exercise.id) };
++
++        const success = await startPlanningDay(planDayDto);
+         setIsSubmitting(false);
+ 
+         if (success) {
++            setRoutineDayId('');
++            setSelectedExercises([]);
+             onPlanned();
+         } else {
+             setHasFailed(true);
+         }
+     };
+ 
++    const availableResults = searchResults.filter(
++        (exercise) => !selectedExercises.some((item) => item.id === exercise.id)
++    );
++
+     return (
+         <Card variant="surface">
+-            <form onSubmit={onSubmit} className="add-set-form-row mt-2">
+-                <FormField
+-                    id="plan-day-routine"
+-                    label="Routine day"
+-                    as="select"
+-                    value={routineDayId}
+-                    onChange={(e) => setRoutineDayId(e.target.value)}
+-                >
+-                    <option value="">Select a day...</option>
+-                    {days.map((day) => (
+-                        <option key={day.id} value={day.id}>
+-                            Day {day.dayNumber} — {day.description}
+-                        </option>
+-                    ))}
+-                </FormField>
+-
+-                <Button
+-                    type="submit"
+-                    variant="primary"
+-                    size="sm"
+-                    className="form-field-row-button"
+-                    disabled={!routineDayId || isSubmitting}
+-                >
+-                    {isSubmitting ? 'Planning...' : 'Plan this day'}
+-                </Button>
++            <ToggleGroup options={MODE_OPTIONS} value={mode} onChange={onModeChange} />
++
++            <form
++                onSubmit={onSubmit}
++                className={mode === 'routine' ? 'add-set-form-row mt-2' : 'mt-2'}
++            >
++                {mode === 'routine' ? (
++                    <>
++                        <FormField
++                            id="plan-day-routine"
++                            label="Routine day"
++                            as="select"
++                            value={routineDayId}
++                            onChange={(e) => setRoutineDayId(e.target.value)}
++                        >
++                            <option value="">Select a day...</option>
++                            {days.map((day) => (
++                                <option key={day.id} value={day.id}>
++                                    Day {day.dayNumber} — {day.description}
++                                </option>
++                            ))}
++                        </FormField>
++
++                        <Button
++                            type="submit"
++                            variant="primary"
++                            size="sm"
++                            className="form-field-row-button"
++                            disabled={!canSubmit || isSubmitting}
++                        >
++                            {isSubmitting ? 'Planning...' : 'Plan this day'}
++                        </Button>
++                    </>
++                ) : (
++                    <>
++                        <FormField
++                            id="plan-free-search"
++                            label="Add exercises"
++                            placeholder="Search exercise to add..."
++                            value={searchTerm}
++                            onChange={(e) => setSearchTerm(e.target.value)}
++                        />
++
++                        {searchTerm.trim().length > 0 && (
++                            <ul className="list-group mt-2">
++                                {availableResults.map((exercise) => (
++                                    <li
++                                        key={exercise.id}
++                                        className="list-group-item list-group-item-action"
++                                        style={{ cursor: 'pointer' }}
++                                        onClick={() => addExercise(exercise)}
++                                    >
++                                        <strong>{exercise.name}</strong>
++                                        <div className="text-muted small">
++                                            {exercise.primaryMuscles?.join(', ')}
++                                            {exercise.equipment ? ` — ${exercise.equipment}` : ''}
++                                        </div>
++                                    </li>
++                                ))}
++                            </ul>
++                        )}
++
++                        {selectedExercises.length > 0 && (
++                            <ol className="list-group list-group-numbered mt-2">
++                                {selectedExercises.map((exercise) => (
++                                    <li
++                                        key={exercise.id}
++                                        className="list-group-item d-flex justify-content-between align-items-center"
++                                    >
++                                        <span>{exercise.name}</span>
++                                        <Button
++                                            variant="danger"
++                                            size="sm"
++                                            onClick={() => removeExercise(exercise.id)}
++                                        >
++                                            Remove
++                                        </Button>
++                                    </li>
++                                ))}
++                            </ol>
++                        )}
++
++                        <Button
++                            type="submit"
++                            variant="primary"
++                            size="sm"
++                            className="mt-3"
++                            disabled={!canSubmit || isSubmitting}
++                        >
++                            {isSubmitting ? 'Planning...' : 'Plan free session'}
++                        </Button>
++                    </>
++                )}
+             </form>
+ 
+             {hasFailed && errorMessage && <p className="field-error-text mt-2">{errorMessage}</p>}
+diff -ruN a/src/calendar/components/PlannedSessionCard.jsx b/src/calendar/components/PlannedSessionCard.jsx
+--- a/src/calendar/components/PlannedSessionCard.jsx	2026-10-01 03:34:40.278227443 +0000
++++ b/src/calendar/components/PlannedSessionCard.jsx	2026-10-01 03:37:45.894193854 +0000
+@@ -7,10 +7,16 @@
+ export const PlannedSessionCard = ({ entry, onComplete }) => {
+     const { startCancelingPlan } = useCalendarStore();
+ 
++    const isFreeSession = !entry.routineDay;
++    const title = isFreeSession ? 'Free session' : entry.routineDay.description;
++    const meta = isFreeSession
++        ? (entry.plannedExercises ?? []).map((planned) => planned.exercise.name).join(' · ')
++        : `Day ${entry.routineDay.dayNumber}`;
++
+     const onCancel = async () => {
+         const result = await Swal.fire({
+             title: 'Cancel this planned day?',
+-            text: `"${entry.routineDay.description}" will be removed from this date.`,
++            text: `"${title}" will be removed from this date.`,
+             icon: 'warning',
+             showCancelButton: true,
+             confirmButtonText: 'Yes, cancel it',
+@@ -26,10 +32,10 @@
+         <Card variant="surface">
+             <div className="calendar-session-block-header">
+                 <Badge status="planned">Planned</Badge>
+-                <h3>{entry.routineDay.description}</h3>
++                <h3>{title}</h3>
+             </div>
+ 
+-            <p className="calendar-session-block-meta">Day {entry.routineDay.dayNumber}</p>
++            {meta && <p className="calendar-session-block-meta">{meta}</p>}
+ 
+             <div className="calendar-session-actions">
+                 <Button variant="primary" onClick={() => onComplete(entry)}>
+diff -ruN a/src/calendar/pages/CalendarDayPage.jsx b/src/calendar/pages/CalendarDayPage.jsx
+--- a/src/calendar/pages/CalendarDayPage.jsx	2026-10-01 03:34:40.278282349 +0000
++++ b/src/calendar/pages/CalendarDayPage.jsx	2026-10-01 03:37:45.893896907 +0000
+@@ -14,8 +14,14 @@
+     const { date } = useParams();
+     const [year, month] = date.split('-').map(Number);
+ 
+-    const { entries, isLoading, sessionPrefill, startLoadingMonth, startLoadingSessionPrefill } =
+-        useCalendarStore();
++    const {
++        entries,
++        isLoading,
++        sessionPrefill,
++        startLoadingMonth,
++        startLoadingSessionPrefill,
++        startLoadingPlannedPrefill,
++    } = useCalendarStore();
+     const { days: routineDays, startLoadingRoutine } = useRoutinesStore();
+ 
+     const [logMode, setLogMode] = useState(null);
+@@ -33,9 +39,16 @@
+     const isPastDate = isBefore(parseISO(date), startOfDay(new Date()));
+ 
+     const onCompletePlannedEntry = async (entry) => {
+-        setActiveRoutineDayId(entry.routineDay.id);
+         setActiveCalendarEntryId(entry.id);
+-        await startLoadingSessionPrefill(date, entry.routineDay.id);
++
++        if (entry.routineDay) {
++            setActiveRoutineDayId(entry.routineDay.id);
++            await startLoadingSessionPrefill(date, entry.routineDay.id);
++        } else {
++            // Sesión libre planificada: los ejercicios vienen de la planificación.
++            setActiveRoutineDayId(undefined);
++            await startLoadingPlannedPrefill(entry.id);
++        }
+         setLogMode('log-active');
+     };
+ 
+@@ -78,7 +91,7 @@
+                 {!isLoading && logMode === 'log-active' && sessionPrefill && (
+                     <SessionBuilder
+                         date={date}
+-                        routineDayId={activeRoutineDayId}
++                        routineDayId={activeRoutineDayId || undefined}
+                         calendarEntryId={activeCalendarEntryId}
+                         initialExercises={sessionPrefill.exercises}
+                         onDone={onSessionDone}
+@@ -117,7 +130,7 @@
+                             {!isPastDate && (
+                                 <Card variant="surface">
+                                     <h3>Plan this day</h3>
+-                                    <p>Assign a routine day for later.</p>
++                                    <p>Assign a routine day, or pick exercises for a free session.</p>
+                                     <PlanDayForm date={date} onPlanned={() => {}} />
+                                 </Card>
+                             )}
+diff -ruN a/src/hooks/useCalendarStore.js b/src/hooks/useCalendarStore.js
+--- a/src/hooks/useCalendarStore.js	2026-10-01 03:34:40.281766855 +0000
++++ b/src/hooks/useCalendarStore.js	2026-10-01 03:37:45.893485536 +0000
+@@ -85,6 +85,19 @@
+         }
+     };
+ 
++    // Prefill de una sesión libre planificada (ejercicios elegidos de antemano, sin series).
++    const startLoadingPlannedPrefill = async (calendarEntryId) => {
++        dispatch(onLoadingCalendar());
++        try {
++            const { data } = await calendarApi.get(`/calendar/planned/${calendarEntryId}/prefill`);
++            dispatch(onSetSessionPrefill(data));
++        } catch (error) {
++            dispatch(
++                onCalendarError(getErrorMessage(error, 'Could not load the planned session'))
++            );
++        }
++    };
++
+     const startCompletingSession = async (completeSessionDto) => {
+         try {
+             await calendarApi.post('/calendar/complete-session', completeSessionDto);
+@@ -211,6 +224,7 @@
+         startPlanningDay,
+         startCancelingPlan,
+         startLoadingSessionPrefill,
++        startLoadingPlannedPrefill,
+         startCompletingSession,
+         startLoadingHistoryEntry,
+         startLoadingExerciseHistory,

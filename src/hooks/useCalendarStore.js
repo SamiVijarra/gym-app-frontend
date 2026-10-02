@@ -85,6 +85,16 @@ export const useCalendarStore = () => {
         }
     };
 
+    const startLoadingPlannedPrefill = async (calendarEntryId) => {
+        dispatch(onLoadingCalendar());
+        try {
+            const { data } = await calendarApi.get(`/calendar/planned/${calendarEntryId}/prefill`);
+            dispatch(onSetSessionPrefill(data));
+        } catch (error) {
+            dispatch(onCalendarError(getErrorMessage(error, 'Could not load the planned session')));
+        }
+    };
+
     const startCompletingSession = async (completeSessionDto) => {
         try {
             await calendarApi.post('/calendar/complete-session', completeSessionDto);
@@ -211,6 +221,7 @@ export const useCalendarStore = () => {
         startPlanningDay,
         startCancelingPlan,
         startLoadingSessionPrefill,
+        startLoadingPlannedPrefill,
         startCompletingSession,
         startLoadingHistoryEntry,
         startLoadingExerciseHistory,

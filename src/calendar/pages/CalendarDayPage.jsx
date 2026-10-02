@@ -14,8 +14,14 @@ export const CalendarDayPage = () => {
     const { date } = useParams();
     const [year, month] = date.split('-').map(Number);
 
-    const { entries, isLoading, sessionPrefill, startLoadingMonth, startLoadingSessionPrefill } =
-        useCalendarStore();
+    const {
+        entries,
+        isLoading,
+        sessionPrefill,
+        startLoadingMonth,
+        startLoadingSessionPrefill,
+        startLoadingPlannedPrefill,
+    } = useCalendarStore();
     const { days: routineDays, startLoadingRoutine } = useRoutinesStore();
 
     const [logMode, setLogMode] = useState(null);
@@ -33,9 +39,16 @@ export const CalendarDayPage = () => {
     const isPastDate = isBefore(parseISO(date), startOfDay(new Date()));
 
     const onCompletePlannedEntry = async (entry) => {
-        setActiveRoutineDayId(entry.routineDay.id);
         setActiveCalendarEntryId(entry.id);
-        await startLoadingSessionPrefill(date, entry.routineDay.id);
+
+        if (entry.routineDay) {
+            setActiveRoutineDayId(entry.routineDay.id);
+            await startLoadingSessionPrefill(date, entry.routineDay.id);
+        } else {
+            // Sesión libre planificada: los ejercicios vienen de la planificación.
+            setActiveRoutineDayId(undefined);
+            await startLoadingPlannedPrefill(entry.id);
+        }
         setLogMode('log-active');
     };
 
@@ -78,7 +91,7 @@ export const CalendarDayPage = () => {
                 {!isLoading && logMode === 'log-active' && sessionPrefill && (
                     <SessionBuilder
                         date={date}
-                        routineDayId={activeRoutineDayId}
+                        routineDayId={activeRoutineDayId || undefined}
                         calendarEntryId={activeCalendarEntryId}
                         initialExercises={sessionPrefill.exercises}
                         onDone={onSessionDone}
@@ -117,7 +130,7 @@ export const CalendarDayPage = () => {
                             {!isPastDate && (
                                 <Card variant="surface">
                                     <h3>Plan this day</h3>
-                                    <p>Assign a routine day for later.</p>
+                                    <p>Assign a routine day, or pick exercises for a free session.</p>
                                     <PlanDayForm date={date} onPlanned={() => {}} />
                                 </Card>
                             )}
