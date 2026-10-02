@@ -7,10 +7,16 @@ import { Card } from '../../components/Card';
 export const PlannedSessionCard = ({ entry, onComplete }) => {
     const { startCancelingPlan } = useCalendarStore();
 
+    const isFreeSession = !entry.routineDay;
+    const title = isFreeSession ? 'Free session' : entry.routineDay.description;
+    const meta = isFreeSession
+        ? (entry.plannedExercises ?? []).map((planned) => planned.exercise.name).join(' · ')
+        : `Day ${entry.routineDay.dayNumber}`;
+
     const onCancel = async () => {
         const result = await Swal.fire({
             title: 'Cancel this planned day?',
-            text: `"${entry.routineDay.description}" will be removed from this date.`,
+            text: `"${title}" will be removed from this date.`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Yes, cancel it',
@@ -26,10 +32,10 @@ export const PlannedSessionCard = ({ entry, onComplete }) => {
         <Card variant="surface">
             <div className="calendar-session-block-header">
                 <Badge status="planned">Planned</Badge>
-                <h3>{entry.routineDay.description}</h3>
+                <h3>{title}</h3>
             </div>
 
-            <p className="calendar-session-block-meta">Day {entry.routineDay.dayNumber}</p>
+            {meta && <p className="calendar-session-block-meta">{meta}</p>}
 
             <div className="calendar-session-actions">
                 <Button variant="primary" onClick={() => onComplete(entry)}>
