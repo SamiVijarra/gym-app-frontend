@@ -21,6 +21,7 @@ const buildInitialRows = (initialExercises) =>
             reps: set.reps ?? '',
             restSeconds: set.restSeconds ?? '',
             notes: '',
+            touched: false,
         })),
     }));
 
@@ -72,7 +73,10 @@ export const SessionBuilder = ({
                 row.key === key
                     ? {
                           ...row,
-                          sets: [...row.sets, { weight: '', reps: '', restSeconds: '', notes: '' }],
+                          sets: [
+                              ...row.sets,
+                              { weight: '', reps: '', restSeconds: '', notes: '', touched: false },
+                          ],
                       }
                     : row
             )
@@ -91,6 +95,8 @@ export const SessionBuilder = ({
         );
     };
 
+    const touchSet = (key, setIndex) => updateSet(key, setIndex, 'touched', true);
+
     const removeSet = (key, setIndex) => {
         setRows((current) =>
             current.map((row) =>
@@ -101,9 +107,11 @@ export const SessionBuilder = ({
         );
     };
 
-    const canSubmit = rows.some((row) =>
-        row.sets.some((set) => set.weight !== '' && set.reps !== '')
-    );
+    const isSetComplete = (set) => set.weight !== '' && set.reps !== '';
+
+    const hasCompleteSet = rows.some((row) => row.sets.some(isSetComplete));
+    const hasIncompleteSet = rows.some((row) => row.sets.some((set) => !isSetComplete(set)));
+    const canSubmit = hasCompleteSet && !hasIncompleteSet;
 
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -223,9 +231,10 @@ export const SessionBuilder = ({
                                             <input
                                                 type="number"
                                                 step="0.5"
-                                                className="routine-form-input"
+                                                className={`routine-form-input${set.touched && set.weight === '' ? ' routine-form-input-invalid' : ''}`}
                                                 value={set.weight}
                                                 aria-label="Weight (kg)"
+                                                aria-invalid={set.touched && set.weight === ''}
                                                 onChange={(e) =>
                                                     updateSet(
                                                         row.key,
@@ -234,14 +243,19 @@ export const SessionBuilder = ({
                                                         e.target.value
                                                     )
                                                 }
+                                                onBlur={() => touchSet(row.key, index)}
                                             />
+                                            {set.touched && set.weight === '' && (
+                                                <span className="field-error-text">Required</span>
+                                            )}
                                         </td>
                                         <td>
                                             <input
                                                 type="number"
-                                                className="routine-form-input"
+                                                className={`routine-form-input${set.touched && set.reps === '' ? ' routine-form-input-invalid' : ''}`}
                                                 value={set.reps}
                                                 aria-label="Reps"
+                                                aria-invalid={set.touched && set.reps === ''}
                                                 onChange={(e) =>
                                                     updateSet(
                                                         row.key,
@@ -250,7 +264,11 @@ export const SessionBuilder = ({
                                                         e.target.value
                                                     )
                                                 }
+                                                onBlur={() => touchSet(row.key, index)}
                                             />
+                                            {set.touched && set.reps === '' && (
+                                                <span className="field-error-text">Required</span>
+                                            )}
                                         </td>
                                         <td>
                                             <input
@@ -313,9 +331,14 @@ export const SessionBuilder = ({
 
             {errorMessage && <p className="field-error-text mt-2">{errorMessage}</p>}
 
-            {!canSubmit && rows.length > 0 && (
+            {rows.length > 0 && !hasCompleteSet && (
                 <p className="field-error-text mt-2">
                     Add weight and reps to at least one set before saving.
+                </p>
+            )}
+            {hasCompleteSet && hasIncompleteSet && (
+                <p className="field-error-text mt-2">
+                    Complete or remove the sets that are missing weight or reps.
                 </p>
             )}
         </form>
