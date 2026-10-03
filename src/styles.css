@@ -2313,8 +2313,16 @@ body {
 
 .calendar-choice-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
+}
+
+.calendar-choice-grid > * {
+    min-width: 0;
+}
+
+.calendar-choice-grid select {
+    max-width: 100%;
 }
 
 .calendar-choice-card {
@@ -2339,7 +2347,7 @@ body {
 
 @media (max-width: 640px) {
     .calendar-choice-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
 }
 
@@ -2675,4 +2683,16 @@ body {
 
 .routine-add-exercise-spacing {
     margin-bottom: var(--app-space-6);
+}
+
+.routine-form-input-invalid {
+    border-color: var(--app-danger) !important;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--app-danger) 18%, transparent);
+}
+
+.field-error-text {
+    display: block;
+    margin-top: var(--app-space-2);
+    color: var(--app-danger);
+    font-size: 12px;
 }
