@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useCalendarStore, useExercisesStore } from '../../hooks';
+import { useCalendarStore } from '../../hooks';
+import { ExercisePicker } from './ExercisePicker';
 import { Button } from '../../components/Button';
 import { FormField } from '../../components/FormField';
 import { EmptyState } from '../../components/EmptyState';
@@ -33,30 +34,19 @@ export const SessionBuilder = ({
     onDone,
 }) => {
     const [rows, setRows] = useState(() => buildInitialRows(initialExercises));
-    const [searchTerm, setSearchTerm] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const { exercises: searchResults, startSearchingExercises } = useExercisesStore();
     const { startCompletingSession, errorMessage } = useCalendarStore();
 
     useEffect(() => {
         setRows(buildInitialRows(initialExercises));
     }, [initialExercises]);
 
-    useEffect(() => {
-        if (searchTerm.trim().length === 0) return;
-        const timeoutId = setTimeout(() => {
-            startSearchingExercises({ name: searchTerm });
-        }, 400);
-        return () => clearTimeout(timeoutId);
-    }, [searchTerm]);
-
     const addExerciseRow = (exercise) => {
         setRows((current) => [
             ...current,
             { key: nextRowKey(), exerciseId: exercise.id, exercise, notes: '', sets: [] },
         ]);
-        setSearchTerm('');
     };
 
     const removeRow = (key) => {
@@ -166,35 +156,15 @@ export const SessionBuilder = ({
                     <div>
                         <span className="routine-section-label">EXERCISES</span>
                         <h2>Add exercise</h2>
-                        <p>Search and add exercises to this session</p>
+                        <p>Pick a muscle group or search, then add exercises to this session</p>
                     </div>
                 </div>
 
-                <FormField
-                    id="session-builder-search"
-                    label="Search exercise"
-                    placeholder="Search exercise to add..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                <ExercisePicker
+                    idPrefix="session-builder"
+                    onSelect={addExerciseRow}
+                    excludeIds={rows.map((row) => row.exerciseId)}
                 />
-
-                {searchTerm.trim().length > 0 && (
-                    <ul className="list-group mt-2">
-                        {searchResults.map((exercise) => (
-                            <li
-                                key={exercise.id}
-                                className="list-group-item list-group-item-action"
-                                style={{ cursor: 'pointer' }}
-                                onClick={() => addExerciseRow(exercise)}
-                            >
-                                <strong>{exercise.name}</strong>
-                                <div className="text-muted small">
-                                    {exercise.primaryMuscles?.join(', ')} — {exercise.equipment}
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                )}
             </Card>
 
             <div className="routine-exercises">
