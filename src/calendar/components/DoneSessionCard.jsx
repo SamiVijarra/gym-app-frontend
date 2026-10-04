@@ -1,5 +1,6 @@
 import { Badge } from '../../components/Badge';
 import { ListCard } from '../../components/ListCard';
+import { MuscleGroupChips } from './MuscleGroupMarks';
 
 export const DoneSessionCard = ({ entry }) => {
     return (
@@ -11,7 +12,12 @@ export const DoneSessionCard = ({ entry }) => {
                 </div>
             }
             title={entry.routineDay ? entry.routineDay.description : 'Free session'}
-            meta={<Badge status="done">Done</Badge>}
+            meta={
+                <>
+                    <Badge status="done">Done</Badge>
+                    <MuscleGroupChips groups={entry.muscleGroups} />
+                </>
+            }
         />
     );
 };
