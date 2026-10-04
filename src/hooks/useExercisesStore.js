@@ -14,11 +14,11 @@ export const useExercisesStore = () => {
         (state) => state.exercises
     );
 
-    const startSearchingExercises = async ({ name, muscle, equipment } = {}) => {
+    const startSearchingExercises = async ({ name, muscle, muscleGroup, equipment } = {}) => {
         dispatch(onLoadingExercises());
         try {
             const { data } = await calendarApi.get('/exercises', {
-                params: { name, muscle, equipment },
+                params: { name, muscle, muscleGroup, equipment },
             });
             dispatch(onSetExercises(data));
         } catch (error) {
