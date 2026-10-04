@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useCalendarStore, useExercisesStore, useRoutinesStore } from '../../hooks';
+import { useCalendarStore, useRoutinesStore } from '../../hooks';
+import { ExercisePicker } from './ExercisePicker';
 import { Button } from '../../components/Button';
 import { FormField } from '../../components/FormField';
 import { Card } from '../../components/Card';
@@ -12,12 +13,10 @@ const MODE_OPTIONS = [
 
 export const PlanDayForm = ({ date, onPlanned }) => {
     const { days, startLoadingRoutine } = useRoutinesStore();
-    const { exercises: searchResults, startSearchingExercises } = useExercisesStore();
     const { startPlanningDay, errorMessage } = useCalendarStore();
 
     const [mode, setMode] = useState('routine');
     const [routineDayId, setRoutineDayId] = useState('');
-    const [searchTerm, setSearchTerm] = useState('');
     const [selectedExercises, setSelectedExercises] = useState([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [hasFailed, setHasFailed] = useState(false);
@@ -26,19 +25,10 @@ export const PlanDayForm = ({ date, onPlanned }) => {
         startLoadingRoutine();
     }, []);
 
-    useEffect(() => {
-        if (searchTerm.trim().length === 0) return;
-        const timeoutId = setTimeout(() => {
-            startSearchingExercises({ name: searchTerm });
-        }, 400);
-        return () => clearTimeout(timeoutId);
-    }, [searchTerm]);
-
     const addExercise = (exercise) => {
         setSelectedExercises((current) =>
             current.some((item) => item.id === exercise.id) ? current : [...current, exercise]
         );
-        setSearchTerm('');
     };
 
     const removeExercise = (id) => {
@@ -75,10 +65,6 @@ export const PlanDayForm = ({ date, onPlanned }) => {
             setHasFailed(true);
         }
     };
-
-    const availableResults = searchResults.filter(
-        (exercise) => !selectedExercises.some((item) => item.id === exercise.id)
-    );
 
     return (
         <Card variant="surface">
@@ -117,32 +103,11 @@ export const PlanDayForm = ({ date, onPlanned }) => {
                     </>
                 ) : (
                     <>
-                        <FormField
-                            id="plan-free-search"
-                            label="Add exercises"
-                            placeholder="Search exercise to add..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
+                        <ExercisePicker
+                            idPrefix="plan-free"
+                            onSelect={addExercise}
+                            excludeIds={selectedExercises.map((exercise) => exercise.id)}
                         />
-
-                        {searchTerm.trim().length > 0 && (
-                            <ul className="list-group mt-2">
-                                {availableResults.map((exercise) => (
-                                    <li
-                                        key={exercise.id}
-                                        className="list-group-item list-group-item-action"
-                                        style={{ cursor: 'pointer' }}
-                                        onClick={() => addExercise(exercise)}
-                                    >
-                                        <strong>{exercise.name}</strong>
-                                        <div className="text-muted small">
-                                            {exercise.primaryMuscles?.join(', ')}
-                                            {exercise.equipment ? ` — ${exercise.equipment}` : ''}
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
 
                         {selectedExercises.length > 0 && (
                             <ol className="list-group list-group-numbered mt-2">
