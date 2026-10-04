@@ -3,6 +3,7 @@ import { useCalendarStore } from '../../hooks';
 import { Button } from '../../components/Button';
 import { Badge } from '../../components/Badge';
 import { Card } from '../../components/Card';
+import { MuscleGroupChips } from './MuscleGroupMarks';
 
 export const PlannedSessionCard = ({ entry, onComplete }) => {
     const { startCancelingPlan } = useCalendarStore();
@@ -36,6 +37,8 @@ export const PlannedSessionCard = ({ entry, onComplete }) => {
             </div>
 
             {meta && <p className="calendar-session-block-meta">{meta}</p>}
+
+            <MuscleGroupChips groups={entry.muscleGroups} />
 
             <div className="calendar-session-actions">
                 <Button variant="primary" onClick={() => onComplete(entry)}>
