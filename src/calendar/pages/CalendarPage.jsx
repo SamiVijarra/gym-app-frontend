@@ -17,6 +17,8 @@ import { WeeklyGoalCard } from '../components/WeeklyGoalCard';
 import { PageHeader } from '../../components/PageHeader';
 import { LoadingState } from '../../components/LoadingState';
 import { Card } from '../../components/Card';
+import { MuscleGroupLegend, MuscleGroupMarks } from '../components/MuscleGroupMarks';
+import { mergeMuscleGroups } from '../muscleGroups';
 
 const WEEKDAY_LABELS = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
@@ -120,10 +122,12 @@ export const CalendarPage = () => {
                                       ? 'planned'
                                       : null;
                                 const sessionCount = dayEntries.length;
+                                const dayMuscleGroups = mergeMuscleGroups(dayEntries);
                                 return (
                                     <Link
                                         key={dateKey}
                                         to={`/calendar/${dateKey}`}
+                                        style={{ position: 'relative' }}
                                         className={[
                                             'calendar-day-cell',
                                             !inCurrentMonth && 'calendar-day-cell-muted',
@@ -135,6 +139,7 @@ export const CalendarPage = () => {
                                             .filter(Boolean)
                                             .join(' ')}
                                     >
+                                        <MuscleGroupMarks groups={dayMuscleGroups} />
                                         <span className="calendar-day-number">
                                             {format(day, 'd')}
                                         </span>
@@ -149,6 +154,7 @@ export const CalendarPage = () => {
                             })}
                         </div>
                     )}
+                    <MuscleGroupLegend />
                 </Card>
             </div>
         </main>
