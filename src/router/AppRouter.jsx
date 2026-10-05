@@ -1,19 +1,38 @@
 import { Navigate, Route, Routes, useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { lazy, useEffect } from 'react';
 
 import { LoginPage } from '../auth/pages/LoginPage';
 import { HomePage } from '../home/pages/HomePage';
 import { useAuthStore, useThemeStore } from '../hooks';
-import { ProfilePage } from '../users/pages/ProfilePage';
-import { ExercisesPage } from '../exercises/pages/ExercisesPage';
-import { RoutinePage } from '../routines/pages/RoutinePage';
-import { RoutineDayDetailPage } from '../routines/pages/RoutineDayDetailPage';
-import { ExerciseDetailPage } from '../exercises/pages/ExerciseDetailPage';
-import { ExerciseProgressPage } from '../exercises/pages/ExerciseProgressPage';
-import { CalendarPage } from '../calendar/pages/CalendarPage';
-import { CalendarDayPage } from '../calendar/pages/CalendarDayPage';
-import { CalendarSessionDetailPage } from '../calendar/pages/CalendarSessionDetailPage';
 import { Layout } from '../components/Layout';
+
+const lazyPage = (importPage, exportName) =>
+    lazy(() => importPage().then((module) => ({ default: module[exportName] })));
+
+const ProfilePage = lazyPage(() => import('../users/pages/ProfilePage'), 'ProfilePage');
+const ExercisesPage = lazyPage(() => import('../exercises/pages/ExercisesPage'), 'ExercisesPage');
+const ExerciseDetailPage = lazyPage(
+    () => import('../exercises/pages/ExerciseDetailPage'),
+    'ExerciseDetailPage'
+);
+const ExerciseProgressPage = lazyPage(
+    () => import('../exercises/pages/ExerciseProgressPage'),
+    'ExerciseProgressPage'
+);
+const RoutinePage = lazyPage(() => import('../routines/pages/RoutinePage'), 'RoutinePage');
+const RoutineDayDetailPage = lazyPage(
+    () => import('../routines/pages/RoutineDayDetailPage'),
+    'RoutineDayDetailPage'
+);
+const CalendarPage = lazyPage(() => import('../calendar/pages/CalendarPage'), 'CalendarPage');
+const CalendarDayPage = lazyPage(
+    () => import('../calendar/pages/CalendarDayPage'),
+    'CalendarDayPage'
+);
+const CalendarSessionDetailPage = lazyPage(
+    () => import('../calendar/pages/CalendarSessionDetailPage'),
+    'CalendarSessionDetailPage'
+);
 
 const CalendarDayRoute = () => {
     const { date } = useParams();
