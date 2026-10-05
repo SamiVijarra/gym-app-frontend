@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Navbar } from '../Navbar';
 import { Sidebar } from '../Sidebar';
+import { LoadingState } from '../LoadingState';
 import { AppShell, AppShellMain } from './Layout.styles';
 
 const COLLAPSE_STORAGE_KEY = 'sidebar-collapsed';
@@ -40,7 +41,9 @@ export const Layout = () => {
             />
             <AppShellMain>
                 <Navbar onOpenSidebar={() => setIsSidebarOpen(true)} />
-                <Outlet />
+                <Suspense fallback={<LoadingState label="Loading..." />}>
+                    <Outlet />
+                </Suspense>
             </AppShellMain>
         </AppShell>
     );
