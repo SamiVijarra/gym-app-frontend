@@ -1,33 +1,23 @@
-import { useEffect, useState } from 'react';
-import { useExercisesStore, useRoutinesStore } from '../../hooks';
+import { useState } from 'react';
+import { useRoutinesStore } from '../../hooks';
 import { Button } from '../../components/Button';
 import { FormField } from '../../components/FormField';
+import { ExercisePicker } from '../../calendar/components/ExercisePicker';
 
 export const AddExerciseForm = ({ dayId }) => {
-    const [searchTerm, setSearchTerm] = useState('');
     const [notes, setNotes] = useState('');
     const [selectedExercise, setSelectedExercise] = useState(null);
-    const { exercises, startSearchingExercises } = useExercisesStore();
+    const [isAdding, setIsAdding] = useState(false);
     const { startAddingExercise } = useRoutinesStore();
 
-    useEffect(() => {
-        if (searchTerm.trim().length === 0) return;
-        const timeoutId = setTimeout(() => {
-            startSearchingExercises({ name: searchTerm });
-        }, 400);
-        return () => clearTimeout(timeoutId);
-    }, [searchTerm]);
-
-    const onSelectExercise = (exercise) => {
-        setSelectedExercise(exercise);
-        setSearchTerm('');
-    };
-
     const onConfirmAdd = async () => {
+        if (!selectedExercise || isAdding) return;
+        setIsAdding(true);
         await startAddingExercise(dayId, {
             exerciseId: selectedExercise.id,
             notes: notes || undefined,
         });
+        setIsAdding(false);
         setSelectedExercise(null);
         setNotes('');
     };
@@ -40,37 +30,11 @@ export const AddExerciseForm = ({ dayId }) => {
     return (
         <div className="add-exercise-form">
             {!selectedExercise && (
-                <>
-                    <FormField
-                        id="add-exercise-search"
-                        label="Search Exercise"
-                        placeholder="Search an exercise to add..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-
-                    {searchTerm.trim().length > 0 && (
-                        <ul className="list-group mt-2">
-                            {exercises.map((exercise) => (
-                                <li
-                                    key={exercise.id}
-                                    className="list-group-item list-group-item-action"
-                                    style={{ cursor: 'pointer' }}
-                                    onClick={() => onSelectExercise(exercise)}
-                                >
-                                    <strong>{exercise.name}</strong>
-                                    <div className="text-muted small">
-                                        {exercise.primaryMuscles?.join(', ')} — {exercise.equipment}
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                </>
+                <ExercisePicker idPrefix="add-exercise" onSelect={setSelectedExercise} />
             )}
 
             {selectedExercise && (
-                <div>
+                <>
                     <div className="mb-2">
                         <strong>{selectedExercise.name}</strong>
                         <div className="text-muted small">
@@ -94,16 +58,27 @@ export const AddExerciseForm = ({ dayId }) => {
                         value={notes}
                         onChange={(e) => setNotes(e.target.value)}
                     />
-                </div>
+
+                    <div className="add-exercise-form-actions">
+                        <Button
+                            variant="primary"
+                            size="sm"
+                            onClick={onConfirmAdd}
+                            disabled={isAdding}
+                        >
+                            {isAdding ? 'Adding...' : 'Add'}
+                        </Button>
+                        <Button
+                            variant="secondary"
+                            size="sm"
+                            onClick={onCancel}
+                            disabled={isAdding}
+                        >
+                            Cancel
+                        </Button>
+                    </div>
+                </>
             )}
-            <div className="add-exercise-form-actions">
-                <Button variant="primary" size="sm" onClick={onConfirmAdd}>
-                    Add
-                </Button>
-                <Button variant="secondary" size="sm" onClick={onCancel}>
-                    Cancel
-                </Button>
-            </div>
         </div>
     );
 };
