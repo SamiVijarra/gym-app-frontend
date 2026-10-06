@@ -11,19 +11,21 @@ import { Card } from '../../components/Card';
 let rowKeySeed = 0;
 const nextRowKey = () => `row-${++rowKeySeed}`;
 
+const toRowSet = (set) => ({
+    weight: set.weight ?? '',
+    reps: set.reps ?? '',
+    restSeconds: set.restSeconds ?? '',
+    notes: '',
+    touched: false,
+});
+
 const buildInitialRows = (initialExercises) =>
     (initialExercises ?? []).map((item) => ({
         key: nextRowKey(),
         exerciseId: item.exercise.id,
         exercise: item.exercise,
         notes: item.notes ?? '',
-        sets: (item.suggestedSets ?? []).map((set) => ({
-            weight: set.weight ?? '',
-            reps: set.reps ?? '',
-            restSeconds: set.restSeconds ?? '',
-            notes: '',
-            touched: false,
-        })),
+        sets: (item.suggestedSets ?? []).map(toRowSet),
     }));
 
 export const SessionBuilder = ({
@@ -36,17 +38,29 @@ export const SessionBuilder = ({
     const [rows, setRows] = useState(() => buildInitialRows(initialExercises));
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const { startCompletingSession, errorMessage } = useCalendarStore();
+    const { startCompletingSession, startLoadingLastSets, errorMessage } = useCalendarStore();
 
     useEffect(() => {
         setRows(buildInitialRows(initialExercises));
     }, [initialExercises]);
 
-    const addExerciseRow = (exercise) => {
+    const addExerciseRow = async (exercise) => {
+        const key = nextRowKey();
         setRows((current) => [
             ...current,
-            { key: nextRowKey(), exerciseId: exercise.id, exercise, notes: '', sets: [] },
+            { key, exerciseId: exercise.id, exercise, notes: '', sets: [] },
         ]);
+
+        const lastSets = await startLoadingLastSets(exercise.id);
+        if (lastSets.length === 0) return;
+
+        setRows((current) =>
+            current.map((row) =>
+                row.key === key && row.sets.length === 0
+                    ? { ...row, sets: lastSets.map(toRowSet) }
+                    : row
+            )
+        );
     };
 
     const removeRow = (key) => {
