@@ -23,3 +23,23 @@ export const mergeMuscleGroups = (entries: { muscleGroups?: string[] }[]): Muscl
     MUSCLE_GROUPS.filter((group) =>
         entries.some((entry) => entry.muscleGroups?.includes(group.key))
     ).map((group) => group.key);
+
+export const MUSCLES_BY_GROUP: Record<MuscleGroupKey, string[]> = {
+    chest: ['chest'],
+    back: ['lats', 'lower back', 'middle back', 'traps'],
+    shoulders: ['neck', 'shoulders'],
+    arms: ['biceps', 'forearms', 'triceps'],
+    legs: ['abductors', 'adductors', 'calves', 'hamstrings', 'quadriceps'],
+    glutes: ['glutes'],
+    core: ['abdominals'],
+};
+
+const KNOWN_MUSCLES = Object.values(MUSCLES_BY_GROUP).flat();
+
+export const toKnownMuscle = (muscle?: string): string => {
+    const normalized = muscle?.trim().toLowerCase() ?? '';
+    return KNOWN_MUSCLES.includes(normalized) ? normalized : '';
+};
+
+export const formatMuscleLabel = (muscle: string): string =>
+    muscle.charAt(0).toUpperCase() + muscle.slice(1);
