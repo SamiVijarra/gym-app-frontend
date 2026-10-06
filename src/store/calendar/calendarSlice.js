@@ -10,6 +10,7 @@ export const calendarSlice = createSlice({
         exerciseHistory: {},
         errorMessage: undefined,
         stats: null,
+        muscleGroupStats: null,
         weeklyGoal: null,
     },
     reducers: {
@@ -46,6 +47,9 @@ export const calendarSlice = createSlice({
             state.stats = payload;
             state.errorMessage = undefined;
         },
+        onSetMuscleGroupStats: (state, { payload }) => {
+            state.muscleGroupStats = payload;
+        },
         onSetWeeklyGoal: (state, { payload }) => {
             state.isLoading = false;
             state.weeklyGoal = payload;
@@ -62,5 +66,6 @@ export const {
     onSetExerciseHistory,
     onCalendarError,
     onSetStats,
+    onSetMuscleGroupStats,
     onSetWeeklyGoal,
 } = calendarSlice.actions;

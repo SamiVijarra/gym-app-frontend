@@ -7,6 +7,7 @@ import {
     onSetCalendarEntries,
     onCalendarError,
     onSetStats,
+    onSetMuscleGroupStats,
     onSetWeeklyGoal,
 } from '../store/calendar/calendarSlice';
 import calendarApi from '../api/calendarApi';
@@ -27,6 +28,7 @@ export const useCalendarStore = () => {
         exerciseHistory,
         errorMessage,
         stats,
+        muscleGroupStats,
         weeklyGoal,
     } = useSelector((state) => state.calendar);
 
@@ -177,6 +179,19 @@ export const useCalendarStore = () => {
         }
     };
 
+    const startLoadingMuscleGroupStats = async () => {
+        try {
+            const { data } = await calendarApi.get('/calendar/stats/muscle-groups');
+            dispatch(onSetMuscleGroupStats(data));
+        } catch (error) {
+            dispatch(
+                onCalendarError(
+                    error.response?.data?.message || 'The muscle group stats could not be loaded'
+                )
+            );
+        }
+    };
+
     const startLoadingWeeklyGoal = async (weekStart) => {
         try {
             const { data } = await calendarApi.get('/calendar/weekly-goal', {
@@ -215,6 +230,7 @@ export const useCalendarStore = () => {
         exerciseHistory,
         errorMessage,
         stats,
+        muscleGroupStats,
         weeklyGoal,
 
         startLoadingMonth,
@@ -228,6 +244,7 @@ export const useCalendarStore = () => {
         startUpdatingHistoryExerciseNotes,
         startUpdatingHistorySetNotes,
         startLoadingStats,
+        startLoadingMuscleGroupStats,
         startLoadingWeeklyGoal,
         startSettingWeeklyGoal,
     };
