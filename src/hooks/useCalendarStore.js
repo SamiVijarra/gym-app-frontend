@@ -179,6 +179,15 @@ export const useCalendarStore = () => {
         }
     };
 
+    const startLoadingLastSets = async (exerciseId) => {
+        try {
+            const { data } = await calendarApi.get(`/calendar/history/exercise/${exerciseId}/last`);
+            return data.sets ?? [];
+        } catch {
+            return [];
+        }
+    };
+
     const startLoadingMuscleGroupStats = async () => {
         try {
             const { data } = await calendarApi.get('/calendar/stats/muscle-groups');
@@ -244,6 +253,7 @@ export const useCalendarStore = () => {
         startUpdatingHistoryExerciseNotes,
         startUpdatingHistorySetNotes,
         startLoadingStats,
+        startLoadingLastSets,
         startLoadingMuscleGroupStats,
         startLoadingWeeklyGoal,
         startSettingWeeklyGoal,
