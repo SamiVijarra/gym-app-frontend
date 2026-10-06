@@ -5,6 +5,7 @@ import { useExercisesStore, useForm } from '../../hooks';
 import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
 import { FormField } from '../../components/FormField';
+import { MuscleSelect } from '../../components/MuscleSelect';
 import { PageHeader } from '../../components/PageHeader';
 import { SectionLabel } from '../../components/SectionLabel';
 import { EmptyState } from '../../components/EmptyState';
@@ -51,10 +52,7 @@ export const ExercisesPage = () => {
         setIsCreating(true);
         const created = await startCreatingExercise({
             name,
-            primaryMuscles: primaryMuscles
-                .split(',')
-                .map((m) => m.trim())
-                .filter(Boolean),
+            primaryMuscles: [primaryMuscles],
             equipment: equipment || undefined,
             instructions: instructions
                 ? instructions
@@ -102,15 +100,13 @@ export const ExercisesPage = () => {
                             error={nameError ? 'Name is required.' : undefined}
                         />
 
-                        <FormField
+                        <MuscleSelect
                             id="primaryMuscles"
-                            label="Primary Muscles"
-                            placeholder="Glutes, Hamstrings"
                             name="primaryMuscles"
                             value={primaryMuscles}
                             onChange={onInputChange}
                             onBlur={() => onFieldBlur('primaryMuscles')}
-                            error={primaryMusclesError ? 'Primary muscles is required.' : undefined}
+                            error={primaryMusclesError ? 'Primary muscle is required.' : undefined}
                         />
 
                         <FormField
