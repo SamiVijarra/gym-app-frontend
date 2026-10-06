@@ -4,13 +4,16 @@ import { useAuthStore, useCalendarStore } from '../../hooks';
 import { PageHeader } from '../../components/PageHeader';
 import { SectionLabel } from '../../components/SectionLabel';
 import { IconMedia, ListCard } from '../../components/ListCard';
+import { MuscleGroupStats } from '../../calendar/components/MuscleGroupStats';
 
 export const HomePage = () => {
     const { user } = useAuthStore();
-    const { stats, startLoadingStats } = useCalendarStore();
+    const { stats, muscleGroupStats, startLoadingStats, startLoadingMuscleGroupStats } =
+        useCalendarStore();
 
     useEffect(() => {
         startLoadingStats();
+        startLoadingMuscleGroupStats();
     }, []);
 
     return (
@@ -83,6 +86,12 @@ export const HomePage = () => {
                             </div>
                         </div>
                     </div>
+                </section>
+
+                <section className="home-section">
+                    <SectionLabel>THIS MONTH BY MUSCLE GROUP</SectionLabel>
+
+                    <MuscleGroupStats stats={muscleGroupStats} />
                 </section>
 
                 <section className="home-section">
