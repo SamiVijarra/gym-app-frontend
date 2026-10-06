@@ -8,8 +8,10 @@ import { ToggleGroup } from '../../components/ToggleGroup';
 import { Breadcrumb } from '../../components/Breadcrumb';
 import { Card } from '../../components/Card';
 import { FormField } from '../../components/FormField';
+import { MuscleSelect } from '../../components/MuscleSelect';
 import { PageHeader } from '../../components/PageHeader';
 import { LoadingState } from '../../components/LoadingState';
+import { toKnownMuscle } from '../../calendar/muscleGroups';
 
 export const ExerciseDetailPage = () => {
     const { id } = useParams();
@@ -36,7 +38,7 @@ export const ExerciseDetailPage = () => {
     const editFieldsInitial = useMemo(
         () => ({
             name: selectedExercise?.name ?? '',
-            primaryMuscles: selectedExercise?.primaryMuscles?.join(', ') ?? '',
+            primaryMuscles: toKnownMuscle(selectedExercise?.primaryMuscles?.[0]),
             equipment: selectedExercise?.equipment ?? '',
             instructions: selectedExercise?.instructions?.join('\n') ?? '',
             imageUrl: selectedExercise?.images?.[0]?.url ?? '',
@@ -71,10 +73,7 @@ export const ExerciseDetailPage = () => {
         setIsSavingEdit(true);
         const updated = await startUpdatingExercise(id, {
             name: editName,
-            primaryMuscles: editPrimaryMuscles
-                .split(',')
-                .map((m) => m.trim())
-                .filter(Boolean),
+            primaryMuscles: [editPrimaryMuscles],
             equipment: editEquipment || undefined,
             instructions: editInstructions
                 ? editInstructions
@@ -200,16 +199,15 @@ export const ExerciseDetailPage = () => {
                                 error={editNameError ? 'Name is required.' : undefined}
                             />
 
-                            <FormField
+                            <MuscleSelect
                                 id="edit-primaryMuscles"
-                                label="Primary Muscles"
                                 name="primaryMuscles"
                                 value={editPrimaryMuscles}
                                 onChange={onEditInputChange}
                                 onBlur={() => onFieldBlur('primaryMuscles')}
                                 error={
                                     editPrimaryMusclesError
-                                        ? 'Primary muscles is required.'
+                                        ? 'Primary muscle is required.'
                                         : undefined
                                 }
                             />
