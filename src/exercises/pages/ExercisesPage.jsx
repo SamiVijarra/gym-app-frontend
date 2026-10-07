@@ -43,7 +43,7 @@ export const ExercisesPage = () => {
         }, 400);
 
         return () => clearTimeout(timeoutId);
-    }, [searchTerm]);
+    }, [searchTerm, startSearchingExercises]);
 
     const onCreateExercise = async (event) => {
         event.preventDefault();

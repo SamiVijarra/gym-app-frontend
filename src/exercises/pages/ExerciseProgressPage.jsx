@@ -40,7 +40,7 @@ export const ExerciseProgressPage = () => {
     useEffect(() => {
         startLoadingExercise(id);
         startLoadingExerciseHistory(id);
-    }, [id]);
+    }, [id, startLoadingExercise, startLoadingExerciseHistory]);
 
     const sessions = exerciseHistory[id] ?? [];
 

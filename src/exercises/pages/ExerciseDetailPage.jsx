@@ -63,7 +63,7 @@ export const ExerciseDetailPage = () => {
     useEffect(() => {
         startLoadingExercise(id);
         startLoadingRoutine();
-    }, [id]);
+    }, [id, startLoadingExercise, startLoadingRoutine]);
 
     const canEdit = selectedExercise?.createdBy?.id === user?.id;
 
