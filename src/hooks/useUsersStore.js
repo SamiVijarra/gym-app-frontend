@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import calendarApi from '../api/calendarApi';
 import { onLoadingProfile, onProfileError, onSetProfile } from '../store';
@@ -7,7 +8,7 @@ export const useUsersStore = () => {
     const { isLoading, profile, errorMessage } = useSelector((state) => state.users);
     const { user } = useSelector((state) => state.auth);
 
-    const startLoadingProfile = async () => {
+    const startLoadingProfile = useCallback(async () => {
         dispatch(onLoadingProfile());
         try {
             const { data } = await calendarApi.get(`/users/${user.id}`);
@@ -17,7 +18,7 @@ export const useUsersStore = () => {
                 onProfileError(error.response?.data?.message || 'The profile could not be loaded')
             );
         }
-    };
+    }, [dispatch, user.id]);
 
     const startUpdatingProfile = async (profileData) => {
         dispatch(onLoadingProfile());
