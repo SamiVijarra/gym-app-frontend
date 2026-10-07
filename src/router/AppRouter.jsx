@@ -50,7 +50,7 @@ export const AppRouter = () => {
 
     useEffect(() => {
         checkAuthToken();
-    }, []);
+    }, [checkAuthToken]);
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', mode);

@@ -26,7 +26,7 @@ export const RoutinePage = () => {
 
     useEffect(() => {
         startLoadingRoutine();
-    }, []);
+    }, [startLoadingRoutine]);
 
     const onCreateDay = async (event) => {
         event.preventDefault();

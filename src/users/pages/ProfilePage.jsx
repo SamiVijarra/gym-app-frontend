@@ -27,7 +27,7 @@ export const ProfilePage = () => {
 
     useEffect(() => {
         startLoadingProfile();
-    }, []);
+    }, [startLoadingProfile]);
 
     const currentBirthDate = birthDate?.split('T')[0] ?? '';
     const originalBirthDate = profile?.birthDate?.split('T')[0] ?? '';
