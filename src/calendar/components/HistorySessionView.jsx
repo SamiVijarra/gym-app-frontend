@@ -8,6 +8,7 @@ import { SetsTable } from '../../components/SetsTable';
 const InlineNotesEditor = ({ id, initialNotes, onSave }) => {
     const [notes, setNotes] = useState(initialNotes ?? '');
     const [isSaving, setIsSaving] = useState(false);
+    const isDirty = notes !== (initialNotes ?? '');
 
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -29,9 +30,11 @@ const InlineNotesEditor = ({ id, initialNotes, onSave }) => {
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
             />
-            <Button type="submit" variant="secondary" size="sm" disabled={isSaving}>
-                {isSaving ? '...' : 'Save'}
-            </Button>
+            {isDirty && (
+                <Button type="submit" variant="secondary" size="sm" disabled={isSaving}>
+                    {isSaving ? '...' : 'Save'}
+                </Button>
+            )}
         </form>
     );
 };
@@ -68,14 +71,19 @@ export const HistorySessionView = ({ historyEntry }) => {
                     }
                 >
                     <div style={{ padding: '16px 24px 24px' }}>
-                        <InlineNotesEditor
-                            id={`exercise-notes-${historyExercise.id}`}
-                            initialNotes={historyExercise.notes}
-                            onSave={async (notes) => {
-                                await startUpdatingHistoryExerciseNotes(historyExercise.id, notes);
-                                await refresh();
-                            }}
-                        />
+                        <div className="session-exercise-notes">
+                            <InlineNotesEditor
+                                id={`exercise-notes-${historyExercise.id}`}
+                                initialNotes={historyExercise.notes}
+                                onSave={async (notes) => {
+                                    await startUpdatingHistoryExerciseNotes(
+                                        historyExercise.id,
+                                        notes
+                                    );
+                                    await refresh();
+                                }}
+                            />
+                        </div>
 
                         <SetsTable columns={['Set', 'Weight', 'Reps', 'Rest', 'Notes']}>
                             {historyExercise.sets.map((set) => (
