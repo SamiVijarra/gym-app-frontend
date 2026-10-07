@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom';
 import {
     SidebarAside,
     SidebarBrand,
     SidebarBrandIcon,
+    SidebarBrandLink,
     SidebarCloseButton,
     SidebarCollapseButton,
+    SidebarFooter,
     SidebarLabel,
     SidebarLink,
     SidebarNav,
@@ -30,37 +31,17 @@ export const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }: Side
         <>
             <SidebarOverlay $isOpen={isOpen} onClick={onClose} />
             <SidebarAside $isOpen={isOpen} $isCollapsed={isCollapsed}>
-                <SidebarBrand>
-                    <Link
-                        to="/"
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 8,
-                            textDecoration: 'none',
-                            color: 'inherit',
-                            overflow: 'hidden',
-                        }}
-                    >
+                <SidebarBrand $isCollapsed={isCollapsed}>
+                    <SidebarBrandLink to="/" onClick={onClose} aria-label="Gym Tracker home">
                         <SidebarBrandIcon>
                             <i className="fas fa-calendar-alt"></i>
                         </SidebarBrandIcon>
                         <SidebarLabel $isCollapsed={isCollapsed}>Gym Tracker</SidebarLabel>
-                    </Link>
+                    </SidebarBrandLink>
 
                     <SidebarCloseButton onClick={onClose} aria-label="Close menu">
                         <i className="fas fa-xmark"></i>
                     </SidebarCloseButton>
-
-                    <SidebarCollapseButton
-                        onClick={onToggleCollapse}
-                        aria-label={isCollapsed ? 'Expand menu' : 'Collapse menu'}
-                        title={isCollapsed ? 'Expand menu' : 'Collapse menu'}
-                    >
-                        <i
-                            className={`fas ${isCollapsed ? 'fa-angles-right' : 'fa-angles-left'}`}
-                        ></i>
-                    </SidebarCollapseButton>
                 </SidebarBrand>
 
                 <SidebarNav>
@@ -70,12 +51,27 @@ export const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }: Side
                             to={link.to}
                             onClick={onClose}
                             title={link.label}
+                            $isCollapsed={isCollapsed}
                         >
                             <i className={`fas ${link.icon}`}></i>
                             <SidebarLabel $isCollapsed={isCollapsed}>{link.label}</SidebarLabel>
                         </SidebarLink>
                     ))}
                 </SidebarNav>
+
+                <SidebarFooter>
+                    <SidebarCollapseButton
+                        onClick={onToggleCollapse}
+                        aria-label={isCollapsed ? 'Expand menu' : 'Collapse menu'}
+                        title={isCollapsed ? 'Expand menu' : 'Collapse menu'}
+                        $isCollapsed={isCollapsed}
+                    >
+                        <i
+                            className={`fas ${isCollapsed ? 'fa-angles-right' : 'fa-angles-left'}`}
+                        ></i>
+                        <SidebarLabel $isCollapsed={isCollapsed}>Collapse</SidebarLabel>
+                    </SidebarCollapseButton>
+                </SidebarFooter>
             </SidebarAside>
         </>
     );
