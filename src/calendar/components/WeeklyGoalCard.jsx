@@ -25,15 +25,43 @@ export const WeeklyGoalCard = () => {
 
     if (!weeklyGoal) return null;
 
+    const hasGoal = Boolean(weeklyGoal.targetDays);
+    const isComplete = hasGoal && weeklyGoal.doneDays >= weeklyGoal.targetDays;
+
     return (
-        <Card variant="surface" className="weekly-goal-card">
+        <Card
+            variant="surface"
+            className={`weekly-goal-card${isComplete ? ' weekly-goal-card-complete' : ''}`}
+        >
             <div>
                 <span className="weekly-goal-label">THIS WEEK'S GOAL</span>
 
                 {weeklyGoal.targetDays ? (
-                    <p className="weekly-goal-progress">
-                        {weeklyGoal.doneDays} of {weeklyGoal.targetDays} days trained
-                    </p>
+                    <>
+                        <p className="weekly-goal-progress">
+                            {weeklyGoal.doneDays} of {weeklyGoal.targetDays}{' '}
+                            {weeklyGoal.targetDays === 1 ? 'day' : 'days'} trained
+                        </p>
+
+                        <div className="weekly-goal-dots" aria-hidden="true">
+                            {Array.from({ length: weeklyGoal.targetDays }, (_, index) => (
+                                <span
+                                    key={index}
+                                    className={`weekly-goal-dot${
+                                        index < weeklyGoal.doneDays ? ' weekly-goal-dot-done' : ''
+                                    }`}
+                                    style={{ '--dot-index': index }}
+                                ></span>
+                            ))}
+                        </div>
+
+                        {isComplete && (
+                            <p className="weekly-goal-reached">
+                                <i className="fas fa-fire"></i>
+                                Goal reached! This week counts for your streak.
+                            </p>
+                        )}
+                    </>
                 ) : (
                     <p className="weekly-goal-progress">No goal set for this week yet.</p>
                 )}
@@ -49,7 +77,9 @@ export const WeeklyGoalCard = () => {
                     onChange={(e) => setTargetDays(e.target.value)}
                 >
                     <option value="">
-                        {weeklyGoal.targetDays ? `${weeklyGoal.targetDays} days` : 'Set days...'}
+                        {weeklyGoal.targetDays
+                            ? `${weeklyGoal.targetDays} ${weeklyGoal.targetDays === 1 ? 'day' : 'days'}`
+                            : 'Set days...'}
                     </option>
                     {[1, 2, 3, 4, 5, 6, 7].map((n) => (
                         <option key={n} value={n}>
