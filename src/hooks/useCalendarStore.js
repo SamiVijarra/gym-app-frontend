@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     onLoadingCalendar,
@@ -32,19 +33,22 @@ export const useCalendarStore = () => {
         weeklyGoal,
     } = useSelector((state) => state.calendar);
 
-    const startLoadingMonth = async (year, month) => {
-        dispatch(onLoadingCalendar());
-        try {
-            const { data } = await calendarApi.get('/calendar', { params: { year, month } });
-            dispatch(onSetCalendarEntries(data));
-        } catch (error) {
-            dispatch(
-                onCalendarError(
-                    error.response?.data?.message || 'The calendar could not be loaded.'
-                )
-            );
-        }
-    };
+    const startLoadingMonth = useCallback(
+        async (year, month) => {
+            dispatch(onLoadingCalendar());
+            try {
+                const { data } = await calendarApi.get('/calendar', { params: { year, month } });
+                dispatch(onSetCalendarEntries(data));
+            } catch (error) {
+                dispatch(
+                    onCalendarError(
+                        error.response?.data?.message || 'The calendar could not be loaded.'
+                    )
+                );
+            }
+        },
+        [dispatch]
+    );
     const startPlanningDay = async (planDayDto) => {
         try {
             await calendarApi.post('/calendar/plan-day', planDayDto);
@@ -113,30 +117,38 @@ export const useCalendarStore = () => {
         }
     };
 
-    const startLoadingHistoryEntry = async (id) => {
-        try {
-            const { data } = await calendarApi.get(`/calendar/history/${id}`);
-            dispatch(onSetHistoryEntry(data));
-        } catch (error) {
-            dispatch(
-                onCalendarError(error.response?.data?.message || 'The history could not be loaded')
-            );
-        }
-    };
+    const startLoadingHistoryEntry = useCallback(
+        async (id) => {
+            try {
+                const { data } = await calendarApi.get(`/calendar/history/${id}`);
+                dispatch(onSetHistoryEntry(data));
+            } catch (error) {
+                dispatch(
+                    onCalendarError(
+                        error.response?.data?.message || 'The history could not be loaded'
+                    )
+                );
+            }
+        },
+        [dispatch]
+    );
 
-    const startLoadingExerciseHistory = async (exerciseId) => {
-        dispatch(onLoadingCalendar());
-        try {
-            const { data } = await calendarApi.get(`/calendar/history/exercise/${exerciseId}`);
-            dispatch(onSetExerciseHistory({ exerciseId, sessions: data }));
-        } catch (error) {
-            dispatch(
-                onCalendarError(
-                    error.response?.data?.message || 'The exercise history could not be loaded'
-                )
-            );
-        }
-    };
+    const startLoadingExerciseHistory = useCallback(
+        async (exerciseId) => {
+            dispatch(onLoadingCalendar());
+            try {
+                const { data } = await calendarApi.get(`/calendar/history/exercise/${exerciseId}`);
+                dispatch(onSetExerciseHistory({ exerciseId, sessions: data }));
+            } catch (error) {
+                dispatch(
+                    onCalendarError(
+                        error.response?.data?.message || 'The exercise history could not be loaded'
+                    )
+                );
+            }
+        },
+        [dispatch]
+    );
 
     const startUpdatingHistoryExerciseNotes = async (id, notes) => {
         try {
@@ -167,7 +179,7 @@ export const useCalendarStore = () => {
         }
     };
 
-    const startLoadingStats = async () => {
+    const startLoadingStats = useCallback(async () => {
         dispatch(onLoadingCalendar());
         try {
             const { data } = await calendarApi.get('/calendar/stats');
@@ -177,7 +189,7 @@ export const useCalendarStore = () => {
                 onCalendarError(error.response?.data?.message || 'The stats could not be loaded')
             );
         }
-    };
+    }, [dispatch]);
 
     const startLoadingLastSets = async (exerciseId) => {
         try {
@@ -188,7 +200,7 @@ export const useCalendarStore = () => {
         }
     };
 
-    const startLoadingMuscleGroupStats = async () => {
+    const startLoadingMuscleGroupStats = useCallback(async () => {
         try {
             const { data } = await calendarApi.get('/calendar/stats/muscle-groups');
             dispatch(onSetMuscleGroupStats(data));
@@ -199,22 +211,25 @@ export const useCalendarStore = () => {
                 )
             );
         }
-    };
+    }, [dispatch]);
 
-    const startLoadingWeeklyGoal = async (weekStart) => {
-        try {
-            const { data } = await calendarApi.get('/calendar/weekly-goal', {
-                params: { weekStart },
-            });
-            dispatch(onSetWeeklyGoal(data));
-        } catch (error) {
-            dispatch(
-                onCalendarError(
-                    error.response?.data?.message || 'The weekly goal could not be loaded'
-                )
-            );
-        }
-    };
+    const startLoadingWeeklyGoal = useCallback(
+        async (weekStart) => {
+            try {
+                const { data } = await calendarApi.get('/calendar/weekly-goal', {
+                    params: { weekStart },
+                });
+                dispatch(onSetWeeklyGoal(data));
+            } catch (error) {
+                dispatch(
+                    onCalendarError(
+                        error.response?.data?.message || 'The weekly goal could not be loaded'
+                    )
+                );
+            }
+        },
+        [dispatch]
+    );
 
     const startSettingWeeklyGoal = async (weekStart, targetDays) => {
         try {

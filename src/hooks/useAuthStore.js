@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import calendarApi from '../api/calendarApi';
 import { clearErrorMessage, onChecking, onLogin, onLogout } from '../store';
@@ -46,7 +47,7 @@ export const useAuthStore = () => {
         }
     };
 
-    const checkAuthToken = async () => {
+    const checkAuthToken = useCallback(async () => {
         const token = localStorage.getItem('token');
         if (!token) return dispatch(onLogout());
 
@@ -61,7 +62,7 @@ export const useAuthStore = () => {
             clearSession();
             dispatch(onLogout());
         }
-    };
+    }, [dispatch]);
 
     const startLogout = () => {
         clearSession();
