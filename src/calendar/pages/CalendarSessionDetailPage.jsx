@@ -16,7 +16,7 @@ export const CalendarSessionDetailPage = () => {
 
     useEffect(() => {
         startLoadingHistoryEntry(historyEntryId);
-    }, [historyEntryId]);
+    }, [historyEntryId, startLoadingHistoryEntry]);
     return (
         <main className="routine-detail-page">
             <div className="routine-detail-container">

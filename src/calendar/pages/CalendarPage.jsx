@@ -37,7 +37,7 @@ export const CalendarPage = () => {
 
     useEffect(() => {
         startLoadingMonth(year, month);
-    }, [year, month]);
+    }, [startLoadingMonth, year, month]);
 
     const entriesByDate = useMemo(() => {
         const map = new Map();
