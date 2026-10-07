@@ -14,7 +14,7 @@ export const HomePage = () => {
     useEffect(() => {
         startLoadingStats();
         startLoadingMuscleGroupStats();
-    }, []);
+    }, [startLoadingStats, startLoadingMuscleGroupStats]);
 
     return (
         <main className="app-page home-page">
