@@ -31,8 +31,11 @@ export const CalendarDayPage = () => {
 
     useEffect(() => {
         startLoadingMonth(year, month);
+    }, [startLoadingMonth, year, month]);
+
+    useEffect(() => {
         startLoadingRoutine();
-    }, []);
+    }, [startLoadingRoutine]);
 
     const dayEntries = entries.filter((e) => e.date === date && e.status !== 'empty');
 

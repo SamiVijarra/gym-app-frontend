@@ -4,7 +4,6 @@ import { useCalendarStore } from '../../hooks';
 import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
 import { FormField } from '../../components/FormField';
-import { Form } from 'react-router-dom';
 
 export const WeeklyGoalCard = () => {
     const weekStart = format(startOfWeek(new Date(), { weekStartsOn: 1 }), 'yyyy-MM-dd');
@@ -14,7 +13,7 @@ export const WeeklyGoalCard = () => {
 
     useEffect(() => {
         startLoadingWeeklyGoal(weekStart);
-    }, [weekStart]);
+    }, [weekStart, startLoadingWeeklyGoal]);
 
     const onSave = async (event) => {
         event.preventDefault();

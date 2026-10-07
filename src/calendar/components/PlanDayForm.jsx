@@ -23,7 +23,7 @@ export const PlanDayForm = ({ date, onPlanned }) => {
 
     useEffect(() => {
         startLoadingRoutine();
-    }, []);
+    }, [startLoadingRoutine]);
 
     const addExercise = (exercise) => {
         setSelectedExercises((current) =>
