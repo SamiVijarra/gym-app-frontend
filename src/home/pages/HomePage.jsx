@@ -3,8 +3,14 @@ import { Link } from 'react-router-dom';
 import { useAuthStore, useCalendarStore } from '../../hooks';
 import { PageHeader } from '../../components/PageHeader';
 import { SectionLabel } from '../../components/SectionLabel';
-import { IconMedia, ListCard } from '../../components/ListCard';
 import { MuscleGroupStats } from '../../calendar/components/MuscleGroupStats';
+
+const QUICK_LINKS = [
+    { to: '/routine', label: 'Routines', icon: 'fa-calendar-alt' },
+    { to: '/exercises', label: 'Exercises', icon: 'fa-dumbbell' },
+    { to: '/profile', label: 'Profile', icon: 'fa-user' },
+    { to: '/calendar', label: 'Calendar', icon: 'fa-calendar-check' },
+];
 
 export const HomePage = () => {
     const { user } = useAuthStore();
@@ -25,24 +31,31 @@ export const HomePage = () => {
                     subtitle="All set to track your progress."
                 />
 
-                <section className="home-featured">
-                    <div className="home-featured-content">
-                        <span className="home-card-label">YOUR TRAINING</span>
-
-                        <h2>Training Routine</h2>
-
-                        <p>Access your routines and start your workout.</p>
-
-                        <Link to="/routine" className="home-primary-action">
-                            View routines
-                            <span>→</span>
-                        </Link>
-                    </div>
-
-                    <div className="home-featured-icon">
+                <section className="home-banner">
+                    <div className="home-banner-icon">
                         <i className="fas fa-dumbbell"></i>
                     </div>
+
+                    <div className="home-banner-text">
+                        <span className="home-card-label">YOUR TRAINING</span>
+                        <h2>Training Routine</h2>
+                        <p>Open your routines and start your workout.</p>
+                    </div>
+
+                    <Link to="/routine" className="home-primary-action">
+                        View routines
+                        <span>→</span>
+                    </Link>
                 </section>
+
+                <nav className="home-quick-grid" aria-label="Quick access">
+                    {QUICK_LINKS.map((link) => (
+                        <Link key={link.to} to={link.to} className="home-quick-tile">
+                            <i className={`fas ${link.icon}`}></i>
+                            {link.label}
+                        </Link>
+                    ))}
+                </nav>
 
                 <section className="home-section">
                     <SectionLabel>YOUR PROGRESS</SectionLabel>
@@ -65,12 +78,25 @@ export const HomePage = () => {
                         </div>
 
                         <div className="home-stat-card">
-                            <div className="home-stat-icon home-stat-icon-accent">
+                            <div
+                                className={`home-stat-icon home-stat-icon-streak${
+                                    stats?.currentStreakWeeks > 0
+                                        ? ' home-stat-icon-streak-active'
+                                        : ''
+                                }`}
+                            >
                                 <i className="fas fa-fire"></i>
                             </div>
                             <div>
                                 <strong>{stats ? stats.currentStreakWeeks : '–'}</strong>
                                 <span>Week streak</span>
+                                {stats && (
+                                    <p className="home-stat-sub">
+                                        {stats.currentStreakWeeks > 0
+                                            ? 'Keep it going!'
+                                            : 'Hit your weekly goal to start one'}
+                                    </p>
+                                )}
                             </div>
                         </div>
 
@@ -92,55 +118,6 @@ export const HomePage = () => {
                     <SectionLabel>THIS MONTH BY MUSCLE GROUP</SectionLabel>
 
                     <MuscleGroupStats stats={muscleGroupStats} />
-                </section>
-
-                <section className="home-section">
-                    <SectionLabel>QUICK ACCESS</SectionLabel>
-
-                    <div className="home-quick-grid">
-                        <ListCard
-                            to="/routine"
-                            media={
-                                <IconMedia>
-                                    <i className="fas fa-calendar-alt"></i>
-                                </IconMedia>
-                            }
-                            title="Routines"
-                            subtitle="View your workouts"
-                        />
-
-                        <ListCard
-                            to="/exercises"
-                            media={
-                                <IconMedia>
-                                    <i className="fas fa-dumbbell"></i>
-                                </IconMedia>
-                            }
-                            title="Exercises"
-                            subtitle="Explore exercises"
-                        />
-
-                        <ListCard
-                            to="/profile"
-                            media={
-                                <IconMedia>
-                                    <i className="fas fa-user"></i>
-                                </IconMedia>
-                            }
-                            title="My Profile"
-                            subtitle="View your information"
-                        />
-                        <ListCard
-                            to="/calendar"
-                            media={
-                                <IconMedia>
-                                    <i className="fas fa-calendar-check"></i>
-                                </IconMedia>
-                            }
-                            title="Calendar"
-                            subtitle="Plan & view history"
-                        />
-                    </div>
                 </section>
             </div>
         </main>
