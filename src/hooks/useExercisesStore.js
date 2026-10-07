@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import calendarApi from '../api/calendarApi';
 import { getErrorMessage } from '../helpers';
@@ -14,34 +15,40 @@ export const useExercisesStore = () => {
         (state) => state.exercises
     );
 
-    const startSearchingExercises = async ({ name, muscle, muscleGroup, equipment } = {}) => {
-        dispatch(onLoadingExercises());
-        try {
-            const { data } = await calendarApi.get('/exercises', {
-                params: { name, muscle, muscleGroup, equipment },
-            });
-            dispatch(onSetExercises(data));
-        } catch (error) {
-            dispatch(
-                onExercisesError(
-                    error.response?.data?.message || 'The exercises could not be loaded'
-                )
-            );
-        }
-    };
+    const startSearchingExercises = useCallback(
+        async ({ name, muscle, muscleGroup, equipment } = {}) => {
+            dispatch(onLoadingExercises());
+            try {
+                const { data } = await calendarApi.get('/exercises', {
+                    params: { name, muscle, muscleGroup, equipment },
+                });
+                dispatch(onSetExercises(data));
+            } catch (error) {
+                dispatch(
+                    onExercisesError(
+                        error.response?.data?.message || 'The exercises could not be loaded'
+                    )
+                );
+            }
+        },
+        [dispatch]
+    );
 
-    const startLoadingExercise = async (id) => {
-        try {
-            const { data } = await calendarApi.get(`/exercises/${id}`);
-            dispatch(onSetSelectedExercise(data));
-        } catch (error) {
-            dispatch(
-                onExercisesError(
-                    error.response?.data?.message || 'The exercise could not be loaded'
-                )
-            );
-        }
-    };
+    const startLoadingExercise = useCallback(
+        async (id) => {
+            try {
+                const { data } = await calendarApi.get(`/exercises/${id}`);
+                dispatch(onSetSelectedExercise(data));
+            } catch (error) {
+                dispatch(
+                    onExercisesError(
+                        error.response?.data?.message || 'The exercise could not be loaded'
+                    )
+                );
+            }
+        },
+        [dispatch]
+    );
 
     const startCreatingExercise = async (createExerciseDto) => {
         try {

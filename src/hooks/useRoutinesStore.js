@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import calendarApi from '../api/calendarApi';
 import { onLoadingRoutine, onSetRoutine, onRoutineError } from '../store';
@@ -6,7 +7,7 @@ export const useRoutinesStore = () => {
     const dispatch = useDispatch();
     const { isLoading, days, errorMessage } = useSelector((state) => state.routines);
 
-    const startLoadingRoutine = async () => {
+    const startLoadingRoutine = useCallback(async () => {
         dispatch(onLoadingRoutine());
         try {
             const { data } = await calendarApi.get('/routines');
@@ -16,7 +17,7 @@ export const useRoutinesStore = () => {
                 onRoutineError(error.response?.data?.message || 'The routine could not be loaded')
             );
         }
-    };
+    }, [dispatch]);
 
     const startCreatingDay = async (dayData) => {
         try {
