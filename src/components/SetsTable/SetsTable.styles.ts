@@ -13,6 +13,13 @@ export const Table = styled.table`
     min-width: 560px;
     border-collapse: collapse;
     color: var(--app-text);
+
+    td {
+        padding: 10px 14px;
+        border-top: 1px solid var(--app-border);
+        font-size: 13px;
+        vertical-align: middle;
+    }
 `;
 
 export const Thead = styled.thead`
