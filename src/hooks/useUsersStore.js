@@ -25,12 +25,30 @@ export const useUsersStore = () => {
         try {
             const { data } = await calendarApi.patch(`/users/${user.id}`, profileData);
             dispatch(onSetProfile(data));
+            return true;
         } catch (error) {
             dispatch(
                 onProfileError(error.response?.data?.message || 'The profile could not be updated')
             );
+            return false;
         }
     };
+
+    const startChangingPassword = async (currentPassword, newPassword) => {
+        try {
+            await calendarApi.patch(`/users/${user.id}/password`, { currentPassword, newPassword });
+            return { ok: true, message: 'Your password was updated.' };
+        } catch (error) {
+            const message = error.response?.data?.message;
+            return {
+                ok: false,
+                message:
+                    (Array.isArray(message) ? message[0] : message) ||
+                    'The password could not be updated',
+            };
+        }
+    };
+
     return {
         isLoading,
         profile,
@@ -38,5 +56,6 @@ export const useUsersStore = () => {
 
         startLoadingProfile,
         startUpdatingProfile,
+        startChangingPassword,
     };
 };
