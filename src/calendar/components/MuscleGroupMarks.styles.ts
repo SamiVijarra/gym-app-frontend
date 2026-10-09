@@ -10,6 +10,15 @@ export const Marks = styled.span`
     gap: 2px;
     max-width: 26px;
     pointer-events: none;
+
+    @media (max-width: 640px) {
+        top: auto;
+        bottom: 5px;
+        left: 50%;
+        flex-wrap: nowrap;
+        max-width: none;
+        transform: translateX(-50%);
+    }
 `;
 
 export const Mark = styled.span<{ $color: string }>`
@@ -17,6 +26,11 @@ export const Mark = styled.span<{ $color: string }>`
     height: 12px;
     border-radius: 2px;
     background: ${({ $color }) => $color};
+
+    @media (max-width: 640px) {
+        width: 5px;
+        height: 4px;
+    }
 `;
 
 export const ChipList = styled.div`
