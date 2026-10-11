@@ -12,6 +12,8 @@ import {
     ResultName,
     Results,
 } from './ExercisePicker.styles';
+import { useTranslation } from 'react-i18next';
+import { useMuscleLabels } from '../../i18n/muscles';
 
 interface PickerExercise {
     id: string;
@@ -33,6 +35,8 @@ export const ExercisePicker = ({
     excludeIds = [],
     idPrefix = 'exercise-picker',
 }: ExercisePickerProps) => {
+    const { t } = useTranslation();
+    const { groupLabel, muscleLabel } = useMuscleLabels();
     const { exercises, isLoading, startSearchingExercises } = useExercisesStore();
 
     const [group, setGroup] = useState<MuscleGroupKey | null>(null);
@@ -66,7 +70,7 @@ export const ExercisePicker = ({
 
     return (
         <div>
-            <GroupButtons role="group" aria-label="Muscle groups">
+            <GroupButtons role="group" aria-label={t('exercisePicker.groups')}>
                 {MUSCLE_GROUPS.map((item) => (
                     <GroupButton
                         key={item.key}
@@ -77,24 +81,26 @@ export const ExercisePicker = ({
                         onClick={() => onToggleGroup(item.key)}
                     >
                         <GroupDot $color={item.color} />
-                        {item.label}
+                        {groupLabel(item.key)}
                     </GroupButton>
                 ))}
             </GroupButtons>
 
             <FormField
                 id={`${idPrefix}-search`}
-                label="Search by name"
-                placeholder="Type at least 3 letters..."
+                label={t('exercisePicker.searchLabel')}
+                placeholder={t('exercisePicker.searchPlaceholder')}
                 value={searchTerm}
                 onChange={(event) => setSearchTerm(event.target.value)}
             />
 
-            {!hasQuery && <Hint>Choose a muscle group or search by name to see exercises.</Hint>}
+            {!hasQuery && <Hint>{t('exercisePicker.hint')}</Hint>}
 
-            {hasQuery && isLoading && <Hint>Loading exercises...</Hint>}
+            {hasQuery && isLoading && <Hint>{t('exercisePicker.loading')}</Hint>}
 
-            {hasQuery && !isLoading && results.length === 0 && <Hint>No exercises found.</Hint>}
+            {hasQuery && !isLoading && results.length === 0 && (
+                <Hint>{t('exercisePicker.empty')}</Hint>
+            )}
 
             {hasQuery && results.length > 0 && (
                 <Results>
@@ -103,7 +109,7 @@ export const ExercisePicker = ({
                             <ResultButton type="button" onClick={() => onSelect(exercise)}>
                                 <ResultName>{exercise.name}</ResultName>
                                 <ResultMeta>
-                                    {exercise.primaryMuscles?.join(', ')}
+                                    {exercise.primaryMuscles?.map(muscleLabel).join(', ')}
                                     {exercise.equipment ? ` — ${exercise.equipment}` : ''}
                                 </ResultMeta>
                             </ResultButton>

@@ -11,6 +11,9 @@ import {
     Rows,
     Track,
 } from './MuscleGroupStats.styles';
+import { useTranslation } from 'react-i18next';
+import { useLocaleFormat } from '../../i18n/format';
+import { useMuscleLabels } from '../../i18n/muscles';
 
 interface MuscleGroupStat {
     group: string;
@@ -22,19 +25,20 @@ interface MuscleGroupStatsProps {
     stats: { month: string; groups: MuscleGroupStat[] } | null;
 }
 
-const formatMonth = (month: string): string => {
-    const [year, monthNumber] = month.split('-').map(Number);
-    return new Date(year, monthNumber - 1, 1).toLocaleDateString('en-US', {
-        month: 'long',
-        year: 'numeric',
-    });
-};
-
 export const MuscleGroupStats = ({ stats }: MuscleGroupStatsProps) => {
+    const { t } = useTranslation();
+    const { groupLabel } = useMuscleLabels();
+    const { formatMonthYear, formatNumber } = useLocaleFormat();
+
+    const formatMonth = (month: string): string => {
+        const [year, monthNumber] = month.split('-').map(Number);
+        return formatMonthYear(new Date(year, monthNumber - 1, 1));
+    };
+
     if (!stats) {
         return (
             <Panel>
-                <Hint>Loading...</Hint>
+                <Hint>{t('common.loading')}</Hint>
             </Panel>
         );
     }
@@ -49,7 +53,7 @@ export const MuscleGroupStats = ({ stats }: MuscleGroupStatsProps) => {
             <MonthLabel>{formatMonth(stats.month)}</MonthLabel>
 
             {active.length === 0 ? (
-                <Hint>No sessions logged this month yet.</Hint>
+                <Hint>{t('muscleStats.empty')}</Hint>
             ) : (
                 <Rows>
                     {active.map((item) => {
@@ -62,12 +66,11 @@ export const MuscleGroupStats = ({ stats }: MuscleGroupStatsProps) => {
                                 <RowHeader>
                                     <GroupName>
                                         <Dot $color={info.color} />
-                                        {info.label}
+                                        {groupLabel(info.key)}
                                     </GroupName>
                                     <Numbers>
-                                        {item.sessions}{' '}
-                                        {item.sessions === 1 ? 'session' : 'sessions'} ·{' '}
-                                        {Math.round(item.volumeKg).toLocaleString()} kg
+                                        {t('counts.session', { count: item.sessions })} ·{' '}
+                                        {formatNumber(Math.round(item.volumeKg))} {t('common.kg')}
                                     </Numbers>
                                 </RowHeader>
                                 <Track aria-hidden="true">

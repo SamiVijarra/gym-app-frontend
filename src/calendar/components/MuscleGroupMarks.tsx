@@ -1,5 +1,7 @@
 import { MUSCLE_GROUPS, getMuscleGroupInfo } from '../muscleGroups';
 import { Chip, ChipList, Dot, LegendWrapper, Mark, Marks } from './MuscleGroupMarks.styles';
+import { useTranslation } from 'react-i18next';
+import { useMuscleLabels } from '../../i18n/muscles';
 
 interface MuscleGroupsProps {
     groups?: string[];
@@ -19,6 +21,7 @@ export const MuscleGroupMarks = ({ groups = [] }: MuscleGroupsProps) => {
 };
 
 export const MuscleGroupChips = ({ groups = [] }: MuscleGroupsProps) => {
+    const { groupLabel } = useMuscleLabels();
     const infos = groups.map(getMuscleGroupInfo).filter((info) => info !== undefined);
     if (infos.length === 0) return null;
 
@@ -27,20 +30,25 @@ export const MuscleGroupChips = ({ groups = [] }: MuscleGroupsProps) => {
             {infos.map((info) => (
                 <Chip key={info.key}>
                     <Dot $color={info.color} />
-                    {info.label}
+                    {groupLabel(info.key)}
                 </Chip>
             ))}
         </ChipList>
     );
 };
 
-export const MuscleGroupLegend = () => (
-    <LegendWrapper aria-label="Muscle group colors">
-        {MUSCLE_GROUPS.map((group) => (
-            <Chip key={group.key}>
-                <Dot $color={group.color} />
-                {group.label}
-            </Chip>
-        ))}
-    </LegendWrapper>
-);
+export const MuscleGroupLegend = () => {
+    const { t } = useTranslation();
+    const { groupLabel } = useMuscleLabels();
+
+    return (
+        <LegendWrapper aria-label={t('calendar.legend')}>
+            {MUSCLE_GROUPS.map((group) => (
+                <Chip key={group.key}>
+                    <Dot $color={group.color} />
+                    {groupLabel(group.key)}
+                </Chip>
+            ))}
+        </LegendWrapper>
+    );
+};
