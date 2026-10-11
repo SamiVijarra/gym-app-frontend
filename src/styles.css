@@ -1279,8 +1279,6 @@ body {
 
     font-size: 10px;
 
-    text-transform: capitalize;
-
     text-overflow: ellipsis;
 
     white-space: nowrap;
@@ -1721,6 +1719,15 @@ body {
     position: absolute;
     top: 24px;
     right: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.gym-navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .auth-container {
@@ -2097,7 +2104,6 @@ body {
     color: var(--app-text);
     font-size: 18px;
     font-weight: 700;
-    text-transform: capitalize;
 }
 
 .calendar-today-button {
