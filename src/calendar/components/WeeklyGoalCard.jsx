@@ -4,8 +4,10 @@ import { useCalendarStore } from '../../hooks';
 import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
 import { FormField } from '../../components/FormField';
+import { useTranslation } from 'react-i18next';
 
 export const WeeklyGoalCard = () => {
+    const { t } = useTranslation();
     const weekStart = format(startOfWeek(new Date(), { weekStartsOn: 1 }), 'yyyy-MM-dd');
     const { weeklyGoal, startLoadingWeeklyGoal, startSettingWeeklyGoal } = useCalendarStore();
     const [targetDays, setTargetDays] = useState('');
@@ -34,13 +36,15 @@ export const WeeklyGoalCard = () => {
             className={`weekly-goal-card${isComplete ? ' weekly-goal-card-complete' : ''}`}
         >
             <div>
-                <span className="weekly-goal-label">THIS WEEK'S GOAL</span>
+                <span className="weekly-goal-label">{t('calendar.weeklyGoal')}</span>
 
                 {weeklyGoal.targetDays ? (
                     <>
                         <p className="weekly-goal-progress">
-                            {weeklyGoal.doneDays} of {weeklyGoal.targetDays}{' '}
-                            {weeklyGoal.targetDays === 1 ? 'day' : 'days'} trained
+                            {t('calendar.weeklyProgress', {
+                                done: weeklyGoal.doneDays,
+                                count: weeklyGoal.targetDays,
+                            })}
                         </p>
 
                         <div className="weekly-goal-dots" aria-hidden="true">
@@ -58,19 +62,19 @@ export const WeeklyGoalCard = () => {
                         {isComplete && (
                             <p className="weekly-goal-reached">
                                 <i className="fas fa-fire"></i>
-                                Goal reached! This week counts for your streak.
+                                {t('calendar.goalReached')}
                             </p>
                         )}
                     </>
                 ) : (
-                    <p className="weekly-goal-progress">No goal set for this week yet.</p>
+                    <p className="weekly-goal-progress">{t('calendar.noGoal')}</p>
                 )}
             </div>
 
             <form onSubmit={onSave} className="weekly-goal-form">
                 <FormField
                     id="weekly-goal-days"
-                    label="Target days"
+                    label={t('calendar.targetDays')}
                     as="select"
                     className="weekly-goal-select"
                     value={targetDays}
@@ -78,12 +82,12 @@ export const WeeklyGoalCard = () => {
                 >
                     <option value="">
                         {weeklyGoal.targetDays
-                            ? `${weeklyGoal.targetDays} ${weeklyGoal.targetDays === 1 ? 'day' : 'days'}`
-                            : 'Set days...'}
+                            ? t('counts.day', { count: weeklyGoal.targetDays })
+                            : t('calendar.setDays')}
                     </option>
                     {[1, 2, 3, 4, 5, 6, 7].map((n) => (
                         <option key={n} value={n}>
-                            {n} {n === 1 ? 'day' : 'days'}
+                            {t('counts.day', { count: n })}
                         </option>
                     ))}
                 </FormField>
@@ -94,7 +98,7 @@ export const WeeklyGoalCard = () => {
                     className="form-field-row-button"
                     disabled={!targetDays || isSaving}
                 >
-                    {isSaving ? 'Saving...' : 'Save'}
+                    {isSaving ? t('common.saving') : t('common.save')}
                 </Button>
             </form>
         </Card>

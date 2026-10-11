@@ -9,8 +9,10 @@ import { Card } from '../../components/Card';
 import { FormField } from '../../components/FormField';
 import { PageHeader } from '../../components/PageHeader';
 import { LoadingState } from '../../components/LoadingState';
+import { useTranslation } from 'react-i18next';
 
 export const CalendarDayPage = () => {
+    const { t } = useTranslation();
     const { date } = useParams();
     const [year, month] = date.split('-').map(Number);
 
@@ -74,8 +76,8 @@ export const CalendarDayPage = () => {
             <div className="routine-detail-container">
                 <Breadcrumb
                     items={[
-                        { label: 'Home', to: '/' },
-                        { label: 'Calendar', to: '/calendar' },
+                        { label: t('nav.home'), to: '/' },
+                        { label: t('nav.calendar'), to: '/calendar' },
                         { label: date },
                     ]}
                 />
@@ -84,12 +86,12 @@ export const CalendarDayPage = () => {
                     eyebrow={`${date}`}
                     title={
                         dayEntries.length === 0
-                            ? 'Empty day'
-                            : `${dayEntries.length} session${dayEntries.length > 1 ? 's' : ''}`
+                            ? t('calendar.emptyDay')
+                            : t('counts.session', { count: dayEntries.length })
                     }
                 />
 
-                {isLoading && <LoadingState label="Loading..." />}
+                {isLoading && <LoadingState label={t('common.loading')} />}
 
                 {!isLoading && logMode === 'log-active' && sessionPrefill && (
                     <SessionBuilder
@@ -132,28 +134,31 @@ export const CalendarDayPage = () => {
                         <div className="calendar-choice-grid">
                             {!isPastDate && (
                                 <Card variant="surface">
-                                    <h3>Plan this day</h3>
-                                    <p>Assign a routine day, or pick exercises for a free session.</p>
+                                    <h3>{t('calendar.planTitle')}</h3>
+                                    <p>{t('calendar.planText')}</p>
                                     <PlanDayForm date={date} onPlanned={() => {}} />
                                 </Card>
                             )}
 
                             <Card variant="surface">
-                                <h3>Log a session now</h3>
-                                <p>Record a session you already did.</p>
+                                <h3>{t('calendar.logTitle')}</h3>
+                                <p>{t('calendar.logText')}</p>
 
                                 <div className="add-set-form-row mt-2">
                                     <FormField
                                         id="log-session-routine"
-                                        label="Routine Day"
+                                        label={t('calendar.routineDay')}
                                         as="select"
                                         value={logPickerRoutineDayId}
                                         onChange={(e) => setLogPickerRoutineDayId(e.target.value)}
                                     >
-                                        <option value="">Free session (no routine)</option>
+                                        <option value="">{t('calendar.freeNoRoutine')}</option>
                                         {routineDays.map((day) => (
                                             <option key={day.id} value={day.id}>
-                                                Day {day.dayNumber} — {day.description}
+                                                {t('common.dayWithDescription', {
+                                                    number: day.dayNumber,
+                                                    description: day.description,
+                                                })}
                                             </option>
                                         ))}
                                     </FormField>
@@ -170,7 +175,7 @@ export const CalendarDayPage = () => {
                                         }
                                     }}
                                 >
-                                    Start
+                                    {t('calendar.start')}
                                 </Button>
                             </Card>
                         </div>

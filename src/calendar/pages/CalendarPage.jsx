@@ -19,15 +19,19 @@ import { LoadingState } from '../../components/LoadingState';
 import { Card } from '../../components/Card';
 import { MuscleGroupLegend, MuscleGroupMarks } from '../components/MuscleGroupMarks';
 import { mergeMuscleGroups } from '../muscleGroups';
+import { useTranslation } from 'react-i18next';
+import { useLocaleFormat } from '../../i18n/format';
 
-const WEEKDAY_LABELS = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+const WEEKDAY_KEYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
-const STATUS_LABEL = {
-    planned: 'Planned',
-    done: 'Done',
+const STATUS_KEY = {
+    planned: 'common.planned',
+    done: 'common.done',
 };
 
 export const CalendarPage = () => {
+    const { t } = useTranslation();
+    const { formatMonthYear } = useLocaleFormat();
     const [visibleMonth, setVisibleMonth] = useState(() => startOfMonth(new Date()));
 
     const { entries, isLoading, startLoadingMonth } = useCalendarStore();
@@ -64,9 +68,9 @@ export const CalendarPage = () => {
         <main className="app-page calendar-page">
             <div className="app-page-container calendar-page-container">
                 <PageHeader
-                    eyebrow="TRAINING"
-                    title="Calendar"
-                    subtitle="Plan your sessions and keep track of your training."
+                    eyebrow={t('calendar.eyebrow')}
+                    title={t('calendar.title')}
+                    subtitle={t('calendar.subtitle')}
                 />
 
                 <WeeklyGoalCard />
@@ -76,36 +80,36 @@ export const CalendarPage = () => {
                             type="button"
                             className="calendar-nav-button"
                             onClick={onPrevMonth}
-                            aria-label="Previous Month"
+                            aria-label={t('calendar.previousMonth')}
                         >
                             <i className="fas fa-chevron-left"></i>
                         </button>
                         <div className="calendar-nav-title">
-                            <strong>{format(visibleMonth, 'MMMM yyyy')}</strong>
+                            <strong>{formatMonthYear(visibleMonth)}</strong>
                             <button
                                 type="button"
                                 className="calendar-today-button"
                                 onClick={onGoToday}
                             >
-                                Today
+                                {t('calendar.today')}
                             </button>
                         </div>
                         <button
                             type="button"
                             className="calendar-nav-button"
                             onClick={onNextMonth}
-                            aria-label="Next Month"
+                            aria-label={t('calendar.nextMonth')}
                         >
                             <i className="fas fa-chevron-right"></i>
                         </button>
                     </div>
                     <div className="calendar-weekdays">
-                        {WEEKDAY_LABELS.map((label) => (
-                            <span key={label}>{label}</span>
+                        {WEEKDAY_KEYS.map((key) => (
+                            <span key={key}>{t(`calendar.weekdays.${key}`)}</span>
                         ))}
                     </div>
                     {isLoading ? (
-                        <LoadingState label="Loading calendar..." />
+                        <LoadingState label={t('calendar.loading')} />
                     ) : (
                         <div className="calendar-grid">
                             {gridDays.map((day) => {
@@ -145,7 +149,7 @@ export const CalendarPage = () => {
                                         </span>
                                         {displayStatus && (
                                             <span className="calendar-day-status">
-                                                {STATUS_LABEL[displayStatus]}
+                                                {t(STATUS_KEY[displayStatus])}
                                                 {sessionCount > 1 && ` ×${sessionCount}`}
                                             </span>
                                         )}
