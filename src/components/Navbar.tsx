@@ -1,5 +1,7 @@
 import { useAuthStore } from '../hooks';
 import { ThemeToggle } from './ThemeToggle';
+import { useTranslation } from 'react-i18next';
+import { LanguageSelector } from './LanguageSelector';
 
 interface NavbarProps {
     onOpenSidebar: () => void;
@@ -14,6 +16,7 @@ const getInitials = (name: string) =>
         .join('');
 
 export const Navbar = ({ onOpenSidebar }: NavbarProps) => {
+    const { t } = useTranslation();
     const { user } = useAuthStore();
 
     return (
@@ -24,7 +27,7 @@ export const Navbar = ({ onOpenSidebar }: NavbarProps) => {
                         type="button"
                         className="gym-navbar-hamburger"
                         onClick={onOpenSidebar}
-                        aria-label="Open menu"
+                        aria-label={t('nav.openMenu')}
                     >
                         <i className="fas fa-bars"></i>
                     </button>
@@ -34,7 +37,10 @@ export const Navbar = ({ onOpenSidebar }: NavbarProps) => {
                     </span>
                 </div>
 
-                <ThemeToggle />
+                <div className="gym-navbar-actions">
+                    <LanguageSelector />
+                    <ThemeToggle />
+                </div>
             </div>
         </nav>
     );
