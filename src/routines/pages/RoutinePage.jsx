@@ -10,10 +10,12 @@ import { SectionLabel } from '../../components/SectionLabel';
 import { EmptyState } from '../../components/EmptyState';
 import { LoadingState } from '../../components/LoadingState';
 import { DayNumberMedia, ListCard } from '../../components/ListCard';
+import { useTranslation } from 'react-i18next';
 
 const newDayFields = { dayNumber: '', description: '' };
 
 export const RoutinePage = () => {
+    const { t } = useTranslation();
     const { days, isLoading, startLoadingRoutine, startCreatingDay, startRemovingDay } =
         useRoutinesStore();
 
@@ -37,12 +39,12 @@ export const RoutinePage = () => {
 
     const onDeleteDay = async (event, day) => {
         const result = await Swal.fire({
-            title: 'Delete day?',
-            text: `"${day.description}" and all its exercises will be permanently deleted.`,
+            title: t('routine.deleteDayTitle'),
+            text: t('routine.deleteDayText', { description: day.description }),
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Yes, delete',
-            cancelButtonText: 'Cancel',
+            confirmButtonText: t('common.yesDelete'),
+            cancelButtonText: t('common.cancel'),
         });
 
         if (result.isConfirmed) {
@@ -54,9 +56,9 @@ export const RoutinePage = () => {
         <main className="app-page routine-page">
             <div className="app-page-container routine-page-container">
                 <PageHeader
-                    eyebrow="TRAINING"
-                    title="My routine"
-                    subtitle="Organize your training days and keep all your progress in one place."
+                    eyebrow={t('common.training')}
+                    title={t('routine.title')}
+                    subtitle={t('routine.subtitle')}
                 />
                 <Card variant="surface">
                     <div className="routine-create-header">
@@ -64,51 +66,51 @@ export const RoutinePage = () => {
                             <i className="fas fa-plus"></i>
                         </div>
                         <div>
-                            <h2>New day</h2>
-                            <p>Add a new day to your routine.</p>
+                            <h2>{t('routine.newDayTitle')}</h2>
+                            <p>{t('routine.newDayText')}</p>
                         </div>
                     </div>
                     <form onSubmit={onCreateDay} className="routine-create-form">
                         <FormField
                             id="dayNumber"
-                            label="Day"
+                            label={t('routine.day')}
                             type="number"
                             className="routine-form-day"
                             min="1"
-                            placeholder="01"
+                            placeholder={t('routine.dayPlaceholder')}
                             name="dayNumber"
                             value={dayNumber}
                             onChange={onInputChange}
                             onBlur={() => onFieldBlur('dayNumber')}
-                            error={dayNumberError ? 'Day number is required.' : undefined}
+                            error={dayNumberError ? t('routine.dayRequired') : undefined}
                         />
                         <FormField
                             id="description"
-                            label="Description"
-                            placeholder="Chest, shoulders and triceps"
+                            label={t('routine.description')}
+                            placeholder={t('routine.descriptionPlaceholder')}
                             name="description"
                             value={description}
                             onChange={onInputChange}
                             onBlur={() => onFieldBlur('description')}
-                            error={descriptionError ? 'Description is required.' : undefined}
+                            error={descriptionError ? t('routine.descriptionRequired') : undefined}
                         />
                     </form>
                     <Button type="submit" variant="primary" disabled={!dayNumber || !description}>
                         <i className="fas fa-plus"></i>
-                        Create day
+                        {t('routine.createDay')}
                     </Button>
                 </Card>
 
                 <section className="routine-days-section">
-                    <SectionLabel meta={`${days.length} ${days.length === 1 ? 'day' : 'days'}`}>
-                        MY ROUTINE
+                    <SectionLabel meta={t('counts.day', { count: days.length })}>
+                        {t('routine.listSection')}
                     </SectionLabel>
-                    {isLoading && <LoadingState label="Loading routine..." />}
+                    {isLoading && <LoadingState label={t('routine.loading')} />}
                     {!isLoading && days.length === 0 && (
                         <EmptyState
                             icon="fa-calendar-plus"
-                            title="You don't have any days yet"
-                            description="Create your first training day using the form above."
+                            title={t('routine.emptyTitle')}
+                            description={t('routine.emptyText')}
                         />
                     )}
                     {!isLoading && days.length > 0 && (
@@ -119,7 +121,7 @@ export const RoutinePage = () => {
                                     to={`/routine/${day.id}`}
                                     media={
                                         <DayNumberMedia>
-                                            <span>DAY</span>
+                                            <span>{t('routine.dayBadge')}</span>
                                             <strong>
                                                 {String(day.dayNumber).padStart(2, '0')}
                                             </strong>
@@ -129,8 +131,7 @@ export const RoutinePage = () => {
                                     meta={
                                         <span>
                                             <i className="fas fa-dumbbell"></i>
-                                            {day.exercises.length}{' '}
-                                            {day.exercises.length === 1 ? 'exercise' : 'exercises'}
+                                            {t('counts.exercise', { count: day.exercises.length })}
                                         </span>
                                     }
                                     action={
@@ -138,7 +139,7 @@ export const RoutinePage = () => {
                                             variant="danger"
                                             size="icon"
                                             onClick={(event) => onDeleteDay(event, day)}
-                                            aria-label="Delete day"
+                                            aria-label={t('routine.deleteDayAria')}
                                         >
                                             <i className="fas fa-trash"></i>
                                         </Button>

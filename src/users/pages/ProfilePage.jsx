@@ -6,6 +6,8 @@ import { FormField } from '../../components/FormField';
 import { PageHeader } from '../../components/PageHeader';
 import { SectionLabel } from '../../components/SectionLabel';
 import { LoadingState } from '../../components/LoadingState';
+import { useTranslation } from 'react-i18next';
+import { useLocaleFormat } from '../../i18n/format';
 
 const profileFormFields = {
     name: '',
@@ -20,12 +22,9 @@ const passwordFormFields = {
     confirmPassword: '',
 };
 
-const formatMemberSince = (createdAt) =>
-    createdAt
-        ? new Date(createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
-        : '–';
-
 export const ProfilePage = () => {
+    const { t } = useTranslation();
+    const { formatMonthYear, formatNumber } = useLocaleFormat();
     const { profile, isLoading, startLoadingProfile, startUpdatingProfile, startChangingPassword } =
         useUsersStore();
     const { startLogout } = useAuthStore();
@@ -90,9 +89,9 @@ export const ProfilePage = () => {
         if (ok) {
             setGoalDraft(null);
             startLoadingStats();
-            setGoalFeedback({ type: 'success', message: 'Your default weekly goal was saved.' });
+            setGoalFeedback({ type: 'success', message: t('profile.goalSaved') });
         } else {
-            setGoalFeedback({ type: 'error', message: 'The default goal could not be saved.' });
+            setGoalFeedback({ type: 'error', message: t('profile.goalError') });
         }
     };
 
@@ -118,7 +117,7 @@ export const ProfilePage = () => {
         return (
             <main className="app-page profile-page">
                 <div className="app-page-container profile-page-container">
-                    <LoadingState label="Loading profile..." />
+                    <LoadingState label={t('profile.loading')} />
                 </div>
             </main>
         );
@@ -128,29 +127,33 @@ export const ProfilePage = () => {
         <main className="app-page profile-page">
             <div className="app-page-container profile-page-container">
                 <PageHeader
-                    eyebrow="PROFILE"
-                    title="My profile"
-                    subtitle="Manage your personal information and keep your data up to date."
+                    eyebrow={t('profile.eyebrow')}
+                    title={t('profile.title')}
+                    subtitle={t('profile.subtitle')}
                 />
 
                 <div className="profile-summary">
                     <div className="profile-summary-item">
-                        <strong>{formatMemberSince(profile.createdAt)}</strong>
-                        <span>Member since</span>
+                        <strong>
+                            {profile.createdAt ? formatMonthYear(new Date(profile.createdAt)) : '–'}
+                        </strong>
+                        <span>{t('profile.memberSince')}</span>
                     </div>
                     <div className="profile-summary-item">
                         <strong>{stats ? stats.totalSessions : '–'}</strong>
-                        <span>Total sessions</span>
+                        <span>{t('profile.totalSessions')}</span>
                     </div>
                     <div className="profile-summary-item">
                         <strong>
-                            {stats ? `${Math.round(stats.totalVolumeKg).toLocaleString()} kg` : '–'}
+                            {stats
+                                ? `${formatNumber(Math.round(stats.totalVolumeKg))} ${t('common.kg')}`
+                                : '–'}
                         </strong>
-                        <span>Total lifted</span>
+                        <span>{t('profile.totalLifted')}</span>
                     </div>
                     <div className="profile-summary-item">
                         <strong>{stats ? stats.currentStreakWeeks : '–'}</strong>
-                        <span>Week streak</span>
+                        <span>{t('profile.weekStreak')}</span>
                     </div>
                 </div>
 
@@ -161,25 +164,25 @@ export const ProfilePage = () => {
                         </div>
 
                         <div>
-                            <h2>Personal information</h2>
-                            <p>Manage your personal information.</p>
+                            <h2>{t('profile.personalTitle')}</h2>
+                            <p>{t('profile.personalText')}</p>
                         </div>
                     </div>
 
                     <form className="profile-form" onSubmit={onSubmit}>
                         <FormField
                             id="name"
-                            label="Name"
+                            label={t('profile.name')}
                             value={name}
                             onChange={onInputChange}
                             onBlur={() => setNameTouched(true)}
-                            error={nameError ? 'Name is required.' : undefined}
+                            error={nameError ? t('profile.nameRequired') : undefined}
                         />
 
                         <div className="profile-form-row">
                             <FormField
                                 id="weight"
-                                label="Weight (kg)"
+                                label={t('profile.weight')}
                                 type="number"
                                 name="weight"
                                 value={weight ?? ''}
@@ -188,7 +191,7 @@ export const ProfilePage = () => {
 
                             <FormField
                                 id="height"
-                                label="Height (m)"
+                                label={t('profile.height')}
                                 type="number"
                                 step="0.01"
                                 name="height"
@@ -199,7 +202,7 @@ export const ProfilePage = () => {
 
                         <FormField
                             id="birthDate"
-                            label="Birth date"
+                            label={t('profile.birthDate')}
                             type="date"
                             name="birthDate"
                             value={currentBirthDate}
@@ -215,12 +218,12 @@ export const ProfilePage = () => {
                                 {isLoading ? (
                                     <>
                                         <span className="profile-button-spinner" />
-                                        Saving...
+                                        {t('common.saving')}
                                     </>
                                 ) : (
                                     <>
                                         <i className="fas fa-check" />
-                                        Save changes
+                                        {t('profile.saveChanges')}
                                     </>
                                 )}
                             </Button>
@@ -229,7 +232,7 @@ export const ProfilePage = () => {
                 </Card>
 
                 <div className="profile-section-gap">
-                    <SectionLabel>TRAINING</SectionLabel>
+                    <SectionLabel>{t('profile.trainingSection')}</SectionLabel>
                 </div>
 
                 <Card variant="surface">
@@ -239,31 +242,28 @@ export const ProfilePage = () => {
                         </div>
 
                         <div>
-                            <h2>Weekly goal</h2>
-                            <p>Your usual number of training days per week.</p>
+                            <h2>{t('profile.goalTitle')}</h2>
+                            <p>{t('profile.goalText')}</p>
                         </div>
                     </div>
 
                     <form className="profile-form" onSubmit={onSubmitGoal}>
                         <FormField
                             id="defaultWeeklyGoal"
-                            label="Default weekly goal"
+                            label={t('profile.defaultGoal')}
                             as="select"
                             value={defaultGoal}
                             onChange={(event) => setGoalDraft(event.target.value)}
                         >
-                            <option value="">No default</option>
+                            <option value="">{t('profile.noDefault')}</option>
                             {[1, 2, 3, 4, 5, 6, 7].map((days) => (
                                 <option key={days} value={days}>
-                                    {days} {days === 1 ? 'day' : 'days'} per week
+                                    {t('profile.daysPerWeek', { count: days })}
                                 </option>
                             ))}
                         </FormField>
 
-                        <p className="profile-hint">
-                            It applies to every week where you have not set a specific goal in the
-                            calendar, and it counts toward your streak.
-                        </p>
+                        <p className="profile-hint">{t('profile.goalHint')}</p>
 
                         {goalFeedback && (
                             <p
@@ -281,14 +281,14 @@ export const ProfilePage = () => {
                                 disabled={isLoading || !hasGoalChanges}
                             >
                                 <i className="fas fa-check" />
-                                Save goal
+                                {t('profile.saveGoal')}
                             </Button>
                         </div>
                     </form>
                 </Card>
 
                 <div className="profile-section-gap">
-                    <SectionLabel>ACCOUNT</SectionLabel>
+                    <SectionLabel>{t('profile.accountSection')}</SectionLabel>
                 </div>
 
                 <div className="profile-stack">
@@ -299,15 +299,15 @@ export const ProfilePage = () => {
                             </div>
 
                             <div>
-                                <h2>Password</h2>
-                                <p>Use at least 6 characters, with upper and lower case letters.</p>
+                                <h2>{t('profile.passwordTitle')}</h2>
+                                <p>{t('profile.passwordText')}</p>
                             </div>
                         </div>
 
                         <form className="profile-form" onSubmit={onSubmitPassword}>
                             <FormField
                                 id="currentPassword"
-                                label="Current password"
+                                label={t('profile.currentPassword')}
                                 type="password"
                                 name="currentPassword"
                                 autoComplete="current-password"
@@ -318,7 +318,7 @@ export const ProfilePage = () => {
                             <div className="profile-form-row">
                                 <FormField
                                     id="newPassword"
-                                    label="New password"
+                                    label={t('profile.newPassword')}
                                     type="password"
                                     name="newPassword"
                                     autoComplete="new-password"
@@ -328,14 +328,14 @@ export const ProfilePage = () => {
 
                                 <FormField
                                     id="confirmPassword"
-                                    label="Repeat new password"
+                                    label={t('profile.repeatNewPassword')}
                                     type="password"
                                     name="confirmPassword"
                                     autoComplete="new-password"
                                     value={confirmPassword}
                                     onChange={onPasswordChange}
                                     error={
-                                        passwordMismatch ? 'The passwords do not match.' : undefined
+                                        passwordMismatch ? t('profile.passwordMismatch') : undefined
                                     }
                                 />
                             </div>
@@ -358,12 +358,12 @@ export const ProfilePage = () => {
                                     {isChangingPassword ? (
                                         <>
                                             <span className="profile-button-spinner" />
-                                            Updating...
+                                            {t('profile.updating')}
                                         </>
                                     ) : (
                                         <>
                                             <i className="fas fa-check" />
-                                            Update password
+                                            {t('profile.updatePassword')}
                                         </>
                                     )}
                                 </Button>
@@ -378,14 +378,14 @@ export const ProfilePage = () => {
                             </div>
 
                             <div>
-                                <h2>Session</h2>
-                                <p>Sign out of your account on this device.</p>
+                                <h2>{t('profile.sessionTitle')}</h2>
+                                <p>{t('profile.sessionText')}</p>
                             </div>
                         </div>
 
                         <Button variant="danger" onClick={startLogout}>
                             <i className="fas fa-sign-out-alt"></i>
-                            Log out
+                            {t('profile.logout')}
                         </Button>
                     </Card>
                 </div>

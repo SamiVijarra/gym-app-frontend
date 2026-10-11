@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useRoutinesStore } from '../../hooks';
@@ -14,11 +14,19 @@ import { EmptyState } from '../../components/EmptyState';
 import { LoadingState } from '../../components/LoadingState';
 import { ExerciseCard } from '../../components/ExerciseCard';
 import { SetsTable } from '../../components/SetsTable';
+import { useTranslation } from 'react-i18next';
+import { useMuscleLabels } from '../../i18n/muscles';
 
 export const RoutineDayDetailPage = () => {
+    const { t } = useTranslation();
+    const { muscleLabel } = useMuscleLabels();
     const { dayId } = useParams();
-    const { days, isLoading, startRemovingExercise } = useRoutinesStore();
+    const { days, isLoading, startLoadingRoutine, startRemovingExercise } = useRoutinesStore();
     const [selectedExerciseId, setSelectedExerciseId] = useState(null);
+
+    useEffect(() => {
+        startLoadingRoutine();
+    }, [startLoadingRoutine]);
 
     const day = days.find((d) => d.id === dayId);
 
@@ -30,12 +38,12 @@ export const RoutineDayDetailPage = () => {
 
     const onDeleteExercise = async (routineExercise) => {
         const result = await Swal.fire({
-            title: 'Delete exercise?',
-            text: `"${routineExercise.exercise.name}" and all its sets will be permanently deleted from this day.`,
+            title: t('routine.deleteExerciseTitle'),
+            text: t('routine.deleteExerciseText', { name: routineExercise.exercise.name }),
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Yes, delete',
-            cancelButtonText: 'Cancel',
+            confirmButtonText: t('common.yesDelete'),
+            cancelButtonText: t('common.cancel'),
         });
 
         if (result.isConfirmed) {
@@ -48,7 +56,7 @@ export const RoutineDayDetailPage = () => {
         return (
             <main className="routine-detail-page">
                 <div className="routine-detail-container">
-                    <LoadingState label="Loading..." />
+                    <LoadingState label={t('common.loading')} />
                 </div>
             </main>
         );
@@ -58,7 +66,7 @@ export const RoutineDayDetailPage = () => {
         return (
             <main className="routine-detail-page">
                 <div className="routine-detail-container">
-                    <LoadingState label="Day not found" />
+                    <LoadingState label={t('routine.dayNotFound')} />
                 </div>
             </main>
         );
@@ -69,26 +77,28 @@ export const RoutineDayDetailPage = () => {
             <div className="routine-detail-container">
                 <Breadcrumb
                     items={[
-                        { label: 'Home', to: '/' },
-                        { label: 'Routine', to: '/routine' },
+                        { label: t('nav.home'), to: '/' },
+                        { label: t('nav.routine'), to: '/routine' },
                         { label: day.description },
                     ]}
                 />
 
                 <PageHeader
-                    eyebrow={`DAY ${day.dayNumber}`}
+                    eyebrow={t('routine.dayEyebrow', { number: day.dayNumber })}
                     title={day.description}
                     meta={[
-                        `${day.exercises.length} ${day.exercises.length === 1 ? 'exercise' : 'exercises'}`,
-                        'Programmed routine',
+                        t('counts.exercise', { count: day.exercises.length }),
+                        t('routine.programmed'),
                     ]}
                 />
 
                 <Card variant="accent" className="routine-add-exercise-spacing">
                     <div className="routine-add-exercise-header">
-                        <span className="routine-section-label">EXERCISES</span>
-                        <h2>Add Exercise</h2>
-                        <p>Search and add exercises</p>
+                        <span className="routine-section-label">
+                            {t('calendar.exercisesLabel')}
+                        </span>
+                        <h2>{t('routine.addExerciseTitle')}</h2>
+                        <p>{t('routine.addExerciseText')}</p>
                     </div>
                     <AddExerciseForm dayId={day.id} />
                 </Card>
@@ -96,8 +106,8 @@ export const RoutineDayDetailPage = () => {
                 {day.exercises.length === 0 && (
                     <EmptyState
                         icon="fa-plus"
-                        title="There are no exercises yet"
-                        description="Add the first exercise to start building this day."
+                        title={t('routine.noExercisesTitle')}
+                        description={t('routine.noExercisesText')}
                     />
                 )}
 
@@ -111,7 +121,7 @@ export const RoutineDayDetailPage = () => {
                             notes={routineExercise.notes}
                             tags={[
                                 ...(routineExercise.exercise.primaryMuscles ?? []).map((m) => ({
-                                    label: m,
+                                    label: muscleLabel(m),
                                 })),
                                 ...(routineExercise.exercise.equipment
                                     ? [{ label: routineExercise.exercise.equipment, muted: true }]
@@ -126,7 +136,7 @@ export const RoutineDayDetailPage = () => {
                                         variant="danger"
                                         size="icon"
                                         onClick={() => onDeleteExercise(routineExercise)}
-                                        aria-label="Delete exercise"
+                                        aria-label={t('routine.deleteExerciseAria')}
                                     >
                                         <i className="fas fa-trash"></i>
                                     </Button>
@@ -135,8 +145,8 @@ export const RoutineDayDetailPage = () => {
                                         to={`/exercises/${routineExercise.exercise.id}/progress`}
                                         variant="ghost"
                                         size="icon"
-                                        aria-label="View progress"
-                                        title="View progress"
+                                        aria-label={t('common.viewProgress')}
+                                        title={t('common.viewProgress')}
                                     >
                                         <i className="fas fa-chart-line"></i>
                                     </Button>
@@ -145,7 +155,7 @@ export const RoutineDayDetailPage = () => {
                         >
                             {routineExercise.exercise.instructions?.length > 0 && (
                                 <details className="routine-instructions">
-                                    <summary>View instructions</summary>
+                                    <summary>{t('routine.viewInstructions')}</summary>
                                     <ol>
                                         {routineExercise.exercise.instructions.map(
                                             (step, stepIndex) => (
@@ -158,24 +168,35 @@ export const RoutineDayDetailPage = () => {
                             <div className="routine-sets-section">
                                 <div className="routine-sets-header">
                                     <div>
-                                        <span className="routine-section-label">Series</span>
+                                        <span className="routine-section-label">
+                                            {t('routine.series')}
+                                        </span>
                                         <span className="routine-section-description">
-                                            Register your performance
+                                            {t('routine.seriesText')}
                                         </span>
                                     </div>
                                     <span className="routine-set-count">
-                                        {routineExercise.sets.length}
-                                        {''}
-                                        {routineExercise.sets.length === 1 ? 'set' : 'sets'}
+                                        {t('counts.set', { count: routineExercise.sets.length })}
                                     </span>
                                 </div>
-                                <SetsTable columns={['Set', 'Weight', 'Reps', 'Rest', 'Notes', '']}>
+                                <SetsTable
+                                    columns={[
+                                        t('common.set'),
+                                        t('common.weight'),
+                                        t('common.reps'),
+                                        t('common.rest'),
+                                        t('common.notes'),
+                                        '',
+                                    ]}
+                                >
                                     {routineExercise.sets.map((set) => (
                                         <SetRow key={set.id} set={set} />
                                     ))}
                                 </SetsTable>
                                 <div className="routine-add-set">
-                                    <div className="routine-add-set-title">Add Set</div>
+                                    <div className="routine-add-set-title">
+                                        {t('routine.addSetTitle')}
+                                    </div>
                                     <AddSetForm routineExerciseId={routineExercise.id} />
                                 </div>
                             </div>
