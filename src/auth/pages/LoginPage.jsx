@@ -3,6 +3,8 @@ import { useForm, useAuthStore } from '../../hooks';
 import Swal from 'sweetalert2';
 import { ThemeToggle } from '../../components/ThemeToggle';
 import { Button } from '../../components/Button';
+import { useTranslation } from 'react-i18next';
+import { LanguageSelector } from '../../components/LanguageSelector';
 
 const loginFormField = {
     loginEmail: '',
@@ -17,6 +19,7 @@ const registerFormField = {
 };
 
 export const LoginPage = () => {
+    const { t } = useTranslation();
     const { startLogin, errorMessage, startRegister } = useAuthStore();
     const {
         loginEmail,
@@ -47,13 +50,14 @@ export const LoginPage = () => {
 
     useEffect(() => {
         if (errorMessage !== undefined) {
-            Swal.fire('Error in authentication', errorMessage, 'error');
+            Swal.fire(t('auth.errorTitle'), errorMessage, 'error');
         }
-    }, [errorMessage]);
+    }, [errorMessage, t]);
 
     return (
         <main className="auth-page">
             <div className="auth-theme-toggle">
+                <LanguageSelector />
                 <ThemeToggle />
             </div>
 
@@ -66,12 +70,12 @@ export const LoginPage = () => {
                     <span className="auth-eyebrow">GYM TRACKER</span>
 
                     <h1>
-                        Your training,
+                        {t('auth.headlineTop')}
                         <br />
-                        under control.
+                        {t('auth.headlineBottom')}
                     </h1>
 
-                    <p>Organize your routines, record your exercises and track your progress.</p>
+                    <p>{t('auth.tagline')}</p>
                 </header>
 
                 <div className="auth-card">
@@ -84,15 +88,15 @@ export const LoginPage = () => {
                             </div>
 
                             <div>
-                                <span className="auth-section-label">WELCOME</span>
+                                <span className="auth-section-label">{t('auth.welcome')}</span>
 
-                                <h2>Login to your account</h2>
+                                <h2>{t('auth.loginTitle')}</h2>
                             </div>
                         </div>
 
                         <form onSubmit={loginSubmit}>
                             <div className="auth-form-field">
-                                <label htmlFor="loginEmail">Email address</label>
+                                <label htmlFor="loginEmail">{t('auth.email')}</label>
 
                                 <div className="auth-input-wrapper">
                                     <i className="fas fa-envelope" />
@@ -100,7 +104,7 @@ export const LoginPage = () => {
                                     <input
                                         id="loginEmail"
                                         type="email"
-                                        placeholder="your@email.com"
+                                        placeholder={t('auth.emailPlaceholder')}
                                         name="loginEmail"
                                         value={loginEmail}
                                         onChange={onLoginInputChange}
@@ -109,7 +113,7 @@ export const LoginPage = () => {
                             </div>
 
                             <div className="auth-form-field">
-                                <label htmlFor="loginPassword">Password</label>
+                                <label htmlFor="loginPassword">{t('auth.password')}</label>
 
                                 <div className="auth-input-wrapper">
                                     <i className="fas fa-lock" />
@@ -131,14 +135,14 @@ export const LoginPage = () => {
                                 fullWidth
                                 disabled={!loginEmail || !loginPassword}
                             >
-                                Login
+                                {t('auth.login')}
                                 <i className="fas fa-arrow-right" />
                             </Button>
                         </form>
                     </section>
 
                     <div className="auth-divider">
-                        <span>O</span>
+                        <span>{t('auth.or')}</span>
                     </div>
 
                     {/* REGISTER */}
@@ -150,15 +154,15 @@ export const LoginPage = () => {
                             </div>
 
                             <div>
-                                <span className="auth-section-label">NEW HERE</span>
+                                <span className="auth-section-label">{t('auth.newHere')}</span>
 
-                                <h2>Create your account</h2>
+                                <h2>{t('auth.createTitle')}</h2>
                             </div>
                         </div>
 
                         <form onSubmit={registerSubmit}>
                             <div className="auth-form-field">
-                                <label htmlFor="registerName">Name</label>
+                                <label htmlFor="registerName">{t('auth.name')}</label>
 
                                 <div className="auth-input-wrapper">
                                     <i className="fas fa-user" />
@@ -166,7 +170,7 @@ export const LoginPage = () => {
                                     <input
                                         id="registerName"
                                         type="text"
-                                        placeholder="Your name"
+                                        placeholder={t('auth.namePlaceholder')}
                                         name="registerName"
                                         value={registerName}
                                         onChange={onRegisterInputChange}
@@ -175,7 +179,7 @@ export const LoginPage = () => {
                             </div>
 
                             <div className="auth-form-field">
-                                <label htmlFor="registerEmail">Email address</label>
+                                <label htmlFor="registerEmail">{t('auth.email')}</label>
 
                                 <div className="auth-input-wrapper">
                                     <i className="fas fa-envelope" />
@@ -183,7 +187,7 @@ export const LoginPage = () => {
                                     <input
                                         id="registerEmail"
                                         type="email"
-                                        placeholder="your@email.com"
+                                        placeholder={t('auth.emailPlaceholder')}
                                         name="registerEmail"
                                         value={registerEmail}
                                         onChange={onRegisterInputChange}
@@ -193,7 +197,7 @@ export const LoginPage = () => {
 
                             <div className="auth-form-row">
                                 <div className="auth-form-field">
-                                    <label htmlFor="registerPassword">Password</label>
+                                    <label htmlFor="registerPassword">{t('auth.password')}</label>
 
                                     <div className="auth-input-wrapper">
                                         <i className="fas fa-lock" />
@@ -210,7 +214,9 @@ export const LoginPage = () => {
                                 </div>
 
                                 <div className="auth-form-field">
-                                    <label htmlFor="registerPassword2">Repeat password</label>
+                                    <label htmlFor="registerPassword2">
+                                        {t('auth.repeatPassword')}
+                                    </label>
 
                                     <div className="auth-input-wrapper">
                                         <i className="fas fa-lock" />
@@ -227,7 +233,7 @@ export const LoginPage = () => {
                                     </div>
                                     {passwordsMismatch && (
                                         <span className="field-error-text">
-                                            Passwords do not match
+                                            {t('auth.mismatch')}
                                         </span>
                                     )}
                                 </div>
@@ -245,7 +251,7 @@ export const LoginPage = () => {
                                     passwordsMismatch
                                 }
                             >
-                                Create account
+                                {t('auth.createAccount')}
                                 <i className="fas fa-user-plus" />
                             </Button>
                         </form>
@@ -254,7 +260,7 @@ export const LoginPage = () => {
 
                 <footer className="auth-footer">
                     <i className="fas fa-shield-alt" />
-                    Your data is protected
+                    {t('auth.protected')}
                 </footer>
             </div>
         </main>
