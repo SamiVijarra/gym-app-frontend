@@ -12,8 +12,12 @@ import { MuscleSelect } from '../../components/MuscleSelect';
 import { PageHeader } from '../../components/PageHeader';
 import { LoadingState } from '../../components/LoadingState';
 import { toKnownMuscle } from '../../calendar/muscleGroups';
+import { useTranslation } from 'react-i18next';
+import { useMuscleLabels } from '../../i18n/muscles';
 
 export const ExerciseDetailPage = () => {
+    const { t } = useTranslation();
+    const { muscleLabel } = useMuscleLabels();
     const { id } = useParams();
     const navigate = useNavigate();
     const { user } = useAuthStore();
@@ -106,12 +110,12 @@ export const ExerciseDetailPage = () => {
 
     const onDeleteExercise = async () => {
         const result = await Swal.fire({
-            title: 'Delete exercise?',
-            text: `"${selectedExercise.name}" will be permanently removed from the catalog.`,
+            title: t('exercises.deleteTitle'),
+            text: t('exercises.deleteText', { name: selectedExercise.name }),
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Yes, delete',
-            cancelButtonText: 'Cancel',
+            confirmButtonText: t('common.yesDelete'),
+            cancelButtonText: t('common.cancel'),
         });
 
         if (result.isConfirmed) {
@@ -119,7 +123,7 @@ export const ExerciseDetailPage = () => {
             if (ok) {
                 navigate('/exercises');
             } else {
-                Swal.fire('Could not delete exercise', message, 'error');
+                Swal.fire(t('exercises.deleteFailed'), message, 'error');
             }
         }
     };
@@ -128,7 +132,7 @@ export const ExerciseDetailPage = () => {
         return (
             <main className="exercise-detail-page">
                 <div className="exercise-detail-container">
-                    <LoadingState label="Loading exercise..." />
+                    <LoadingState label={t('exercises.loadingOne')} />
                 </div>
             </main>
         );
@@ -139,18 +143,18 @@ export const ExerciseDetailPage = () => {
             <div className="exercise-detail-container">
                 <Breadcrumb
                     items={[
-                        { label: 'Home', to: '/' },
-                        { label: 'Exercises', to: '/exercises' },
+                        { label: t('nav.home'), to: '/' },
+                        { label: t('nav.exercises'), to: '/exercises' },
                         { label: selectedExercise.name },
                     ]}
                 />
 
                 <PageHeader
-                    eyebrow="EXERCISE"
+                    eyebrow={t('exercises.detailEyebrow')}
                     title={selectedExercise.name}
                     meta={[
                         selectedExercise.primaryMuscles?.length > 0
-                            ? selectedExercise.primaryMuscles.join(', ')
+                            ? selectedExercise.primaryMuscles.map(muscleLabel).join(', ')
                             : null,
                         selectedExercise.equipment || null,
                     ].filter(Boolean)}
@@ -163,17 +167,18 @@ export const ExerciseDetailPage = () => {
                             type="button"
                             onClick={() => setIsEditing((current) => !current)}
                         >
-                            <i className="fas fa-pen"></i> {isEditing ? 'Cancel' : 'Edit exercise'}
+                            <i className="fas fa-pen"></i>{' '}
+                            {isEditing ? t('common.cancel') : t('exercises.edit')}
                         </Button>
 
                         <Button variant="danger" type="button" onClick={onDeleteExercise}>
-                            <i className="fas fa-trash"></i> Delete exercise
+                            <i className="fas fa-trash"></i> {t('exercises.delete')}
                         </Button>
                     </div>
                 )}
 
                 <Button as={Link} to={`/exercises/${id}/progress`} variant="secondary">
-                    <i className="fas fa-chart-line"></i> View progress
+                    <i className="fas fa-chart-line"></i> {t('common.viewProgress')}
                 </Button>
 
                 {isEditing ? (
@@ -183,20 +188,20 @@ export const ExerciseDetailPage = () => {
                                 <i className="fas fa-pen"></i>
                             </div>
                             <div>
-                                <h2>Edit exercise</h2>
-                                <p>Add or update the image and instructions any time.</p>
+                                <h2>{t('exercises.editTitle')}</h2>
+                                <p>{t('exercises.editText')}</p>
                             </div>
                         </div>
 
                         <form onSubmit={onSaveEdit} className="routine-create-form">
                             <FormField
                                 id="edit-name"
-                                label="Name"
+                                label={t('exercises.name')}
                                 name="name"
                                 value={editName}
                                 onChange={onEditInputChange}
                                 onBlur={() => onFieldBlur('name')}
-                                error={editNameError ? 'Name is required.' : undefined}
+                                error={editNameError ? t('exercises.nameRequired') : undefined}
                             />
 
                             <MuscleSelect
@@ -207,14 +212,14 @@ export const ExerciseDetailPage = () => {
                                 onBlur={() => onFieldBlur('primaryMuscles')}
                                 error={
                                     editPrimaryMusclesError
-                                        ? 'Primary muscle is required.'
+                                        ? t('exercises.muscleRequired')
                                         : undefined
                                 }
                             />
 
                             <FormField
                                 id="edit-equipment"
-                                label="Equipment (optional)"
+                                label={t('exercises.equipmentOptional')}
                                 name="equipment"
                                 value={editEquipment}
                                 onChange={onEditInputChange}
@@ -222,8 +227,8 @@ export const ExerciseDetailPage = () => {
 
                             <FormField
                                 id="edit-imageUrl"
-                                label="Image URL (optional)"
-                                placeholder="https://example.com/image.jpg"
+                                label={t('exercises.imageUrlOptional')}
+                                placeholder={t('exercises.imageUrlPlaceholder')}
                                 name="imageUrl"
                                 value={editImageUrl}
                                 onChange={onEditInputChange}
@@ -231,8 +236,8 @@ export const ExerciseDetailPage = () => {
 
                             <FormField
                                 id="edit-instructions"
-                                label="Instructions (optional)"
-                                placeholder="Describe the exercise..."
+                                label={t('exercises.instructionsOptional')}
+                                placeholder={t('exercises.instructionsPlaceholder')}
                                 name="instructions"
                                 rows={3}
                                 value={editInstructions}
@@ -251,7 +256,7 @@ export const ExerciseDetailPage = () => {
                                 disabled={isSavingEdit || !editName || !editPrimaryMuscles}
                             >
                                 <i className="fas fa-check"></i>
-                                {isSavingEdit ? 'Saving...' : 'Save changes'}
+                                {isSavingEdit ? t('common.saving') : t('exercises.saveChanges')}
                             </Button>
                         </form>
                     </Card>
@@ -275,7 +280,7 @@ export const ExerciseDetailPage = () => {
                                 <summary>
                                     <span>
                                         <i className="fas fa-list-ol" />
-                                        Instructions
+                                        {t('exercises.instructions')}
                                     </span>
 
                                     <span className="exercise-detail-summary-arrow">+</span>
@@ -298,15 +303,15 @@ export const ExerciseDetailPage = () => {
                         </div>
 
                         <div>
-                            <h2>Add to my routine</h2>
-                            <p>Choose where you want to incorporate this exercise.</p>
+                            <h2>{t('exercises.addTitle')}</h2>
+                            <p>{t('exercises.addText')}</p>
                         </div>
                     </div>
 
                     <FormField
                         id="exercise-notes"
-                        label="Notes"
-                        placeholder="Optional notes for this exercise..."
+                        label={t('exercises.notesLabel')}
+                        placeholder={t('exercises.notesPlaceholder')}
                         value={notes}
                         onChange={(e) => setNotes(e.target.value)}
                     />
@@ -315,12 +320,12 @@ export const ExerciseDetailPage = () => {
                         options={[
                             {
                                 value: 'existing',
-                                label: 'Existing Day',
+                                label: t('exercises.existingDay'),
                                 icon: <i className="fas fa-calendar-check" />,
                             },
                             {
                                 value: 'new',
-                                label: 'Create New Day',
+                                label: t('exercises.newDay'),
                                 icon: <i className="fas fa-plus" />,
                             },
                         ]}
@@ -332,16 +337,19 @@ export const ExerciseDetailPage = () => {
                         <div className="exercise-add-row">
                             <FormField
                                 id="exercise-day"
-                                label="Existing Day"
+                                label={t('exercises.existingDay')}
                                 as="select"
                                 value={selectedDayId}
                                 onChange={(e) => setSelectedDayId(e.target.value)}
                             >
-                                <option value="">Choose a day...</option>
+                                <option value="">{t('exercises.chooseDay')}</option>
 
                                 {days.map((day) => (
                                     <option key={day.id} value={day.id}>
-                                        Day {day.dayNumber} — {day.description}
+                                        {t('common.dayWithDescription', {
+                                            number: day.dayNumber,
+                                            description: day.description,
+                                        })}
                                     </option>
                                 ))}
                             </FormField>
@@ -353,7 +361,7 @@ export const ExerciseDetailPage = () => {
                                 onClick={onAddToExistingDay}
                             >
                                 <i className="fas fa-plus" />
-                                Add
+                                {t('common.add')}
                             </Button>
                         </div>
                     )}
@@ -362,8 +370,8 @@ export const ExerciseDetailPage = () => {
                         <div className="exercise-add-row exercise-add-new-row">
                             <FormField
                                 id="new-day-number"
-                                label="Day"
-                                placeholder="N°"
+                                label={t('exercises.dayLabel')}
+                                placeholder={t('exercises.dayPlaceholder')}
                                 className="exercise-day-number-field"
                                 value={newDayNumber}
                                 onChange={(e) => setNewDayNumber(e.target.value)}
@@ -371,8 +379,8 @@ export const ExerciseDetailPage = () => {
 
                             <FormField
                                 id="new-day-description"
-                                label="Description"
-                                placeholder="legs, chest, back..."
+                                label={t('exercises.descriptionLabel')}
+                                placeholder={t('exercises.descriptionPlaceholder')}
                                 className="exercise-day-description-field"
                                 value={newDayDescription}
                                 onChange={(e) => setNewDayDescription(e.target.value)}
@@ -384,7 +392,7 @@ export const ExerciseDetailPage = () => {
                                 onClick={onCreateDayAndAdd}
                             >
                                 <i className="fas fa-plus" />
-                                Create & Add
+                                {t('exercises.createAndAdd')}
                             </Button>
                         </div>
                     )}

@@ -10,6 +10,8 @@ import { PageHeader } from '../../components/PageHeader';
 import { SectionLabel } from '../../components/SectionLabel';
 import { EmptyState } from '../../components/EmptyState';
 import { LoadingState } from '../../components/LoadingState';
+import { useTranslation } from 'react-i18next';
+import { useMuscleLabels } from '../../i18n/muscles';
 
 const newExerciseFields = {
     name: '',
@@ -20,6 +22,8 @@ const newExerciseFields = {
 };
 
 export const ExercisesPage = () => {
+    const { t } = useTranslation();
+    const { muscleLabel } = useMuscleLabels();
     const { exercises, isLoading, startSearchingExercises, startCreatingExercise } =
         useExercisesStore();
     const [searchTerm, setSearchTerm] = useState('');
@@ -73,9 +77,9 @@ export const ExercisesPage = () => {
         <main className="app-page exercises-page">
             <div className="app-page-container exercises-page-container">
                 <PageHeader
-                    eyebrow="EXERCISES"
-                    title="Exercises Catalog"
-                    subtitle="Search for exercises and view their information to complete your workout."
+                    eyebrow={t('exercises.eyebrow')}
+                    title={t('exercises.title')}
+                    subtitle={t('exercises.subtitle')}
                 />
                 <Card variant="surface">
                     <div className="routine-create-header">
@@ -83,21 +87,21 @@ export const ExercisesPage = () => {
                             <i className="fas fa-plus"></i>
                         </div>
                         <div>
-                            <h2>New exercise</h2>
+                            <h2>{t('exercises.newTitle')}</h2>
 
-                            <p>Can't find an exercise? Add it to the catalog.</p>
+                            <p>{t('exercises.newText')}</p>
                         </div>
                     </div>
                     <form onSubmit={onCreateExercise} className="routine-create-form">
                         <FormField
                             id="name"
-                            label="Name"
-                            placeholder="Hip Thrust"
+                            label={t('exercises.name')}
+                            placeholder={t('exercises.namePlaceholder')}
                             name="name"
                             value={name}
                             onChange={onInputChange}
                             onBlur={() => onFieldBlur('name')}
-                            error={nameError ? 'Name is required.' : undefined}
+                            error={nameError ? t('exercises.nameRequired') : undefined}
                         />
 
                         <MuscleSelect
@@ -106,13 +110,13 @@ export const ExercisesPage = () => {
                             value={primaryMuscles}
                             onChange={onInputChange}
                             onBlur={() => onFieldBlur('primaryMuscles')}
-                            error={primaryMusclesError ? 'Primary muscle is required.' : undefined}
+                            error={primaryMusclesError ? t('exercises.muscleRequired') : undefined}
                         />
 
                         <FormField
                             id="equipment"
-                            label="Equipment"
-                            placeholder="Smith Machine, Barbell, Dumbbell"
+                            label={t('exercises.equipment')}
+                            placeholder={t('exercises.equipmentPlaceholder')}
                             name="equipment"
                             value={equipment}
                             onChange={onInputChange}
@@ -120,8 +124,8 @@ export const ExercisesPage = () => {
 
                         <FormField
                             id="imageUrl"
-                            label="ImageUrl"
-                            placeholder="https://example.com/image.jpg"
+                            label={t('exercises.imageUrl')}
+                            placeholder={t('exercises.imageUrlPlaceholder')}
                             name="imageUrl"
                             value={imageUrl}
                             onChange={onInputChange}
@@ -129,8 +133,8 @@ export const ExercisesPage = () => {
 
                         <FormField
                             id="instructions"
-                            label="Instructions"
-                            placeholder="Describe the exercise..."
+                            label={t('exercises.instructions')}
+                            placeholder={t('exercises.instructionsPlaceholder')}
                             name="instructions"
                             rows={3}
                             value={instructions}
@@ -143,11 +147,11 @@ export const ExercisesPage = () => {
                         disabled={isCreating || !name || !primaryMuscles}
                     >
                         <i className="fas fa-plus"></i>
-                        {isCreating ? 'Creating...' : 'Create Exercise'}
+                        {isCreating ? t('exercises.creating') : t('exercises.create')}
                     </Button>
                 </Card>
                 <section className="exercises-search-section">
-                    <SectionLabel>SEARCH</SectionLabel>
+                    <SectionLabel>{t('exercises.searchSection')}</SectionLabel>
 
                     <div className="exercises-search">
                         <div className="exercises-search-icon">
@@ -155,7 +159,7 @@ export const ExercisesPage = () => {
                         </div>
                         <input
                             type="text"
-                            placeholder="Search exercises..."
+                            placeholder={t('exercises.searchPlaceholder')}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -164,7 +168,7 @@ export const ExercisesPage = () => {
                                 variant="secondary"
                                 size="icon"
                                 onClick={() => setSearchTerm('')}
-                                aria-label="Clear search"
+                                aria-label={t('exercises.clearSearch')}
                             >
                                 <i className="fas fa-times"></i>
                             </Button>
@@ -172,26 +176,30 @@ export const ExercisesPage = () => {
                     </div>
                 </section>
 
-                {isLoading && <LoadingState label="Searching for exercises..." />}
+                {isLoading && <LoadingState label={t('exercises.searching')} />}
 
                 {!isLoading && searchTerm.trim().length === 0 && (
                     <EmptyState
                         icon="fa-dumbbell"
-                        title="Search for an exercise"
-                        description="Enter the name of an exercise to start exploring the catalog."
+                        title={t('exercises.emptyTitle')}
+                        description={t('exercises.emptyText')}
                     />
                 )}
 
                 {!isLoading && searchTerm.trim().length > 0 && exercises.length === 0 && (
                     <EmptyState
                         icon="fa-search"
-                        title="Exercises not found"
-                        description="Try searching with a different name or search term."
+                        title={t('exercises.notFoundTitle')}
+                        description={t('exercises.notFoundText')}
                     />
                 )}
                 {!isLoading && exercises.length > 0 && (
                     <section className="exercises-results">
-                        <SectionLabel meta={`${exercises.length} exercises`}>RESULTS</SectionLabel>
+                        <SectionLabel
+                            meta={t('exercises.resultsCount', { count: exercises.length })}
+                        >
+                            {t('exercises.resultsSection')}
+                        </SectionLabel>
                         <div className="exercises-grid">
                             {exercises.map((exercise) => (
                                 <Link
@@ -212,7 +220,11 @@ export const ExercisesPage = () => {
                                         <div className="exercise-card-info">
                                             <h2>{exercise.name}</h2>
                                             {exercise.primaryMuscles?.length > 0 && (
-                                                <p>{exercise.primaryMuscles.join(' · ')}</p>
+                                                <p>
+                                                    {exercise.primaryMuscles
+                                                        .map(muscleLabel)
+                                                        .join(' · ')}
+                                                </p>
                                             )}
                                         </div>
                                         <div className="exercise-card-arrow">→</div>

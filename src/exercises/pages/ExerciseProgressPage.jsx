@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { format, parseISO } from 'date-fns';
+import { parseISO } from 'date-fns';
 import {
     CartesianGrid,
     Line,
@@ -17,21 +17,25 @@ import { Breadcrumb } from '../../components/Breadcrumb';
 import { LoadingState } from '../../components/LoadingState';
 import { PageHeader } from '../../components/PageHeader';
 import { Card } from '../../components/Card';
+import { useTranslation } from 'react-i18next';
+import { useLocaleFormat } from '../../i18n/format';
 
 const METRICS = {
     maxWeight: {
-        label: 'Max weight',
+        labelKey: 'exercises.maxWeight',
         unit: 'kg',
         compute: (sets) => Math.max(...sets.map((s) => s.weight)),
     },
     volume: {
-        label: 'Total volume',
+        labelKey: 'exercises.totalVolume',
         unit: 'kg',
         compute: (sets) => sets.reduce((total, s) => total + s.weight * s.reps, 0),
     },
 };
 
 export const ExerciseProgressPage = () => {
+    const { t } = useTranslation();
+    const { formatShortDate } = useLocaleFormat();
     const { id } = useParams();
     const { selectedExercise, startLoadingExercise } = useExercisesStore();
     const { exerciseHistory, startLoadingExerciseHistory, isLoading } = useCalendarStore();
@@ -47,7 +51,7 @@ export const ExerciseProgressPage = () => {
     const chartData = sessions
         .filter((session) => session.sets.length > 0)
         .map((session) => ({
-            date: format(parseISO(session.date), 'MMM d'),
+            date: formatShortDate(parseISO(session.date)),
             value: METRICS[metric].compute(session.sets),
         }));
 
@@ -56,32 +60,35 @@ export const ExerciseProgressPage = () => {
             <div className="exercise-detail-container">
                 <Breadcrumb
                     items={[
-                        { label: 'Home', to: '/' },
-                        { label: 'Exercises', to: '/exercises' },
-                        { label: selectedExercise?.name ?? 'Exercise', to: `/exercises/${id}` },
-                        { label: 'Progress' },
+                        { label: t('nav.home'), to: '/' },
+                        { label: t('nav.exercises'), to: '/exercises' },
+                        {
+                            label: selectedExercise?.name ?? t('exercises.fallbackName'),
+                            to: `/exercises/${id}`,
+                        },
+                        { label: t('exercises.progress') },
                     ]}
                 />
 
-                <PageHeader eyebrow="PROGRESS" title={selectedExercise?.name ?? 'Exercise'} />
+                <PageHeader
+                    eyebrow={t('exercises.progressEyebrow')}
+                    title={selectedExercise?.name ?? t('exercises.fallbackName')}
+                />
 
                 <Card variant="surface">
                     <ToggleGroup
-                        options={Object.entries(METRICS).map(([key, { label }]) => ({
+                        options={Object.entries(METRICS).map(([key, { labelKey }]) => ({
                             value: key,
-                            label,
+                            label: t(labelKey),
                         }))}
                         value={metric}
                         onChange={setMetric}
                     />
 
                     {isLoading ? (
-                        <LoadingState label="Loading history..." />
+                        <LoadingState label={t('exercises.loadingHistory')} />
                     ) : chartData.length === 0 ? (
-                        <p style={{ padding: '1.5rem 0' }}>
-                            No completed sessions yet for this exercise. Log a session from the
-                            calendar to start tracking progress.
-                        </p>
+                        <p style={{ padding: '1.5rem 0' }}>{t('exercises.noHistory')}</p>
                     ) : (
                         <div style={{ width: '100%', height: 320, marginTop: '1.5rem' }}>
                             <ResponsiveContainer>
@@ -98,7 +105,7 @@ export const ExerciseProgressPage = () => {
                                     <Tooltip
                                         formatter={(value) => [
                                             `${value} ${METRICS[metric].unit}`,
-                                            METRICS[metric].label,
+                                            t(METRICS[metric].labelKey),
                                         ]}
                                     />
                                     <Line
