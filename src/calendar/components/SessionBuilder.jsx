@@ -7,6 +7,8 @@ import { EmptyState } from '../../components/EmptyState';
 import { ExerciseCard } from '../../components/ExerciseCard';
 import { SetsTable } from '../../components/SetsTable';
 import { Card } from '../../components/Card';
+import { useTranslation } from 'react-i18next';
+import { useMuscleLabels } from '../../i18n/muscles';
 
 let rowKeySeed = 0;
 const nextRowKey = () => `row-${++rowKeySeed}`;
@@ -35,6 +37,8 @@ export const SessionBuilder = ({
     initialExercises,
     onDone,
 }) => {
+    const { t } = useTranslation();
+    const { muscleLabel } = useMuscleLabels();
     const [rows, setRows] = useState(() => buildInitialRows(initialExercises));
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -151,8 +155,8 @@ export const SessionBuilder = ({
             {rows.length === 0 && (
                 <EmptyState
                     icon="fa-calendar-plus"
-                    title="No exercises yet"
-                    description="Search and add exercises below to log this session."
+                    title={t('calendar.noExercisesTitle')}
+                    description={t('calendar.noExercisesText')}
                 />
             )}
 
@@ -162,15 +166,17 @@ export const SessionBuilder = ({
                 className="mt-3"
                 disabled={isSubmitting || !canSubmit}
             >
-                {isSubmitting ? 'Saving...' : 'Save session'}
+                {isSubmitting ? t('common.saving') : t('calendar.saveSession')}
             </Button>
 
             <Card variant="accent" className="routine-add-exercise-spacing">
                 <div className="routine-add-exercise-header">
                     <div>
-                        <span className="routine-section-label">EXERCISES</span>
-                        <h2>Add exercise</h2>
-                        <p>Pick a muscle group or search, then add exercises to this session</p>
+                        <span className="routine-section-label">
+                            {t('calendar.exercisesLabel')}
+                        </span>
+                        <h2>{t('calendar.addExercise')}</h2>
+                        <p>{t('calendar.addExerciseHint')}</p>
                     </div>
                 </div>
 
@@ -188,26 +194,37 @@ export const SessionBuilder = ({
                         image={row.exercise.images?.[0]?.url}
                         name={row.exercise.name}
                         tags={[
-                            ...(row.exercise.primaryMuscles ?? []).map((m) => ({ label: m })),
+                            ...(row.exercise.primaryMuscles ?? []).map((m) => ({
+                                label: muscleLabel(m),
+                            })),
                             ...(row.exercise.equipment
                                 ? [{ label: row.exercise.equipment, muted: true }]
                                 : []),
                         ]}
                         actions={
                             <Button variant="danger" size="sm" onClick={() => removeRow(row.key)}>
-                                Remove
+                                {t('common.remove')}
                             </Button>
                         }
                     >
                         <div style={{ padding: '0 24px 24px' }}>
                             <FormField
                                 id={`notes-${row.key}`}
-                                label="Notes for this exercise (optional)"
+                                label={t('calendar.exerciseNotes')}
                                 value={row.notes}
                                 onChange={(e) => updateRowNotes(row.key, e.target.value)}
                             />
 
-                            <SetsTable columns={['Set', 'Weight', 'Reps', 'Rest', 'Notes', '']}>
+                            <SetsTable
+                                columns={[
+                                    t('common.set'),
+                                    t('common.weight'),
+                                    t('common.reps'),
+                                    t('common.rest'),
+                                    t('common.notes'),
+                                    '',
+                                ]}
+                            >
                                 {row.sets.map((set, index) => (
                                     <tr key={index}>
                                         <td>{index + 1}</td>
@@ -217,7 +234,7 @@ export const SessionBuilder = ({
                                                 step="0.5"
                                                 className={`routine-form-input${set.touched && set.weight === '' ? ' routine-form-input-invalid' : ''}`}
                                                 value={set.weight}
-                                                aria-label="Weight (kg)"
+                                                aria-label={t('common.weightKg')}
                                                 aria-invalid={set.touched && set.weight === ''}
                                                 onChange={(e) =>
                                                     updateSet(
@@ -230,7 +247,9 @@ export const SessionBuilder = ({
                                                 onBlur={() => touchSet(row.key, index)}
                                             />
                                             {set.touched && set.weight === '' && (
-                                                <span className="field-error-text">Required</span>
+                                                <span className="field-error-text">
+                                                    {t('common.required')}
+                                                </span>
                                             )}
                                         </td>
                                         <td>
@@ -238,7 +257,7 @@ export const SessionBuilder = ({
                                                 type="number"
                                                 className={`routine-form-input${set.touched && set.reps === '' ? ' routine-form-input-invalid' : ''}`}
                                                 value={set.reps}
-                                                aria-label="Reps"
+                                                aria-label={t('common.reps')}
                                                 aria-invalid={set.touched && set.reps === ''}
                                                 onChange={(e) =>
                                                     updateSet(
@@ -251,7 +270,9 @@ export const SessionBuilder = ({
                                                 onBlur={() => touchSet(row.key, index)}
                                             />
                                             {set.touched && set.reps === '' && (
-                                                <span className="field-error-text">Required</span>
+                                                <span className="field-error-text">
+                                                    {t('common.required')}
+                                                </span>
                                             )}
                                         </td>
                                         <td>
@@ -259,7 +280,7 @@ export const SessionBuilder = ({
                                                 type="number"
                                                 className="routine-form-input"
                                                 value={set.restSeconds}
-                                                aria-label="Rest (seconds)"
+                                                aria-label={t('common.restSeconds')}
                                                 onChange={(e) =>
                                                     updateSet(
                                                         row.key,
@@ -275,7 +296,7 @@ export const SessionBuilder = ({
                                                 type="text"
                                                 className="routine-form-input"
                                                 value={set.notes}
-                                                aria-label="Notes"
+                                                aria-label={t('common.notes')}
                                                 onChange={(e) =>
                                                     updateSet(
                                                         row.key,
@@ -291,7 +312,7 @@ export const SessionBuilder = ({
                                                 variant="danger"
                                                 size="icon"
                                                 onClick={() => removeSet(row.key, index)}
-                                                aria-label="Remove set"
+                                                aria-label={t('common.removeSet')}
                                             >
                                                 <i className="fas fa-xmark"></i>
                                             </Button>
@@ -306,7 +327,7 @@ export const SessionBuilder = ({
                                 className="mt-2"
                                 onClick={() => addSet(row.key)}
                             >
-                                + Set
+                                {t('common.addSet')}
                             </Button>
                         </div>
                     </ExerciseCard>
@@ -316,14 +337,10 @@ export const SessionBuilder = ({
             {errorMessage && <p className="field-error-text mt-2">{errorMessage}</p>}
 
             {rows.length > 0 && !hasCompleteSet && (
-                <p className="field-error-text mt-2">
-                    Add weight and reps to at least one set before saving.
-                </p>
+                <p className="field-error-text mt-2">{t('calendar.needSet')}</p>
             )}
             {hasCompleteSet && hasIncompleteSet && (
-                <p className="field-error-text mt-2">
-                    Complete or remove the sets that are missing weight or reps.
-                </p>
+                <p className="field-error-text mt-2">{t('calendar.completeSets')}</p>
             )}
         </form>
     );

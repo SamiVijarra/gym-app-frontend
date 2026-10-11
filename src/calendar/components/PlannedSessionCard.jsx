@@ -4,24 +4,26 @@ import { Button } from '../../components/Button';
 import { Badge } from '../../components/Badge';
 import { Card } from '../../components/Card';
 import { MuscleGroupChips } from './MuscleGroupMarks';
+import { useTranslation } from 'react-i18next';
 
 export const PlannedSessionCard = ({ entry, onComplete }) => {
+    const { t } = useTranslation();
     const { startCancelingPlan } = useCalendarStore();
 
     const isFreeSession = !entry.routineDay;
-    const title = isFreeSession ? 'Free session' : entry.routineDay.description;
+    const title = isFreeSession ? t('common.freeSession') : entry.routineDay.description;
     const meta = isFreeSession
         ? (entry.plannedExercises ?? []).map((planned) => planned.exercise.name).join(' · ')
-        : `Day ${entry.routineDay.dayNumber}`;
+        : t('common.dayNumber', { number: entry.routineDay.dayNumber });
 
     const onCancel = async () => {
         const result = await Swal.fire({
-            title: 'Cancel this planned day?',
-            text: `"${title}" will be removed from this date.`,
+            title: t('calendar.cancelPlanTitle'),
+            text: t('calendar.cancelPlanText', { title }),
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Yes, cancel it',
-            cancelButtonText: 'Keep it',
+            confirmButtonText: t('calendar.cancelPlanYes'),
+            cancelButtonText: t('calendar.cancelPlanKeep'),
         });
 
         if (result.isConfirmed) {
@@ -32,7 +34,7 @@ export const PlannedSessionCard = ({ entry, onComplete }) => {
     return (
         <Card variant="surface">
             <div className="calendar-session-block-header">
-                <Badge status="planned">Planned</Badge>
+                <Badge status="planned">{t('common.planned')}</Badge>
                 <h3>{title}</h3>
             </div>
 
@@ -42,11 +44,11 @@ export const PlannedSessionCard = ({ entry, onComplete }) => {
 
             <div className="calendar-session-actions">
                 <Button variant="primary" onClick={() => onComplete(entry)}>
-                    Complete session
+                    {t('calendar.completeSession')}
                 </Button>
 
                 <Button variant="danger" onClick={onCancel}>
-                    Cancel
+                    {t('common.cancel')}
                 </Button>
             </div>
         </Card>
