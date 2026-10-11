@@ -1,6 +1,8 @@
 import type { ChangeEventHandler, FocusEventHandler } from 'react';
 import { FormField } from '../FormField';
-import { MUSCLE_GROUPS, MUSCLES_BY_GROUP, formatMuscleLabel } from '../../calendar/muscleGroups';
+import { MUSCLE_GROUPS, MUSCLES_BY_GROUP } from '../../calendar/muscleGroups';
+import { useTranslation } from 'react-i18next';
+import { useMuscleLabels } from '../../i18n/muscles';
 
 interface MuscleSelectProps {
     id: string;
@@ -19,27 +21,32 @@ export const MuscleSelect = ({
     onChange,
     onBlur,
     error,
-    label = 'Primary muscle',
-}: MuscleSelectProps) => (
-    <FormField
-        id={id}
-        label={label}
-        as="select"
-        name={name}
-        value={value}
-        onChange={onChange}
-        onBlur={onBlur}
-        error={error}
-    >
-        <option value="">Select a muscle...</option>
-        {MUSCLE_GROUPS.map((group) => (
-            <optgroup key={group.key} label={group.label}>
-                {MUSCLES_BY_GROUP[group.key].map((muscle) => (
-                    <option key={muscle} value={muscle}>
-                        {formatMuscleLabel(muscle)}
-                    </option>
-                ))}
-            </optgroup>
-        ))}
-    </FormField>
-);
+    label,
+}: MuscleSelectProps) => {
+    const { t } = useTranslation();
+    const { groupLabel, muscleLabel } = useMuscleLabels();
+
+    return (
+        <FormField
+            id={id}
+            label={label ?? t('muscleSelect.label')}
+            as="select"
+            name={name}
+            value={value}
+            onChange={onChange}
+            onBlur={onBlur}
+            error={error}
+        >
+            <option value="">{t('muscleSelect.placeholder')}</option>
+            {MUSCLE_GROUPS.map((group) => (
+                <optgroup key={group.key} label={groupLabel(group.key)}>
+                    {MUSCLES_BY_GROUP[group.key].map((muscle) => (
+                        <option key={muscle} value={muscle}>
+                            {muscleLabel(muscle)}
+                        </option>
+                    ))}
+                </optgroup>
+            ))}
+        </FormField>
+    );
+};

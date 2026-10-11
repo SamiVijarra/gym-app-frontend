@@ -7,8 +7,10 @@ import { Breadcrumb } from '../../components/Breadcrumb';
 import { PageHeader } from '../../components/PageHeader';
 import { LoadingState } from '../../components/LoadingState';
 import { Badge } from '../../components/Badge';
+import { useTranslation } from 'react-i18next';
 
 export const CalendarSessionDetailPage = () => {
+    const { t } = useTranslation();
     const { date, historyEntryId } = useParams();
 
     const { historyEntries, startLoadingHistoryEntry } = useCalendarStore();
@@ -22,15 +24,15 @@ export const CalendarSessionDetailPage = () => {
             <div className="routine-detail-container">
                 <Breadcrumb
                     items={[
-                        { label: 'Home', to: '/' },
-                        { label: 'Calendar', to: '/calendar' },
+                        { label: t('nav.home'), to: '/' },
+                        { label: t('nav.calendar'), to: '/calendar' },
                         { label: date, to: `/calendar/${date}` },
                         {
                             label: historyEntry
                                 ? historyEntry.routineDay
                                     ? historyEntry.routineDay.description
-                                    : 'Free session'
-                                : 'Session',
+                                    : t('common.freeSession')
+                                : t('common.session'),
                         },
                     ]}
                 />
@@ -41,14 +43,14 @@ export const CalendarSessionDetailPage = () => {
                         historyEntry
                             ? historyEntry.routineDay
                                 ? historyEntry.routineDay.description
-                                : 'Free session'
-                            : 'Session'
+                                : t('common.freeSession')
+                            : t('common.session')
                     }
-                    meta={[<Badge status="done">Done</Badge>]}
+                    meta={[<Badge status="done">{t('common.done')}</Badge>]}
                 />
 
                 {!historyEntry ? (
-                    <LoadingState label="Loading..." />
+                    <LoadingState label={t('common.loading')} />
                 ) : (
                     <HistorySessionView historyEntry={historyEntry} />
                 )}
