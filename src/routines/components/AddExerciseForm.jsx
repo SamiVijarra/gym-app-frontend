@@ -3,8 +3,12 @@ import { useRoutinesStore } from '../../hooks';
 import { Button } from '../../components/Button';
 import { FormField } from '../../components/FormField';
 import { ExercisePicker } from '../../calendar/components/ExercisePicker';
+import { useTranslation } from 'react-i18next';
+import { useMuscleLabels } from '../../i18n/muscles';
 
 export const AddExerciseForm = ({ dayId }) => {
+    const { t } = useTranslation();
+    const { muscleLabel } = useMuscleLabels();
     const [notes, setNotes] = useState('');
     const [selectedExercise, setSelectedExercise] = useState(null);
     const [isAdding, setIsAdding] = useState(false);
@@ -38,7 +42,7 @@ export const AddExerciseForm = ({ dayId }) => {
                     <div className="mb-2">
                         <strong>{selectedExercise.name}</strong>
                         <div className="text-muted small">
-                            {selectedExercise.primaryMuscles?.join(', ')} —{' '}
+                            {selectedExercise.primaryMuscles?.map(muscleLabel).join(', ')} —{' '}
                             {selectedExercise.equipment}
                         </div>
                         {selectedExercise.images?.[0] && (
@@ -53,8 +57,8 @@ export const AddExerciseForm = ({ dayId }) => {
 
                     <FormField
                         id="add-exercise-notes"
-                        label="Notes (optional)"
-                        placeholder="ex. with dumbbells"
+                        label={t('routine.notesOptional')}
+                        placeholder={t('routine.notesPlaceholder')}
                         value={notes}
                         onChange={(e) => setNotes(e.target.value)}
                     />
@@ -66,7 +70,7 @@ export const AddExerciseForm = ({ dayId }) => {
                             onClick={onConfirmAdd}
                             disabled={isAdding}
                         >
-                            {isAdding ? 'Adding...' : 'Add'}
+                            {isAdding ? t('common.adding') : t('common.add')}
                         </Button>
                         <Button
                             variant="secondary"
@@ -74,7 +78,7 @@ export const AddExerciseForm = ({ dayId }) => {
                             onClick={onCancel}
                             disabled={isAdding}
                         >
-                            Cancel
+                            {t('common.cancel')}
                         </Button>
                     </div>
                 </>

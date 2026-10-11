@@ -5,6 +5,7 @@ import { LoginPage } from '../auth/pages/LoginPage';
 import { HomePage } from '../home/pages/HomePage';
 import { useAuthStore, useThemeStore } from '../hooks';
 import { Layout } from '../components/Layout';
+import { useTranslation } from 'react-i18next';
 
 const lazyPage = (importPage, exportName) =>
     lazy(() => importPage().then((module) => ({ default: module[exportName] })));
@@ -45,6 +46,7 @@ const CalendarSessionDetailRoute = () => {
 };
 
 export const AppRouter = () => {
+    const { t } = useTranslation();
     const { status, checkAuthToken } = useAuthStore();
     const { mode } = useThemeStore();
 
@@ -57,7 +59,7 @@ export const AppRouter = () => {
     }, [mode]);
 
     if (status === 'checking') {
-        return <h3>Loading...</h3>;
+        return <h3>{t('common.loading')}</h3>;
     }
 
     return (

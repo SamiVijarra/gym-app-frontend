@@ -4,15 +4,19 @@ import { useAuthStore, useCalendarStore } from '../../hooks';
 import { PageHeader } from '../../components/PageHeader';
 import { SectionLabel } from '../../components/SectionLabel';
 import { MuscleGroupStats } from '../../calendar/components/MuscleGroupStats';
+import { useTranslation } from 'react-i18next';
+import { useLocaleFormat } from '../../i18n/format';
 
 const QUICK_LINKS = [
-    { to: '/routine', label: 'Routines', icon: 'fa-calendar-alt' },
-    { to: '/exercises', label: 'Exercises', icon: 'fa-dumbbell' },
-    { to: '/profile', label: 'Profile', icon: 'fa-user' },
-    { to: '/calendar', label: 'Calendar', icon: 'fa-calendar-check' },
+    { to: '/routine', labelKey: 'home.quickRoutines', icon: 'fa-calendar-alt' },
+    { to: '/exercises', labelKey: 'home.quickExercises', icon: 'fa-dumbbell' },
+    { to: '/profile', labelKey: 'home.quickProfile', icon: 'fa-user' },
+    { to: '/calendar', labelKey: 'home.quickCalendar', icon: 'fa-calendar-check' },
 ];
 
 export const HomePage = () => {
+    const { t } = useTranslation();
+    const { formatNumber } = useLocaleFormat();
     const { user } = useAuthStore();
     const { stats, muscleGroupStats, startLoadingStats, startLoadingMuscleGroupStats } =
         useCalendarStore();
@@ -26,9 +30,9 @@ export const HomePage = () => {
         <main className="app-page home-page">
             <div className="app-page-container home-container">
                 <PageHeader
-                    eyebrow="GYM TRACKER"
-                    title={`Hi, ${user.name}!`}
-                    subtitle="All set to track your progress."
+                    eyebrow={t('home.eyebrow')}
+                    title={t('home.title', { name: user.name })}
+                    subtitle={t('home.subtitle')}
                 />
 
                 <section className="home-banner">
@@ -37,28 +41,28 @@ export const HomePage = () => {
                     </div>
 
                     <div className="home-banner-text">
-                        <span className="home-card-label">YOUR TRAINING</span>
-                        <h2>Training Routine</h2>
-                        <p>Open your routines and start your workout.</p>
+                        <span className="home-card-label">{t('home.bannerLabel')}</span>
+                        <h2>{t('home.bannerTitle')}</h2>
+                        <p>{t('home.bannerText')}</p>
                     </div>
 
                     <Link to="/routine" className="home-primary-action">
-                        View routines
+                        {t('home.bannerAction')}
                         <span>→</span>
                     </Link>
                 </section>
 
-                <nav className="home-quick-grid" aria-label="Quick access">
+                <nav className="home-quick-grid" aria-label={t('home.quickAccess')}>
                     {QUICK_LINKS.map((link) => (
                         <Link key={link.to} to={link.to} className="home-quick-tile">
                             <i className={`fas ${link.icon}`}></i>
-                            {link.label}
+                            {t(link.labelKey)}
                         </Link>
                     ))}
                 </nav>
 
                 <section className="home-section">
-                    <SectionLabel>YOUR PROGRESS</SectionLabel>
+                    <SectionLabel>{t('home.progressLabel')}</SectionLabel>
 
                     <div className="home-stats-grid">
                         <div className="home-stat-card">
@@ -67,11 +71,10 @@ export const HomePage = () => {
                             </div>
                             <div>
                                 <strong>{stats ? stats.monthSessionsCompleted : '–'}</strong>
-                                <span>Sessions this month</span>
+                                <span>{t('home.sessionsThisMonth')}</span>
                                 {stats && (
                                     <p className="home-stat-sub">
-                                        {stats.monthActiveDays}{' '}
-                                        {stats.monthActiveDays === 1 ? 'active day' : 'active days'}
+                                        {t('counts.activeDay', { count: stats.monthActiveDays })}
                                     </p>
                                 )}
                             </div>
@@ -89,12 +92,12 @@ export const HomePage = () => {
                             </div>
                             <div>
                                 <strong>{stats ? stats.currentStreakWeeks : '–'}</strong>
-                                <span>Week streak</span>
+                                <span>{t('home.weekStreak')}</span>
                                 {stats && (
                                     <p className="home-stat-sub">
                                         {stats.currentStreakWeeks > 0
-                                            ? 'Keep it going!'
-                                            : 'Hit your weekly goal to start one'}
+                                            ? t('home.keepItUp')
+                                            : t('home.startStreak')}
                                     </p>
                                 )}
                             </div>
@@ -106,16 +109,16 @@ export const HomePage = () => {
                             </div>
                             <div>
                                 <strong>
-                                    {stats ? Math.round(stats.totalVolumeKg).toLocaleString() : '–'}
+                                    {stats ? formatNumber(Math.round(stats.totalVolumeKg)) : '–'}
                                 </strong>
-                                <span>Total kg lifted</span>
+                                <span>{t('home.totalLifted')}</span>
                             </div>
                         </div>
                     </div>
                 </section>
 
                 <section className="home-section">
-                    <SectionLabel>THIS MONTH BY MUSCLE GROUP</SectionLabel>
+                    <SectionLabel>{t('home.muscleSection')}</SectionLabel>
 
                     <MuscleGroupStats stats={muscleGroupStats} />
                 </section>
