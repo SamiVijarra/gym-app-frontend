@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import calendarApi from '../api/calendarApi';
 import { onLoadingRoutine, onSetRoutine, onRoutineError } from '../store';
+import i18n from '../i18n';
 
 export const useRoutinesStore = () => {
     const dispatch = useDispatch();
@@ -13,9 +14,7 @@ export const useRoutinesStore = () => {
             const { data } = await calendarApi.get('/routines');
             dispatch(onSetRoutine(data));
         } catch (error) {
-            dispatch(
-                onRoutineError(error.response?.data?.message || 'The routine could not be loaded')
-            );
+            dispatch(onRoutineError(error.response?.data?.message || i18n.t('errors.routineLoad')));
         }
     }, [dispatch]);
 
@@ -25,9 +24,7 @@ export const useRoutinesStore = () => {
             await startLoadingRoutine();
             return data;
         } catch (error) {
-            dispatch(
-                onRoutineError(error.response?.data?.message || 'The day could not be created')
-            );
+            dispatch(onRoutineError(error.response?.data?.message || i18n.t('errors.dayCreate')));
         }
     };
 
@@ -36,9 +33,7 @@ export const useRoutinesStore = () => {
             await calendarApi.post(`/routines/days/${dayId}/exercises`, exerciseData);
             await startLoadingRoutine();
         } catch (error) {
-            dispatch(
-                onRoutineError(error.response?.data?.message || 'The exercise could not be added')
-            );
+            dispatch(onRoutineError(error.response?.data?.message || i18n.t('errors.exerciseAdd')));
         }
     };
 
@@ -47,7 +42,7 @@ export const useRoutinesStore = () => {
             await calendarApi.post(`/routines/exercises/${routineExerciseId}/sets`, setData);
             await startLoadingRoutine();
         } catch (error) {
-            dispatch(onRoutineError(error.response?.data?.message || 'The set could not be added'));
+            dispatch(onRoutineError(error.response?.data?.message || i18n.t('errors.setAdd')));
         }
     };
 
@@ -56,9 +51,7 @@ export const useRoutinesStore = () => {
             await calendarApi.patch(`/routines/sets/${setId}`, setData);
             await startLoadingRoutine();
         } catch (error) {
-            dispatch(
-                onRoutineError(error.response?.data?.message || 'The set could not be updated')
-            );
+            dispatch(onRoutineError(error.response?.data?.message || i18n.t('errors.setUpdate')));
         }
     };
 
@@ -68,9 +61,7 @@ export const useRoutinesStore = () => {
             await startLoadingRoutine();
             return true;
         } catch (error) {
-            dispatch(
-                onRoutineError(error.response?.data?.message || 'The day could not be removed')
-            );
+            dispatch(onRoutineError(error.response?.data?.message || i18n.t('errors.dayRemove')));
             return false;
         }
     };
@@ -82,7 +73,7 @@ export const useRoutinesStore = () => {
             return true;
         } catch (error) {
             dispatch(
-                onRoutineError(error.response?.data?.message || 'The exercise could not be removed')
+                onRoutineError(error.response?.data?.message || i18n.t('errors.exerciseRemove'))
             );
             return false;
         }
@@ -94,9 +85,7 @@ export const useRoutinesStore = () => {
             await startLoadingRoutine();
             return true;
         } catch (error) {
-            dispatch(
-                onRoutineError(error.response?.data?.message || 'The set could not be removed')
-            );
+            dispatch(onRoutineError(error.response?.data?.message || i18n.t('errors.setRemove')));
             return false;
         }
     };

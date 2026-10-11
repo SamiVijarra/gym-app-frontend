@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import calendarApi from '../api/calendarApi';
 import { clearErrorMessage, onChecking, onLogin, onLogout } from '../store';
 import { getErrorMessage } from '../helpers';
+import i18n from '../i18n';
 
 const clearSession = () => {
     localStorage.removeItem('token');
@@ -23,7 +24,7 @@ export const useAuthStore = () => {
 
             dispatch(onLogin({ id: data.id, name: data.name, email: data.email }));
         } catch (error) {
-            dispatch(onLogout(getErrorMessage(error, 'Invalid credentials')));
+            dispatch(onLogout(getErrorMessage(error, i18n.t('errors.invalidCredentials'))));
             setTimeout(() => {
                 dispatch(clearErrorMessage());
             }, 10);
@@ -40,7 +41,7 @@ export const useAuthStore = () => {
 
             dispatch(onLogin({ id: data.id, name: data.name, email: data.email }));
         } catch (error) {
-            dispatch(onLogout(getErrorMessage(error, 'Registration error')));
+            dispatch(onLogout(getErrorMessage(error, i18n.t('errors.registration'))));
             setTimeout(() => {
                 dispatch(clearErrorMessage());
             }, 10);

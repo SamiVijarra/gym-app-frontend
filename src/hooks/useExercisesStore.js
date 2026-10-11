@@ -8,6 +8,7 @@ import {
     onExercisesError,
     onSetSelectedExercise,
 } from '../store';
+import i18n from '../i18n';
 
 export const useExercisesStore = () => {
     const dispatch = useDispatch();
@@ -26,7 +27,7 @@ export const useExercisesStore = () => {
             } catch (error) {
                 dispatch(
                     onExercisesError(
-                        error.response?.data?.message || 'The exercises could not be loaded'
+                        error.response?.data?.message || i18n.t('errors.exercisesLoad')
                     )
                 );
             }
@@ -41,9 +42,7 @@ export const useExercisesStore = () => {
                 dispatch(onSetSelectedExercise(data));
             } catch (error) {
                 dispatch(
-                    onExercisesError(
-                        error.response?.data?.message || 'The exercise could not be loaded'
-                    )
+                    onExercisesError(error.response?.data?.message || i18n.t('errors.exerciseLoad'))
                 );
             }
         },
@@ -56,9 +55,7 @@ export const useExercisesStore = () => {
             return data;
         } catch (error) {
             dispatch(
-                onExercisesError(
-                    error.response?.data?.message || 'The exercise could not be created.'
-                )
+                onExercisesError(error.response?.data?.message || i18n.t('errors.exerciseCreate'))
             );
             return null;
         }
@@ -71,9 +68,7 @@ export const useExercisesStore = () => {
             return data;
         } catch (error) {
             dispatch(
-                onExercisesError(
-                    error.response?.data?.message || 'The exercise could not be updated.'
-                )
+                onExercisesError(error.response?.data?.message || i18n.t('errors.exerciseUpdate'))
             );
             return null;
         }
@@ -88,7 +83,7 @@ export const useExercisesStore = () => {
             // lo muestre en el momento, sin dejar un error viejo en el formulario de edición.
             return {
                 ok: false,
-                message: getErrorMessage(error, 'The exercise could not be deleted.'),
+                message: getErrorMessage(error, i18n.t('errors.exerciseDelete')),
             };
         }
     };

@@ -13,6 +13,7 @@ import {
 } from '../store/calendar/calendarSlice';
 import calendarApi from '../api/calendarApi';
 import { getErrorMessage } from '../helpers';
+import i18n from '../i18n';
 
 const parseYearMonth = (date) => {
     const [year, month] = date.split('-').map(Number);
@@ -41,9 +42,7 @@ export const useCalendarStore = () => {
                 dispatch(onSetCalendarEntries(data));
             } catch (error) {
                 dispatch(
-                    onCalendarError(
-                        error.response?.data?.message || 'The calendar could not be loaded.'
-                    )
+                    onCalendarError(error.response?.data?.message || i18n.t('errors.calendarLoad'))
                 );
             }
         },
@@ -56,7 +55,7 @@ export const useCalendarStore = () => {
             await startLoadingMonth(year, month);
             return true;
         } catch (error) {
-            dispatch(onCalendarError(getErrorMessage(error, 'Could not plan the day')));
+            dispatch(onCalendarError(getErrorMessage(error, i18n.t('errors.planDay'))));
             return false;
         }
     };
@@ -68,9 +67,7 @@ export const useCalendarStore = () => {
             await startLoadingMonth(year, month);
             return true;
         } catch (error) {
-            dispatch(
-                onCalendarError(error.response?.data?.message || 'Could not cancel the planned day')
-            );
+            dispatch(onCalendarError(error.response?.data?.message || i18n.t('errors.cancelPlan')));
             return false;
         }
     };
@@ -84,9 +81,7 @@ export const useCalendarStore = () => {
             dispatch(onSetSessionPrefill(data));
         } catch (error) {
             dispatch(
-                onCalendarError(
-                    error.response?.data?.message || 'Could not load the session prefill'
-                )
+                onCalendarError(error.response?.data?.message || i18n.t('errors.prefillLoad'))
             );
         }
     };
@@ -97,7 +92,7 @@ export const useCalendarStore = () => {
             const { data } = await calendarApi.get(`/calendar/planned/${calendarEntryId}/prefill`);
             dispatch(onSetSessionPrefill(data));
         } catch (error) {
-            dispatch(onCalendarError(getErrorMessage(error, 'Could not load the planned session')));
+            dispatch(onCalendarError(getErrorMessage(error, i18n.t('errors.plannedLoad'))));
         }
     };
 
@@ -109,9 +104,7 @@ export const useCalendarStore = () => {
             return true;
         } catch (error) {
             dispatch(
-                onCalendarError(
-                    error.response?.data?.message || 'The session could not be completed'
-                )
+                onCalendarError(error.response?.data?.message || i18n.t('errors.sessionComplete'))
             );
             return false;
         }
@@ -124,9 +117,7 @@ export const useCalendarStore = () => {
                 dispatch(onSetHistoryEntry(data));
             } catch (error) {
                 dispatch(
-                    onCalendarError(
-                        error.response?.data?.message || 'The history could not be loaded'
-                    )
+                    onCalendarError(error.response?.data?.message || i18n.t('errors.historyLoad'))
                 );
             }
         },
@@ -142,7 +133,7 @@ export const useCalendarStore = () => {
             } catch (error) {
                 dispatch(
                     onCalendarError(
-                        error.response?.data?.message || 'The exercise history could not be loaded'
+                        error.response?.data?.message || i18n.t('errors.exerciseHistoryLoad')
                     )
                 );
             }
@@ -156,10 +147,7 @@ export const useCalendarStore = () => {
             return true;
         } catch (error) {
             dispatch(
-                onCalendarError(
-                    error.response?.data?.message ||
-                        'Could not save the notes for the exercise history'
-                )
+                onCalendarError(error.response?.data?.message || i18n.t('errors.exerciseNotesSave'))
             );
             return false;
         }
@@ -171,9 +159,7 @@ export const useCalendarStore = () => {
             return true;
         } catch (error) {
             dispatch(
-                onCalendarError(
-                    error.response?.data?.message || 'Could not save the notes for the set history'
-                )
+                onCalendarError(error.response?.data?.message || i18n.t('errors.setNotesSave'))
             );
             return false;
         }
@@ -185,9 +171,7 @@ export const useCalendarStore = () => {
             const { data } = await calendarApi.get('/calendar/stats');
             dispatch(onSetStats(data));
         } catch (error) {
-            dispatch(
-                onCalendarError(error.response?.data?.message || 'The stats could not be loaded')
-            );
+            dispatch(onCalendarError(error.response?.data?.message || i18n.t('errors.statsLoad')));
         }
     }, [dispatch]);
 
@@ -206,9 +190,7 @@ export const useCalendarStore = () => {
             dispatch(onSetMuscleGroupStats(data));
         } catch (error) {
             dispatch(
-                onCalendarError(
-                    error.response?.data?.message || 'The muscle group stats could not be loaded'
-                )
+                onCalendarError(error.response?.data?.message || i18n.t('errors.muscleStatsLoad'))
             );
         }
     }, [dispatch]);
@@ -223,7 +205,7 @@ export const useCalendarStore = () => {
             } catch (error) {
                 dispatch(
                     onCalendarError(
-                        error.response?.data?.message || 'The weekly goal could not be loaded'
+                        error.response?.data?.message || i18n.t('errors.weeklyGoalLoad')
                     )
                 );
             }
@@ -238,9 +220,7 @@ export const useCalendarStore = () => {
             return true;
         } catch (error) {
             dispatch(
-                onCalendarError(
-                    error.response?.data?.message || 'The weekly goal could not be saved'
-                )
+                onCalendarError(error.response?.data?.message || i18n.t('errors.weeklyGoalSave'))
             );
             return false;
         }

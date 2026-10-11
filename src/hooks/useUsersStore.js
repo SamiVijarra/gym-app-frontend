@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import calendarApi from '../api/calendarApi';
 import { onLoadingProfile, onProfileError, onSetProfile } from '../store';
+import i18n from '../i18n';
 
 export const useUsersStore = () => {
     const dispatch = useDispatch();
@@ -14,9 +15,7 @@ export const useUsersStore = () => {
             const { data } = await calendarApi.get(`/users/${user.id}`);
             dispatch(onSetProfile(data));
         } catch (error) {
-            dispatch(
-                onProfileError(error.response?.data?.message || 'The profile could not be loaded')
-            );
+            dispatch(onProfileError(error.response?.data?.message || i18n.t('errors.profileLoad')));
         }
     }, [dispatch, user.id]);
 
@@ -28,7 +27,7 @@ export const useUsersStore = () => {
             return true;
         } catch (error) {
             dispatch(
-                onProfileError(error.response?.data?.message || 'The profile could not be updated')
+                onProfileError(error.response?.data?.message || i18n.t('errors.profileUpdate'))
             );
             return false;
         }
@@ -37,14 +36,14 @@ export const useUsersStore = () => {
     const startChangingPassword = async (currentPassword, newPassword) => {
         try {
             await calendarApi.patch(`/users/${user.id}/password`, { currentPassword, newPassword });
-            return { ok: true, message: 'Your password was updated.' };
+            return { ok: true, message: i18n.t('errors.passwordUpdated') };
         } catch (error) {
             const message = error.response?.data?.message;
             return {
                 ok: false,
                 message:
                     (Array.isArray(message) ? message[0] : message) ||
-                    'The password could not be updated',
+                    i18n.t('errors.passwordUpdate'),
             };
         }
     };
