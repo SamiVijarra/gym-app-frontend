@@ -7,6 +7,7 @@ import {
     BreadcrumbNav,
     BreadcrumbSeparator,
 } from './Breadcrumb.styles';
+import { useTranslation } from 'react-i18next';
 
 export interface BreadcrumbItemData {
     label: string;
@@ -18,8 +19,10 @@ interface BreadcrumbProps {
 }
 
 export const Breadcrumb = ({ items }: BreadcrumbProps) => {
+    const { t } = useTranslation();
+
     return (
-        <BreadcrumbNav aria-label="Breadcrumb">
+        <BreadcrumbNav aria-label={t('nav.breadcrumb')}>
             <BreadcrumbList>
                 {items.map((item, index) => {
                     const isLast = index === items.length - 1;

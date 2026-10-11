@@ -4,10 +4,12 @@ import { Navbar } from '../Navbar';
 import { Sidebar } from '../Sidebar';
 import { LoadingState } from '../LoadingState';
 import { AppShell, AppShellMain } from './Layout.styles';
+import { useTranslation } from 'react-i18next';
 
 const COLLAPSE_STORAGE_KEY = 'sidebar-collapsed';
 
 export const Layout = () => {
+    const { t } = useTranslation();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const [isCollapsed, setIsCollapsed] = useState(
@@ -30,7 +32,7 @@ export const Layout = () => {
             />
             <AppShellMain>
                 <Navbar onOpenSidebar={() => setIsSidebarOpen(true)} />
-                <Suspense fallback={<LoadingState label="Loading..." />}>
+                <Suspense fallback={<LoadingState label={t('common.loading')} />}>
                     <Outlet />
                 </Suspense>
             </AppShellMain>
