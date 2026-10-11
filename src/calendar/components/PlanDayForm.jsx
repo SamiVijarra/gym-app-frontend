@@ -5,14 +5,15 @@ import { Button } from '../../components/Button';
 import { FormField } from '../../components/FormField';
 import { Card } from '../../components/Card';
 import { ToggleGroup } from '../../components/ToggleGroup';
-
-const MODE_OPTIONS = [
-    { value: 'routine', label: 'Routine day' },
-    { value: 'free', label: 'Free session' },
-];
+import { useTranslation } from 'react-i18next';
 
 export const PlanDayForm = ({ date, onPlanned }) => {
+    const { t } = useTranslation();
     const { days, startLoadingRoutine } = useRoutinesStore();
+    const modeOptions = [
+        { value: 'routine', label: t('calendar.modeRoutine') },
+        { value: 'free', label: t('calendar.modeFree') },
+    ];
     const { startPlanningDay, errorMessage } = useCalendarStore();
 
     const [mode, setMode] = useState('routine');
@@ -68,7 +69,7 @@ export const PlanDayForm = ({ date, onPlanned }) => {
 
     return (
         <Card variant="surface">
-            <ToggleGroup options={MODE_OPTIONS} value={mode} onChange={onModeChange} />
+            <ToggleGroup options={modeOptions} value={mode} onChange={onModeChange} />
 
             <form
                 onSubmit={onSubmit}
@@ -78,15 +79,18 @@ export const PlanDayForm = ({ date, onPlanned }) => {
                     <>
                         <FormField
                             id="plan-day-routine"
-                            label="Routine day"
+                            label={t('calendar.modeRoutine')}
                             as="select"
                             value={routineDayId}
                             onChange={(e) => setRoutineDayId(e.target.value)}
                         >
-                            <option value="">Select a day...</option>
+                            <option value="">{t('calendar.selectDay')}</option>
                             {days.map((day) => (
                                 <option key={day.id} value={day.id}>
-                                    Day {day.dayNumber} — {day.description}
+                                    {t('common.dayWithDescription', {
+                                        number: day.dayNumber,
+                                        description: day.description,
+                                    })}
                                 </option>
                             ))}
                         </FormField>
@@ -98,7 +102,7 @@ export const PlanDayForm = ({ date, onPlanned }) => {
                             className="form-field-row-button"
                             disabled={!canSubmit || isSubmitting}
                         >
-                            {isSubmitting ? 'Planning...' : 'Plan this day'}
+                            {isSubmitting ? t('calendar.planning') : t('calendar.planDay')}
                         </Button>
                     </>
                 ) : (
@@ -122,7 +126,7 @@ export const PlanDayForm = ({ date, onPlanned }) => {
                                             size="sm"
                                             onClick={() => removeExercise(exercise.id)}
                                         >
-                                            Remove
+                                            {t('common.remove')}
                                         </Button>
                                     </li>
                                 ))}
@@ -136,7 +140,7 @@ export const PlanDayForm = ({ date, onPlanned }) => {
                             className="mt-3"
                             disabled={!canSubmit || isSubmitting}
                         >
-                            {isSubmitting ? 'Planning...' : 'Plan free session'}
+                            {isSubmitting ? t('calendar.planning') : t('calendar.planFree')}
                         </Button>
                     </>
                 )}

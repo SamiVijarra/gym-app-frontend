@@ -4,8 +4,11 @@ import { useCalendarStore } from '../../hooks';
 import { Button } from '../../components/Button';
 import { ExerciseCard } from '../../components/ExerciseCard';
 import { SetsTable } from '../../components/SetsTable';
+import { useTranslation } from 'react-i18next';
+import { useMuscleLabels } from '../../i18n/muscles';
 
 const InlineNotesEditor = ({ id, initialNotes, onSave }) => {
+    const { t } = useTranslation();
     const [notes, setNotes] = useState(initialNotes ?? '');
     const [isSaving, setIsSaving] = useState(false);
     const isDirty = notes !== (initialNotes ?? '');
@@ -20,19 +23,19 @@ const InlineNotesEditor = ({ id, initialNotes, onSave }) => {
     return (
         <form onSubmit={onSubmit} className="inline-notes-form">
             <label htmlFor={id} className="visually-hidden">
-                Notes
+                {t('common.notes')}
             </label>
             <input
                 id={id}
                 type="text"
                 className="routine-form-input"
-                placeholder="Notes"
+                placeholder={t('common.notes')}
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
             />
             {isDirty && (
                 <Button type="submit" variant="secondary" size="sm" disabled={isSaving}>
-                    {isSaving ? '...' : 'Save'}
+                    {isSaving ? '...' : t('common.save')}
                 </Button>
             )}
         </form>
@@ -40,6 +43,8 @@ const InlineNotesEditor = ({ id, initialNotes, onSave }) => {
 };
 
 export const HistorySessionView = ({ historyEntry }) => {
+    const { t } = useTranslation();
+    const { muscleLabel } = useMuscleLabels();
     const {
         startUpdatingHistoryExerciseNotes,
         startUpdatingHistorySetNotes,
@@ -55,7 +60,7 @@ export const HistorySessionView = ({ historyEntry }) => {
                     image={historyExercise.exercise.images?.[0]?.url}
                     name={historyExercise.exercise.name}
                     tags={(historyExercise.exercise.primaryMuscles ?? []).map((m) => ({
-                        label: m,
+                        label: muscleLabel(m),
                     }))}
                     actions={
                         <Button
@@ -63,8 +68,8 @@ export const HistorySessionView = ({ historyEntry }) => {
                             to={`/exercises/${historyExercise.exercise.id}/progress`}
                             variant="ghost"
                             size="icon"
-                            aria-label="View progress"
-                            title="View progress"
+                            aria-label={t('common.viewProgress')}
+                            title={t('common.viewProgress')}
                         >
                             <i className="fas fa-chart-line"></i>
                         </Button>
@@ -85,13 +90,27 @@ export const HistorySessionView = ({ historyEntry }) => {
                             />
                         </div>
 
-                        <SetsTable columns={['Set', 'Weight', 'Reps', 'Rest', 'Notes']}>
+                        <SetsTable
+                            columns={[
+                                t('common.set'),
+                                t('common.weight'),
+                                t('common.reps'),
+                                t('common.rest'),
+                                t('common.notes'),
+                            ]}
+                        >
                             {historyExercise.sets.map((set) => (
                                 <tr key={set.id}>
                                     <td>{set.order}</td>
-                                    <td>{set.weight} kg</td>
+                                    <td>
+                                        {set.weight} {t('common.kg')}
+                                    </td>
                                     <td>{set.reps}</td>
-                                    <td>{set.restSeconds ? `${set.restSeconds}s` : '-'}</td>
+                                    <td>
+                                        {set.restSeconds
+                                            ? t('common.seconds', { value: set.restSeconds })
+                                            : '-'}
+                                    </td>
                                     <td>
                                         <InlineNotesEditor
                                             id={`set-notes-${set.id}`}
