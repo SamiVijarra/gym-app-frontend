@@ -11,7 +11,7 @@ import { SectionLabel } from '../../components/SectionLabel';
 import { EmptyState } from '../../components/EmptyState';
 import { LoadingState } from '../../components/LoadingState';
 import { useTranslation } from 'react-i18next';
-import { useMuscleLabels } from '../../i18n/muscles';
+import { resolveMuscleQuery, useMuscleLabels } from '../../i18n/muscles';
 
 const newExerciseFields = {
     name: '',
@@ -43,7 +43,7 @@ export const ExercisesPage = () => {
         if (searchTerm.trim().length === 0) return;
 
         const timeoutId = setTimeout(() => {
-            startSearchingExercises({ name: searchTerm });
+            startSearchingExercises(resolveMuscleQuery(searchTerm) ?? { name: searchTerm });
         }, 400);
 
         return () => clearTimeout(timeoutId);
