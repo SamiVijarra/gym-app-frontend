@@ -110,7 +110,6 @@
         "emailPlaceholder": "your@email.com",
         "password": "Password",
         "login": "Login",
-        "or": "or",
         "newHere": "NEW HERE",
         "createTitle": "Create your account",
         "name": "Name",
@@ -118,6 +117,10 @@
         "repeatPassword": "Repeat password",
         "mismatch": "Passwords do not match",
         "createAccount": "Create account",
+        "noAccount": "Don't have an account?",
+        "createOne": "Create one",
+        "haveAccount": "Already have an account?",
+        "goLogin": "Log in",
         "protected": "Your data is protected"
     },
     "home": {

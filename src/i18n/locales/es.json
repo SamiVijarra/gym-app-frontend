@@ -110,7 +110,6 @@
         "emailPlaceholder": "tu@correo.com",
         "password": "Contraseña",
         "login": "Ingresar",
-        "or": "o",
         "newHere": "¿PRIMERA VEZ ACÁ?",
         "createTitle": "Creá tu cuenta",
         "name": "Nombre",
@@ -118,6 +117,10 @@
         "repeatPassword": "Repetir contraseña",
         "mismatch": "Las contraseñas no coinciden",
         "createAccount": "Crear cuenta",
+        "noAccount": "¿No tenés cuenta?",
+        "createOne": "Creá una",
+        "haveAccount": "¿Ya tenés cuenta?",
+        "goLogin": "Ingresá",
         "protected": "Tus datos están protegidos"
     },
     "home": {

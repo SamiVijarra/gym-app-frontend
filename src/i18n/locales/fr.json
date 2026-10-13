@@ -110,7 +110,6 @@
         "emailPlaceholder": "votre@email.com",
         "password": "Mot de passe",
         "login": "Se connecter",
-        "or": "ou",
         "newHere": "NOUVEAU ICI ?",
         "createTitle": "Créez votre compte",
         "name": "Nom",
@@ -118,6 +117,10 @@
         "repeatPassword": "Répéter le mot de passe",
         "mismatch": "Les mots de passe ne correspondent pas",
         "createAccount": "Créer un compte",
+        "noAccount": "Pas encore de compte ?",
+        "createOne": "Créez-en un",
+        "haveAccount": "Vous avez déjà un compte ?",
+        "goLogin": "Connectez-vous",
         "protected": "Vos données sont protégées"
     },
     "home": {
