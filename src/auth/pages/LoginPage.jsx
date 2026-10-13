@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, useAuthStore } from '../../hooks';
 import Swal from 'sweetalert2';
 import { ThemeToggle } from '../../components/ThemeToggle';
@@ -20,6 +20,7 @@ const registerFormField = {
 
 export const LoginPage = () => {
     const { t } = useTranslation();
+    const [mode, setMode] = useState('login');
     const { startLogin, errorMessage, startRegister } = useAuthStore();
     const {
         loginEmail,
@@ -79,183 +80,191 @@ export const LoginPage = () => {
                 </header>
 
                 <div className="auth-card">
-                    {/* LOGIN */}
+                    {mode === 'login' ? (
+                        <section className="auth-form-section">
+                            <div className="auth-section-header">
+                                <div className="auth-section-icon">
+                                    <i className="fas fa-sign-in-alt" />
+                                </div>
 
-                    <section className="auth-form-section">
-                        <div className="auth-section-header">
-                            <div className="auth-section-icon">
-                                <i className="fas fa-sign-in-alt" />
-                            </div>
+                                <div>
+                                    <span className="auth-section-label">{t('auth.welcome')}</span>
 
-                            <div>
-                                <span className="auth-section-label">{t('auth.welcome')}</span>
-
-                                <h2>{t('auth.loginTitle')}</h2>
-                            </div>
-                        </div>
-
-                        <form onSubmit={loginSubmit}>
-                            <div className="auth-form-field">
-                                <label htmlFor="loginEmail">{t('auth.email')}</label>
-
-                                <div className="auth-input-wrapper">
-                                    <i className="fas fa-envelope" />
-
-                                    <input
-                                        id="loginEmail"
-                                        type="email"
-                                        placeholder={t('auth.emailPlaceholder')}
-                                        name="loginEmail"
-                                        value={loginEmail}
-                                        onChange={onLoginInputChange}
-                                    />
+                                    <h2>{t('auth.loginTitle')}</h2>
                                 </div>
                             </div>
 
-                            <div className="auth-form-field">
-                                <label htmlFor="loginPassword">{t('auth.password')}</label>
-
-                                <div className="auth-input-wrapper">
-                                    <i className="fas fa-lock" />
-
-                                    <input
-                                        id="loginPassword"
-                                        type="password"
-                                        placeholder="••••••••"
-                                        name="loginPassword"
-                                        value={loginPassword}
-                                        onChange={onLoginInputChange}
-                                    />
-                                </div>
-                            </div>
-
-                            <Button
-                                type="submit"
-                                variant="primary"
-                                fullWidth
-                                disabled={!loginEmail || !loginPassword}
-                            >
-                                {t('auth.login')}
-                                <i className="fas fa-arrow-right" />
-                            </Button>
-                        </form>
-                    </section>
-
-                    <div className="auth-divider">
-                        <span>{t('auth.or')}</span>
-                    </div>
-
-                    {/* REGISTER */}
-
-                    <section className="auth-form-section">
-                        <div className="auth-section-header">
-                            <div className="auth-section-icon">
-                                <i className="fas fa-user-plus" />
-                            </div>
-
-                            <div>
-                                <span className="auth-section-label">{t('auth.newHere')}</span>
-
-                                <h2>{t('auth.createTitle')}</h2>
-                            </div>
-                        </div>
-
-                        <form onSubmit={registerSubmit}>
-                            <div className="auth-form-field">
-                                <label htmlFor="registerName">{t('auth.name')}</label>
-
-                                <div className="auth-input-wrapper">
-                                    <i className="fas fa-user" />
-
-                                    <input
-                                        id="registerName"
-                                        type="text"
-                                        placeholder={t('auth.namePlaceholder')}
-                                        name="registerName"
-                                        value={registerName}
-                                        onChange={onRegisterInputChange}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="auth-form-field">
-                                <label htmlFor="registerEmail">{t('auth.email')}</label>
-
-                                <div className="auth-input-wrapper">
-                                    <i className="fas fa-envelope" />
-
-                                    <input
-                                        id="registerEmail"
-                                        type="email"
-                                        placeholder={t('auth.emailPlaceholder')}
-                                        name="registerEmail"
-                                        value={registerEmail}
-                                        onChange={onRegisterInputChange}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="auth-form-row">
+                            <form onSubmit={loginSubmit}>
                                 <div className="auth-form-field">
-                                    <label htmlFor="registerPassword">{t('auth.password')}</label>
+                                    <label htmlFor="loginEmail">{t('auth.email')}</label>
+
+                                    <div className="auth-input-wrapper">
+                                        <i className="fas fa-envelope" />
+
+                                        <input
+                                            id="loginEmail"
+                                            type="email"
+                                            placeholder={t('auth.emailPlaceholder')}
+                                            name="loginEmail"
+                                            value={loginEmail}
+                                            onChange={onLoginInputChange}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="auth-form-field">
+                                    <label htmlFor="loginPassword">{t('auth.password')}</label>
 
                                     <div className="auth-input-wrapper">
                                         <i className="fas fa-lock" />
 
                                         <input
-                                            id="registerPassword"
+                                            id="loginPassword"
                                             type="password"
                                             placeholder="••••••••"
-                                            name="registerPassword"
-                                            value={registerPassword}
+                                            name="loginPassword"
+                                            value={loginPassword}
+                                            onChange={onLoginInputChange}
+                                        />
+                                    </div>
+                                </div>
+
+                                <Button
+                                    type="submit"
+                                    variant="primary"
+                                    fullWidth
+                                    disabled={!loginEmail || !loginPassword}
+                                >
+                                    {t('auth.login')}
+                                    <i className="fas fa-arrow-right" />
+                                </Button>
+                            </form>
+                            <p className="auth-switch">
+                                {t('auth.noAccount')}
+                                <button type="button" onClick={() => setMode('register')}>
+                                    {t('auth.createOne')}
+                                </button>
+                            </p>
+                        </section>
+                    ) : (
+                        <section className="auth-form-section">
+                            <div className="auth-section-header">
+                                <div className="auth-section-icon">
+                                    <i className="fas fa-user-plus" />
+                                </div>
+
+                                <div>
+                                    <span className="auth-section-label">{t('auth.newHere')}</span>
+
+                                    <h2>{t('auth.createTitle')}</h2>
+                                </div>
+                            </div>
+
+                            <form onSubmit={registerSubmit}>
+                                <div className="auth-form-field">
+                                    <label htmlFor="registerName">{t('auth.name')}</label>
+
+                                    <div className="auth-input-wrapper">
+                                        <i className="fas fa-user" />
+
+                                        <input
+                                            id="registerName"
+                                            type="text"
+                                            placeholder={t('auth.namePlaceholder')}
+                                            name="registerName"
+                                            value={registerName}
                                             onChange={onRegisterInputChange}
                                         />
                                     </div>
                                 </div>
 
                                 <div className="auth-form-field">
-                                    <label htmlFor="registerPassword2">
-                                        {t('auth.repeatPassword')}
-                                    </label>
+                                    <label htmlFor="registerEmail">{t('auth.email')}</label>
 
                                     <div className="auth-input-wrapper">
-                                        <i className="fas fa-lock" />
+                                        <i className="fas fa-envelope" />
 
                                         <input
-                                            id="registerPassword2"
-                                            type="password"
-                                            placeholder="••••••••"
-                                            name="registerPassword2"
-                                            value={registerPassword2}
+                                            id="registerEmail"
+                                            type="email"
+                                            placeholder={t('auth.emailPlaceholder')}
+                                            name="registerEmail"
+                                            value={registerEmail}
                                             onChange={onRegisterInputChange}
-                                            className={passwordsMismatch ? 'input-invalid' : ''}
                                         />
                                     </div>
-                                    {passwordsMismatch && (
-                                        <span className="field-error-text">
-                                            {t('auth.mismatch')}
-                                        </span>
-                                    )}
                                 </div>
-                            </div>
 
-                            <Button
-                                type="submit"
-                                variant="secondary"
-                                fullWidth
-                                disabled={
-                                    !registerName ||
-                                    !registerEmail ||
-                                    !registerPassword ||
-                                    !registerPassword2 ||
-                                    passwordsMismatch
-                                }
-                            >
-                                {t('auth.createAccount')}
-                                <i className="fas fa-user-plus" />
-                            </Button>
-                        </form>
-                    </section>
+                                <div className="auth-form-row">
+                                    <div className="auth-form-field">
+                                        <label htmlFor="registerPassword">
+                                            {t('auth.password')}
+                                        </label>
+
+                                        <div className="auth-input-wrapper">
+                                            <i className="fas fa-lock" />
+
+                                            <input
+                                                id="registerPassword"
+                                                type="password"
+                                                placeholder="••••••••"
+                                                name="registerPassword"
+                                                value={registerPassword}
+                                                onChange={onRegisterInputChange}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="auth-form-field">
+                                        <label htmlFor="registerPassword2">
+                                            {t('auth.repeatPassword')}
+                                        </label>
+
+                                        <div className="auth-input-wrapper">
+                                            <i className="fas fa-lock" />
+
+                                            <input
+                                                id="registerPassword2"
+                                                type="password"
+                                                placeholder="••••••••"
+                                                name="registerPassword2"
+                                                value={registerPassword2}
+                                                onChange={onRegisterInputChange}
+                                                className={passwordsMismatch ? 'input-invalid' : ''}
+                                            />
+                                        </div>
+                                        {passwordsMismatch && (
+                                            <span className="field-error-text">
+                                                {t('auth.mismatch')}
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <Button
+                                    type="submit"
+                                    variant="secondary"
+                                    fullWidth
+                                    disabled={
+                                        !registerName ||
+                                        !registerEmail ||
+                                        !registerPassword ||
+                                        !registerPassword2 ||
+                                        passwordsMismatch
+                                    }
+                                >
+                                    {t('auth.createAccount')}
+                                    <i className="fas fa-user-plus" />
+                                </Button>
+                            </form>
+                            <p className="auth-switch">
+                                {t('auth.haveAccount')}
+                                <button type="button" onClick={() => setMode('login')}>
+                                    {t('auth.goLogin')}
+                                </button>
+                            </p>
+                        </section>
+                    )}
                 </div>
 
                 <footer className="auth-footer">
