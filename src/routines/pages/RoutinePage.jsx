@@ -70,7 +70,11 @@ export const RoutinePage = () => {
                             <p>{t('routine.newDayText')}</p>
                         </div>
                     </div>
-                    <form onSubmit={onCreateDay} className="routine-create-form">
+                    <form
+                        id="create-day-form"
+                        onSubmit={onCreateDay}
+                        className="routine-create-form"
+                    >
                         <FormField
                             id="dayNumber"
                             label={t('routine.day')}
@@ -95,7 +99,12 @@ export const RoutinePage = () => {
                             error={descriptionError ? t('routine.descriptionRequired') : undefined}
                         />
                     </form>
-                    <Button type="submit" variant="primary" disabled={!dayNumber || !description}>
+                    <Button
+                        type="submit"
+                        form="create-day-form"
+                        variant="primary"
+                        disabled={!dayNumber || !description}
+                    >
                         <i className="fas fa-plus"></i>
                         {t('routine.createDay')}
                     </Button>
