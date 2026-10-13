@@ -13,7 +13,7 @@ import {
     Results,
 } from './ExercisePicker.styles';
 import { useTranslation } from 'react-i18next';
-import { useMuscleLabels } from '../../i18n/muscles';
+import { resolveMuscleQuery, useMuscleLabels } from '../../i18n/muscles';
 
 interface PickerExercise {
     id: string;
@@ -50,9 +50,11 @@ export const ExercisePicker = ({
         if (!hasQuery) return;
         const timeoutId = setTimeout(
             () => {
+                const muscleQuery = hasName ? resolveMuscleQuery(term) : null;
                 startSearchingExercises({
-                    muscleGroup: group ?? undefined,
-                    name: hasName ? term : undefined,
+                    muscleGroup: group ?? muscleQuery?.muscleGroup,
+                    muscle: muscleQuery?.muscle,
+                    name: hasName && !muscleQuery ? term : undefined,
                 });
             },
             hasName ? 400 : 0
