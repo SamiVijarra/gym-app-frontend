@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes, useParams } from 'react-router-dom';
-import { lazy, useEffect } from 'react';
+import { lazy, useEffect, useState } from 'react';
 
 import { LoginPage } from '../auth/pages/LoginPage';
 import { HomePage } from '../home/pages/HomePage';
@@ -49,6 +49,9 @@ export const AppRouter = () => {
     const { t } = useTranslation();
     const { status, checkAuthToken } = useAuthStore();
     const { mode } = useThemeStore();
+    const [isReady, setIsReady] = useState(false);
+
+    if (status !== 'checking' && !isReady) setIsReady(true);
 
     useEffect(() => {
         checkAuthToken();
@@ -58,13 +61,13 @@ export const AppRouter = () => {
         document.documentElement.setAttribute('data-theme', mode);
     }, [mode]);
 
-    if (status === 'checking') {
+    if (!isReady) {
         return <h3>{t('common.loading')}</h3>;
     }
 
     return (
         <Routes>
-            {status === 'not-authenticated' ? (
+            {status !== 'authenticated' ? (
                 <>
                     <Route path="/auth/*" element={<LoginPage />} />
                     <Route path="/*" element={<Navigate to="/auth/login" />} />
