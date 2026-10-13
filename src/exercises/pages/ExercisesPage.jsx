@@ -92,7 +92,11 @@ export const ExercisesPage = () => {
                             <p>{t('exercises.newText')}</p>
                         </div>
                     </div>
-                    <form onSubmit={onCreateExercise} className="routine-create-form">
+                    <form
+                        id="create-exercise-form"
+                        onSubmit={onCreateExercise}
+                        className="routine-create-form"
+                    >
                         <FormField
                             id="name"
                             label={t('exercises.name')}
@@ -144,6 +148,7 @@ export const ExercisesPage = () => {
                     <Button
                         variant="primary"
                         type="submit"
+                        form="create-exercise-form"
                         disabled={isCreating || !name || !primaryMuscles}
                     >
                         <i className="fas fa-plus"></i>
