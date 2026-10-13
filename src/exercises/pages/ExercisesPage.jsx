@@ -12,6 +12,12 @@ import { EmptyState } from '../../components/EmptyState';
 import { LoadingState } from '../../components/LoadingState';
 import { useTranslation } from 'react-i18next';
 import { resolveMuscleQuery, useMuscleLabels } from '../../i18n/muscles';
+import { MUSCLE_GROUPS } from '../../calendar/muscleGroups';
+import {
+    GroupButton,
+    GroupButtons,
+    GroupDot,
+} from '../../calendar/components/ExercisePicker.styles';
 
 const newExerciseFields = {
     name: '',
@@ -23,10 +29,11 @@ const newExerciseFields = {
 
 export const ExercisesPage = () => {
     const { t } = useTranslation();
-    const { muscleLabel } = useMuscleLabels();
+    const { muscleLabel, groupLabel } = useMuscleLabels();
     const { exercises, isLoading, startSearchingExercises, startCreatingExercise } =
         useExercisesStore();
     const [searchTerm, setSearchTerm] = useState('');
+    const [group, setGroup] = useState(null);
     const [isCreating, setIsCreating] = useState(false);
 
     const { name, primaryMuscles, equipment, instructions, imageUrl, onInputChange, onResetForm } =
@@ -39,15 +46,26 @@ export const ExercisesPage = () => {
     const nameError = touched.name && !name;
     const primaryMusclesError = touched.primaryMuscles && !primaryMuscles;
 
-    useEffect(() => {
-        if (searchTerm.trim().length === 0) return;
+    const hasQuery = group !== null || searchTerm.trim().length > 0;
 
-        const timeoutId = setTimeout(() => {
-            startSearchingExercises(resolveMuscleQuery(searchTerm) ?? { name: searchTerm });
-        }, 400);
+    useEffect(() => {
+        if (!hasQuery) return;
+
+        const term = searchTerm.trim();
+        const timeoutId = setTimeout(
+            () => {
+                const muscleQuery = term.length > 0 ? resolveMuscleQuery(term) : null;
+                startSearchingExercises({
+                    muscleGroup: group ?? muscleQuery?.muscleGroup,
+                    muscle: muscleQuery?.muscle,
+                    name: term.length > 0 && !muscleQuery ? term : undefined,
+                });
+            },
+            term.length > 0 ? 400 : 0
+        );
 
         return () => clearTimeout(timeoutId);
-    }, [searchTerm, startSearchingExercises]);
+    }, [group, searchTerm, hasQuery, startSearchingExercises]);
 
     const onCreateExercise = async (event) => {
         event.preventDefault();
@@ -158,6 +176,24 @@ export const ExercisesPage = () => {
                 <section className="exercises-search-section">
                     <SectionLabel>{t('exercises.searchSection')}</SectionLabel>
 
+                    <GroupButtons role="group" aria-label={t('exercisePicker.groups')}>
+                        {MUSCLE_GROUPS.map((item) => (
+                            <GroupButton
+                                key={item.key}
+                                type="button"
+                                $color={item.color}
+                                $active={group === item.key}
+                                aria-pressed={group === item.key}
+                                onClick={() =>
+                                    setGroup((current) => (current === item.key ? null : item.key))
+                                }
+                            >
+                                <GroupDot $color={item.color} />
+                                {groupLabel(item.key)}
+                            </GroupButton>
+                        ))}
+                    </GroupButtons>
+
                     <div className="exercises-search">
                         <div className="exercises-search-icon">
                             <i className="fas fa-search"></i>
@@ -183,7 +219,7 @@ export const ExercisesPage = () => {
 
                 {isLoading && <LoadingState label={t('exercises.searching')} />}
 
-                {!isLoading && searchTerm.trim().length === 0 && (
+                {!isLoading && !hasQuery && (
                     <EmptyState
                         icon="fa-dumbbell"
                         title={t('exercises.emptyTitle')}
@@ -191,14 +227,14 @@ export const ExercisesPage = () => {
                     />
                 )}
 
-                {!isLoading && searchTerm.trim().length > 0 && exercises.length === 0 && (
+                {!isLoading && hasQuery && exercises.length === 0 && (
                     <EmptyState
                         icon="fa-search"
                         title={t('exercises.notFoundTitle')}
                         description={t('exercises.notFoundText')}
                     />
                 )}
-                {!isLoading && exercises.length > 0 && (
+                {!isLoading && hasQuery && exercises.length > 0 && (
                     <section className="exercises-results">
                         <SectionLabel
                             meta={t('exercises.resultsCount', { count: exercises.length })}
